@@ -1,0 +1,27 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<link rel="import" href="../px-vis/px-vis-behavior-common.html">
+
+
+<dom-module id="px-vis-boxplot">
+  <template>
+    My test value is: [[testProp]]
+  </template>
+  <script>
+    Polymer({
+
+      is: "px-vis-boxplot",
+
+      properties:{
+        testProp: {
+          type: String,
+          value: 'test'
+        }
+      },
+
+      ready: function() {
+        window.chart = this;
+      }
+    });
+  </script>
+</dom-module>

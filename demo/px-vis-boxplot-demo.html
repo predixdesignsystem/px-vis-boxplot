@@ -37,7 +37,10 @@
     <!-- Interactive -->
     <px-demo-interactive>
       <!-- Configs -->
-      <px-demo-configs slot="px-demo-configs" configs="[[configs]]" props="{{props}}" chosen-config="{{chosenConfig}}"></px-demo-configs>
+      <px-demo-configs slot="px-demo-configs"
+        configs="[[configs]]" props="{{props}}"
+        chosen-config="{{chosenConfig}}">
+      </px-demo-configs>
 
       <!-- Props -->
       <px-demo-props slot="px-demo-props" props="{{props}}" config="[[chosenConfig]]"></px-demo-props>
@@ -111,7 +114,8 @@
        *
        * - 'toggle' - A toggle switch input to set Boolean values
        * - 'text' - A simple single-line text input to set String or stringified Array/Object values
-       * - 'dropdown' - A dropdown picker that can be used to select any kind of value from a list of available options
+       * - 'dropdown' - A dropdown picker that can be used to select any kind of value from a list
+       * of available options
        *
        * Full examples for each input:
        *

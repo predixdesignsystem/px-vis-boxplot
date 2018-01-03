@@ -4,6 +4,7 @@
 <link rel="import" href="../px-vis/px-vis-bar-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
 
+<link rel="import" href="../px-vis/px-vis-behavior-colors.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
 
 
@@ -61,7 +62,7 @@
   <script>
     Polymer({
 
-      is: "px-vis-boxplot",
+      is: 'px-vis-boxplot',
 
       behaviors: [
         PxColorsBehavior.dataVisColors,
@@ -69,108 +70,108 @@
         PxColorsBehavior.getSeriesColors
       ],
 
-      properties:{
+      properties: {
 
         width: {
-          type : Number,
-          value : 500
+          type: Number,
+          value: 500
         },
 
-        height:{
-          type : Number,
-          value : 200
+        height: {
+          type: Number,
+          value: 200
         },
 
-        margin:{
-          type : Object,
-          value : function() {
+        margin: {
+          type: Object,
+          value: function() {
             return {
-              "top": 10,
-              "right": 10,
-              "bottom": 50,
-              "left": 50
-            }
+              'top': 10,
+              'right': 10,
+              'bottom': 50,
+              'left': 50
+            };
           }
         },
 
-        svgDomainChanged:{
+        svgDomainChanged: {
           type: Boolean
         },
 
-        singleChartData:{
-          type : Array,
-          value : function() {
+        singleChartData: {
+          type: Array,
+          value: function() {
             return [{
-              'x': "A",
+              'x': 'A',
               'y': 0.56
-            },{
-              'x': "B",
+            }, {
+              'x': 'B',
               'y': 0.4
-            },{
-              'x': "C",
+            }, {
+              'x': 'C',
               'y': 0.43
-            },{
-              'x': "D",
+            }, {
+              'x': 'D',
               'y': 0.33
-            },{
-              'x': "E",
+            }, {
+              'x': 'E',
               'y': 0.47
-            },{
-              'x': "F",
+            }, {
+              'x': 'F',
               'y': 0.41
-            }]
+            }];
           }
         },
 
-        multiChartData:{
-          type : Array,
-          value : function() {
+        multiChartData: {
+          type: Array,
+          value: function() {
             return [{
-              'x': "A",
+              'x': 'A',
               'y': 0.56,
               'y1': 0.3,
               'y2': 0.1
-            },{
-              'x': "B",
+            }, {
+              'x': 'B',
               'y': 0.4,
               'y1': 0.4,
               'y2': 0.2
-            },{
-              'x': "C",
+            }, {
+              'x': 'C',
               'y': 0.43,
               'y1': 0.3,
               'y2': 0.3
-            },{
-              'x': "D",
+            }, {
+              'x': 'D',
               'y': 0.33,
               'y1': 0.4,
               'y2': 0.5
-            },{
-              'x': "E",
+            }, {
+              'x': 'E',
               'y': 0.47,
               'y1': 0.4,
               'y2': 0.6
-            },{
-              'x': "F",
+            }, {
+              'x': 'F',
               'y': 0.41,
               'y1': 0.2,
               'y2': 0.5
-            }]
+            }];
           }
         },
 
         completeSeriesConfig: {
-          type : Object
+          type: Object
         },
 
-        dataExtents:{
-          type : Object,
-          value:{}
+        dataExtents: {
+          type: Object,
+          value: {}
         },
 
         dataset: {
           type: String,
-          value: "single"
+          value: 'single'
         },
 
         _colorsAreSet: {
@@ -184,7 +185,7 @@
       ],
 
       listeners: {
-        "px-data-vis-colors-applied" : '_colorsSet'
+        'px-data-vis-colors-applied': '_colorsSet'
       },
 
       _colorsSet: function() {
@@ -195,12 +196,12 @@
       * Gets the charts extent config (the max and min values for both x and y values).
       */
       _returnChartExtents: function() {
-        var linear = (this.dataset === 'multi') ? [0,1.6] : [0,0.6],
-            ordinal = ["A", "B","C","D","E","F"];
+        var linear = (this.dataset === 'multi') ? [0, 1.6] : [0, 0.6],
+          ordinal = ['A', 'B', 'C', 'D', 'E', 'F'];
         return {
-            "x": ordinal,
-            "y": linear,
-          }
+          'x': ordinal,
+          'y': linear,
+        };
       },
 
       /**
@@ -211,39 +212,39 @@
       },
 
       _updateCompleteSeriesConfig: function() {
-        this.debounce("_updateCompleteSeriesConfig", function() {
-          if(this._colorsAreSet) {
-            if(this.dataset === 'multi') {
+        this.debounce('_updateCompleteSeriesConfig', function() {
+          if (this._colorsAreSet) {
+            if (this.dataset === 'multi') {
               this.set('completeSeriesConfig', {
                 'mySeries': {
-                  "name":"My-Series",
-                  "type": "bar",
-                  "x": 'x',
-                  "y": 'y',
+                  'name': 'My-Series',
+                  'type': 'bar',
+                  'x': 'x',
+                  'y': 'y',
                   'color': this._getColor(0)
                 },
                 'mySeries2': {
-                  "name":"My-Series2",
-                  "type": "bar",
-                  "x": 'x',
-                  "y": 'y1',
+                  'name': 'My-Series2',
+                  'type': 'bar',
+                  'x': 'x',
+                  'y': 'y1',
                   'color': this._getColor(1)
                 },
                 'mySeries3': {
-                  "name":"My-Series3",
-                  "type": "bar",
-                  "x": 'x',
-                  "y": 'y2',
+                  'name': 'My-Series3',
+                  'type': 'bar',
+                  'x': 'x',
+                  'y': 'y2',
                   'color': this._getColor(2)
                 },
               });
             } else {
               this.set('completeSeriesConfig', {
                 'mySeries': {
-                  "name":"My-Series",
-                  "type": "bar",
-                  "x": 'x',
-                  "y": 'y',
+                  'name': 'My-Series',
+                  'type': 'bar',
+                  'x': 'x',
+                  'y': 'y',
                   'color': this._getColor(0)
                 }
               });
@@ -251,8 +252,6 @@
           }
         }, 10);
       },
-
-
 
       /**
       * Gets the chart data formatted using the Px.D3 stack. For px vis bar components,
@@ -268,7 +267,7 @@
       */
       _returnStack: function(chartData) {
         var stack = Px.d3.stack(),
-            keys = (this.dataset === 'multi') ? ["y", "y1", "y2"] : ["y"];
+          keys = (this.dataset === 'multi') ? ['y', 'y1', 'y2'] : ['y'];
         stack.keys(keys);
         return stack(chartData);
       }

@@ -28,8 +28,8 @@
     <style include="px-demo-styles" is="custom-style"></style>
 
     <!-- Header -->
-    <px-demo-header 
-      module-name="px-vis-boxplot" 
+    <px-demo-header
+      module-name="px-vis-boxplot"
       description="The px-vis-boxplot component"
       desktop>
     </px-demo-header>
@@ -47,22 +47,22 @@
 
       <!-- Component ---------------------------------------------------------->
       <px-demo-component slot="px-demo-component" class="flex" style="width:100%;">
-        <px-vis-boxplot 
+        <px-vis-boxplot
           test-prop="[[props.testProp.value]]">
         </px-vis-boxplot>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
 
-      <px-demo-component-snippet 
-        slot="px-demo-component-snippet" 
-        element-properties="{{props}}" 
+      <px-demo-component-snippet
+        slot="px-demo-component-snippet"
+        element-properties="{{props}}"
         element-name="px-vis-boxplot"
         codepen-link="https://glitch.com/edit/#!/px-vis-boxplot-demo">
       </px-demo-component-snippet>
     </px-demo-interactive>
 
     <!-- API Viewer -->
-    <px-demo-api-viewer 
+    <px-demo-api-viewer
       source="px-vis-boxplot">
     </px-demo-api-viewer>
 
@@ -157,7 +157,7 @@
        */
       props: {
         type: Object,
-        value: function () {
+        value: function() {
           return this.demoProps;
         }
       },
@@ -176,7 +176,8 @@
        * optional keys:
        *
        * - `configName` - a String value that will be used for the title of the tab
-       * - `configReset` - a Boolean, if `true` resets all props (even those not specified in the config) when this config is selected. Defaults to `false`.
+       * - `configReset` - a Boolean, if `true` resets all props (even those not specified
+       * in the config) when this config is selected. Defaults to `false`.
        *
        * Example of two configs:
        *
@@ -206,7 +207,7 @@
        */
       configs: {
         type: Array,
-        value: function () {
+        value: function() {
           return [];
         },
       },

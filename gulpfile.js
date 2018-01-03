@@ -73,12 +73,12 @@ gulp.task('clean', function() {
   }).pipe($.clean());
 });
 
-function handleError(err){
-  console.log(err.toString());
-  this.emit('end');
+function handleError(err) {
+  console.log(err.toString()); // eslint-disable-line
+  this.emit('end'); // eslint-disable-line
 }
 
-function buildCSS(){
+function buildCSS() {
   return combiner.obj([
     $.sass(sassOptions),
     $.autoprefixer({
@@ -121,22 +121,22 @@ gulp.task('serve', function() {
 
 });
 
-gulp.task('bump:patch', function(){
+gulp.task('bump:patch', function() {
   gulp.src(['./bower.json', './package.json'])
-  .pipe(bump({type:'patch'}))
-  .pipe(gulp.dest('./'));
+    .pipe(bump({type: 'patch'}))
+    .pipe(gulp.dest('./'));
 });
 
-gulp.task('bump:minor', function(){
+gulp.task('bump:minor', function() {
   gulp.src(['./bower.json', './package.json'])
-  .pipe(bump({type:'minor'}))
-  .pipe(gulp.dest('./'));
+    .pipe(bump({type: 'minor'}))
+    .pipe(gulp.dest('./'));
 });
 
-gulp.task('bump:major', function(){
+gulp.task('bump:major', function() {
   gulp.src(['./bower.json', './package.json'])
-  .pipe(bump({type:'major'}))
-  .pipe(gulp.dest('./'));
+    .pipe(bump({type: 'major'}))
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('default', function(callback) {

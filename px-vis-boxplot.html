@@ -3,6 +3,7 @@
 <link rel="import" href="../px-vis/px-vis-svg.html">
 <link rel="import" href="../px-vis/px-vis-bar-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
+<link rel="import" href="../px-vis/px-vis-line-svg.html">
 
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
@@ -17,46 +18,46 @@
       svg="{{svg}}">
     </px-vis-svg>
     <px-vis-scale
-      x-axis-type="scaleBand"
+      x-axis-type="linear"
       y-axis-type="linear"
-      complete-series-config="[[completeSeriesConfig]]"
-      chart-extents="[[_returnChartExtents(dataset)]]"
+      complete-series-config="[[seriesConfig]]"
+      chart-extents="[[_returnChartExtents()]]"
       data-extents="[[dataExtents]]"
       width="[[width]]"
       height="[[height]]"
       margin="[[margin]]"
-      chart-data="{{_returnChartData(dataset)}}"
-      x="{{xCol}}"
-      y="{{yCol}}"
-      domain-changed="{{svgDomainChanged}}">
+      chart-data="{{singleChartData}}"
+      x="{{x}}"
+      y="{{y}}"
+      domain-changed="{{domainChanged}}">
     </px-vis-scale>
     <!-- y axis -->
     <px-vis-axis
       svg="[[svg]]"
-      axis="[[yCol]]"
+      axis="[[y]]"
       margin="[[margin]]"
       width="[[width]]"
       height="[[height]]"
       title="Y Axis"
       orientation="left"
       label-position="center"
-      complete-series-config="[[completeSeriesConfig]]"
+      complete-series-config="[[seriesConfig]]"
       muted-series=[[mutedSeries]]
-      domain-changed="[[svgDomainChanged]]">
+      domain-changed="[[domainChanged]]">
     </px-vis-axis>
     <!-- x axis -->
     <px-vis-axis
       svg="[[svg]]"
-      axis="[[xCol]]"
+      axis="[[x]]"
       margin="[[margin]]"
       width="[[width]]"
       height="[[height]]"
       title="X Axis"
       orientation="bottom"
       label-position="center"
-      complete-series-config="[[completeSeriesConfig]]"
+      complete-series-config="[[seriesConfig]]"
       muted-series=[[mutedSeries]]
-      domain-changed="[[svgDomainChanged]]">
+      domain-changed="[[domainChanged]]">
     </px-vis-axis>
   </template>
   <script>
@@ -94,73 +95,11 @@
           }
         },
 
-        svgDomainChanged: {
+        domainChanged: {
           type: Boolean
         },
 
-        singleChartData: {
-          type: Array,
-          value: function() {
-            return [{
-              'x': 'A',
-              'y': 0.56
-            }, {
-              'x': 'B',
-              'y': 0.4
-            }, {
-              'x': 'C',
-              'y': 0.43
-            }, {
-              'x': 'D',
-              'y': 0.33
-            }, {
-              'x': 'E',
-              'y': 0.47
-            }, {
-              'x': 'F',
-              'y': 0.41
-            }];
-          }
-        },
-
-        multiChartData: {
-          type: Array,
-          value: function() {
-            return [{
-              'x': 'A',
-              'y': 0.56,
-              'y1': 0.3,
-              'y2': 0.1
-            }, {
-              'x': 'B',
-              'y': 0.4,
-              'y1': 0.4,
-              'y2': 0.2
-            }, {
-              'x': 'C',
-              'y': 0.43,
-              'y1': 0.3,
-              'y2': 0.3
-            }, {
-              'x': 'D',
-              'y': 0.33,
-              'y1': 0.4,
-              'y2': 0.5
-            }, {
-              'x': 'E',
-              'y': 0.47,
-              'y1': 0.4,
-              'y2': 0.6
-            }, {
-              'x': 'F',
-              'y': 0.41,
-              'y1': 0.2,
-              'y2': 0.5
-            }];
-          }
-        },
-
-        completeSeriesConfig: {
+        seriesConfig: {
           type: Object
         },
 
@@ -169,9 +108,29 @@
           value: {}
         },
 
-        dataset: {
-          type: String,
-          value: 'single'
+        singleChartData: {
+          type: Array,
+          value: function() {
+            return [{
+              'x': 1,
+              'y': 0.56
+            }, {
+              'x': 2,
+              'y': 0.4
+            }, {
+              'x': 3,
+              'y': 0.43
+            }, {
+              'x': 4,
+              'y': 0.33
+            }, {
+              'x': 5,
+              'y': 0.47
+            }, {
+              'x': 6,
+              'y': 0.41
+            }];
+          }
         },
 
         _colorsAreSet: {
@@ -181,7 +140,7 @@
       },
 
       observers: [
-        '_updateCompleteSeriesConfig(_colorsAreSet, dataset, type)'
+        '_updateSeriesConfig(_colorsAreSet)'
       ],
 
       listeners: {
@@ -196,80 +155,27 @@
       * Gets the charts extent config (the max and min values for both x and y values).
       */
       _returnChartExtents: function() {
-        var linear = (this.dataset === 'multi') ? [0, 1.6] : [0, 0.6],
-          ordinal = ['A', 'B', 'C', 'D', 'E', 'F'];
+        const yExtents = [0, 0.6];
+        const xExtents = [0, 10];
         return {
-          'x': ordinal,
-          'y': linear,
+          'x': xExtents,
+          'y': yExtents,
         };
       },
 
-      /**
-      * Gets raw chart data which is used for most px vis components.
-      */
-      _returnChartData: function() {
-        return (this.dataset === 'multi') ? this.multiChartData : this.singleChartData;
-      },
-
-      _updateCompleteSeriesConfig: function() {
-        this.debounce('_updateCompleteSeriesConfig', function() {
+      _updateSeriesConfig: function() {
+        this.debounce('_updateSeriesConfig', function() {
           if (this._colorsAreSet) {
-            if (this.dataset === 'multi') {
-              this.set('completeSeriesConfig', {
-                'mySeries': {
-                  'name': 'My-Series',
-                  'type': 'bar',
-                  'x': 'x',
-                  'y': 'y',
-                  'color': this._getColor(0)
-                },
-                'mySeries2': {
-                  'name': 'My-Series2',
-                  'type': 'bar',
-                  'x': 'x',
-                  'y': 'y1',
-                  'color': this._getColor(1)
-                },
-                'mySeries3': {
-                  'name': 'My-Series3',
-                  'type': 'bar',
-                  'x': 'x',
-                  'y': 'y2',
-                  'color': this._getColor(2)
-                },
-              });
-            } else {
-              this.set('completeSeriesConfig', {
-                'mySeries': {
-                  'name': 'My-Series',
-                  'type': 'bar',
-                  'x': 'x',
-                  'y': 'y',
-                  'color': this._getColor(0)
-                }
-              });
-            }
+            this.set('seriesConfig', {
+              'mySeries': {
+                'name': 'My-Series',
+                'x': 'x',
+                'y': 'y',
+                'color': this._getColor(0)
+              }
+            });
           }
         }, 10);
-      },
-
-      /**
-      * Gets the chart data formatted using the Px.D3 stack. For px vis bar components,
-      * the chart data must be processed this way.
-      */
-      _returnStackData: function() {
-        var cd = this._returnChartData();
-        return this._returnStack(cd);
-      },
-
-      /**
-      * Formats chart data with Px.D3 stack.
-      */
-      _returnStack: function(chartData) {
-        var stack = Px.d3.stack(),
-          keys = (this.dataset === 'multi') ? ['y', 'y1', 'y2'] : ['y'];
-        stack.keys(keys);
-        return stack(chartData);
       }
 
     });

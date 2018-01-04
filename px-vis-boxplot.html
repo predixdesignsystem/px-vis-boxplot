@@ -21,12 +21,12 @@
       x-axis-type="linear"
       y-axis-type="linear"
       complete-series-config="[[seriesConfig]]"
-      chart-extents="[[_returnChartExtents()]]"
+      chart-extents="[[chartExtents]]"
       data-extents="[[dataExtents]]"
       width="[[width]]"
       height="[[height]]"
       margin="[[margin]]"
-      chart-data="{{singleChartData}}"
+      chart-data="[[_returnEmptyChartData(dataset)]]"
       x="{{x}}"
       y="{{y}}"
       domain-changed="{{domainChanged}}">
@@ -95,12 +95,31 @@
           }
         },
 
-        domainChanged: {
-          type: Boolean
+        /**
+         * Some of px components require raw chart data to work properly.
+         * We use this in order to simply satisfy the existance of 'chart data'.
+         */
+        _emptyChartData: {
+          type: Array,
+          value: function() {
+            return [{
+              'x': 0,
+              'y': 0
+            }];
+          }
         },
 
-        seriesConfig: {
-          type: Object
+        /**
+         * Max and min values for x and y axis.
+         */
+        chartExtents: {
+          type: Object,
+          value: function() {
+            return {
+              x: [0, 10],
+              y: [0, 100],
+            };
+          }
         },
 
         dataExtents: {
@@ -108,29 +127,17 @@
           value: {}
         },
 
-        singleChartData: {
-          type: Array,
-          value: function() {
-            return [{
-              'x': 1,
-              'y': 0.56
-            }, {
-              'x': 2,
-              'y': 0.4
-            }, {
-              'x': 3,
-              'y': 0.43
-            }, {
-              'x': 4,
-              'y': 0.33
-            }, {
-              'x': 5,
-              'y': 0.47
-            }, {
-              'x': 6,
-              'y': 0.41
-            }];
-          }
+        dataset: {
+          type: String,
+          value: 'single'
+        },
+
+        domainChanged: {
+          type: Boolean
+        },
+
+        seriesConfig: {
+          type: Object
         },
 
         _colorsAreSet: {
@@ -147,20 +154,122 @@
         'px-data-vis-colors-applied': '_colorsSet'
       },
 
+      /**
+       * TODO: remove this
+       * Dev function that draws several plotbox components.
+       */
+      drawAll: function() {
+        const datasets = [
+          this._rawDataToBoxplotData(),
+          this._rawDataToBoxplotData(),
+          this._rawDataToBoxplotData()
+        ];
+        let i = 1;
+        datasets.forEach(data => this.drawPlotbox(data, i++));
+      },
+
+      /**
+       * TODO: move to separate BoxAndWhisker component.
+       * Draw plotbox diagram.
+       */
+      drawPlotbox: function(plotData, xPos) {
+        // load example data
+        if (!plotData) {
+          return;
+        }
+        // get svg coordinates for our boxplot values
+        const points = this._chartDataToSvgPoints(plotData, xPos);
+        // width of boxplot drawing
+        const width = 30;
+        // get the left offset
+        const left = this.x(xPos) - (width / 2);
+        const right = left + width;
+        const middle = width / 2 + left;
+        // top line
+        this.svg.append('path')
+          .attr('d', 'M ' + left + ' ' + points.max + ' H' + right)
+          .attr('stroke', 'black');
+        // q1 whisker
+        this.svg.append('path')
+          .attr('d', 'M ' + middle + ' ' + points.max + ' V' + points.q3)
+          .attr('stroke', 'black');
+        // q3 box
+        this.svg.append('path')
+          .attr('d', 'M ' + left + ' ' + points.q3 + ' H' + right + ' V' + points.median
+            + ' H ' + left + ' V' + points.q3)
+          .attr('fill', 'transparent').attr('stroke', 'black');
+        // q1 box
+        this.svg.append('path')
+          .attr('d', 'M ' + left + ' ' + points.q1 + ' H' + right + ' V' + points.median
+            + ' H ' + left + ' V' + points.q1)
+          .attr('fill', 'transparent').attr('stroke', 'black');
+        // median line
+        this.svg.append('path')
+          .attr('d', 'M ' + left + ' ' + points.median + ' H' + right)
+          .attr('stroke', 'black');
+        // q3 whisker
+        this.svg.append('path')
+          .attr('d', 'M ' + middle + ' ' + points.min + 'V' + points.q1)
+          .attr('stroke', 'black');
+        // bottom line
+        this.svg.append('path')
+          .attr('d', 'M ' + left + ' ' + points.min + ' H' + right)
+          .attr('stroke', 'black');
+
+        `<g>
+          <!-- top line -->
+          <path stroke="green" d="M 0 10 H30 " />
+          <!-- q3 wisker -->
+          <path stroke="orange" d="M 15 10 V30 " />
+          <!-- q3 box -->
+          <path stroke="orange" fill="transparent" d="M 0 30 H30 V50 H0 V30" />
+          <!-- q1 box -->
+          <path stroke="red" fill="transparent" d="M 0 70 H30 V50 H0 V70" />
+          <!-- median -->
+          <path stroke="blue" d="M 0 50 H30" />
+          <!-- q1 wisker -->
+          <path stroke="red" d="M 15 90 V70 " />
+          <!-- bottom line -->
+          <path stroke="green" d="M 0 90 H30 " />
+        </g>`;
+      },
+
+      /**
+       * Takes array of data points and calculates values required to build
+       * a boxplot diagram such as the quartiles, median, etc..
+       */
+      _rawDataToBoxplotData: function(rawData) {
+        // TODO: implement data conversion/calc logic
+        return {
+          max: 90 + Math.random() * 10,
+          q3: 70 + Math.random() * 10,
+          median: 50 + Math.random() * 10,
+          q1: 30 + Math.random() * 10,
+          min: 10 + Math.random() * 10
+        };
+      },
+
+      /**
+       * Returns copy of data object but with values converted
+       * to svg positions based on the px scale.
+       */
+      _chartDataToSvgPoints: function(data) {
+        const formatted = {};
+        for (const key in data) {
+          formatted[key] = this.y(data[key]);
+        }
+        return formatted;
+      },
+
       _colorsSet: function() {
         this.set('_colorsAreSet', true);
       },
 
       /**
-      * Gets the charts extent config (the max and min values for both x and y values).
+      * Returns data array with a single point (x0,y0).
       */
-      _returnChartExtents: function() {
-        const yExtents = [0, 0.6];
-        const xExtents = [0, 10];
-        return {
-          'x': xExtents,
-          'y': yExtents,
-        };
+      _returnEmptyChartData: function() {
+        return this._emptyChartData;
       },
 
       _updateSeriesConfig: function() {

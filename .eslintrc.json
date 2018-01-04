@@ -11,6 +11,9 @@
   "globals": {
     "Polymer": false,
     "Predix": false,
+    "Px": false,
+    "PxColorsBehavior": false,
+    "PxVisBehavior": false,
     "Vaadin": false
   }
 }

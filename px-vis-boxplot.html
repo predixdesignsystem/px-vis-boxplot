@@ -4,6 +4,7 @@
 <link rel="import" href="../px-vis/px-vis-bar-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
 <link rel="import" href="../px-vis/px-vis-line-svg.html">
+<link rel="import" href="px-vis-box-whisker.html">
 
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
@@ -11,6 +12,9 @@
 
 <dom-module id="px-vis-boxplot">
   <template>
+    <button on-click="_add">Add</button>
+    <button on-click="_remove">Remove</button>
+    <button on-click="_update">Update</button>
     <px-vis-svg
       width="[[width]]"
       height="[[height]]"
@@ -59,6 +63,17 @@
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
     </px-vis-axis>
+    <!-- box and whisker components -->
+    <template is="dom-repeat" items="[[_boxPlotDatasets]]" restamp>
+      <px-vis-box-whisker
+        data="[[item.data]]"
+        position="[[item.position]]"
+        svg="[[svg]]"
+        x="[[x]]"
+        y="[[y]]">
+      </px-vis-box-whisker>
+    </template>
+
   </template>
   <script>
     Polymer({
@@ -143,6 +158,11 @@
         _colorsAreSet: {
           type: Boolean,
           value: false
+        },
+
+        _boxPlotDatasets: {
+          type: Array,
+          value: []
         }
       },
 
@@ -154,84 +174,51 @@
         'px-data-vis-colors-applied': '_colorsSet'
       },
 
+      ready: function() {
+        window.chart = this;
+      },
+
+      // TODO: REMOVE
+      _add: function() {
+        this.push('_boxPlotDatasets', {
+          position: this._boxPlotDatasets.length + 1,
+          data: this._rawDataToBoxplotData()
+        });
+      },
+
+      // TODO: REMOVE
+      _remove: function() {
+        if (this._boxPlotDatasets.length > 0) {
+          this.splice('_boxPlotDatasets', this._boxPlotDatasets.length - 1, 1);
+        }
+      },
+
+      // TODO: REMOVE
+      _update: function() {
+        const boxWhiskers = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+        boxWhiskers.forEach((drawing) => {
+          drawing.data = this._rawDataToBoxplotData();
+        });
+      },
+
       /**
        * TODO: remove this
        * Dev function that draws several plotbox components.
        */
       drawAll: function() {
-        const datasets = [
-          this._rawDataToBoxplotData(),
-          this._rawDataToBoxplotData(),
-          this._rawDataToBoxplotData()
-        ];
-        let i = 1;
-        datasets.forEach(data => this.drawPlotbox(data, i++));
-      },
-
-      /**
-       * TODO: move to separate BoxAndWhisker component.
-       * Draw plotbox diagram.
-       */
-      drawPlotbox: function(plotData, xPos) {
-        // load example data
-        if (!plotData) {
-          return;
-        }
-        // get svg coordinates for our boxplot values
-        const points = this._chartDataToSvgPoints(plotData, xPos);
-        // width of boxplot drawing
-        const width = 30;
-        // get the left offset
-        const left = this.x(xPos) - (width / 2);
-        const right = left + width;
-        const middle = width / 2 + left;
-        // top line
-        this.svg.append('path')
-          .attr('d', 'M ' + left + ' ' + points.max + ' H' + right)
-          .attr('stroke', 'black');
-        // q1 whisker
-        this.svg.append('path')
-          .attr('d', 'M ' + middle + ' ' + points.max + ' V' + points.q3)
-          .attr('stroke', 'black');
-        // q3 box
-        this.svg.append('path')
-          .attr('d', 'M ' + left + ' ' + points.q3 + ' H' + right + ' V' + points.median
-            + ' H ' + left + ' V' + points.q3)
-          .attr('fill', 'transparent').attr('stroke', 'black');
-        // q1 box
-        this.svg.append('path')
-          .attr('d', 'M ' + left + ' ' + points.q1 + ' H' + right + ' V' + points.median
-            + ' H ' + left + ' V' + points.q1)
-          .attr('fill', 'transparent').attr('stroke', 'black');
-        // median line
-        this.svg.append('path')
-          .attr('d', 'M ' + left + ' ' + points.median + ' H' + right)
-          .attr('stroke', 'black');
-        // q3 whisker
-        this.svg.append('path')
-          .attr('d', 'M ' + middle + ' ' + points.min + 'V' + points.q1)
-          .attr('stroke', 'black');
-        // bottom line
-        this.svg.append('path')
-          .attr('d', 'M ' + left + ' ' + points.min + ' H' + right)
-          .attr('stroke', 'black');
-
-        `<g>
-          <!-- top line -->
-          <path stroke="green" d="M 0 10 H30 " />
-          <!-- q3 wisker -->
-          <path stroke="orange" d="M 15 10 V30 " />
-          <!-- q3 box -->
-          <path stroke="orange" fill="transparent" d="M 0 30 H30 V50 H0 V30" />
-          <!-- q1 box -->
-          <path stroke="red" fill="transparent" d="M 0 70 H30 V50 H0 V70" />
-          <!-- median -->
-          <path stroke="blue" d="M 0 50 H30" />
-          <!-- q1 wisker -->
-          <path stroke="red" d="M 15 90 V70 " />
-          <!-- bottom line -->
-          <path stroke="green" d="M 0 90 H30 " />
-        </g>`;
+        this.set('_boxPlotDatasets', []);
+        this.push('_boxPlotDatasets', {
+          position: 1,
+          data: this._rawDataToBoxplotData()
+        });
+        this.push('_boxPlotDatasets', {
+          position: 2,
+          data: this._rawDataToBoxplotData()
+        });
+        this.push('_boxPlotDatasets', {
+          position: 3,
+          data: this._rawDataToBoxplotData()
+        });
       },
 
       /**
@@ -243,22 +230,12 @@
         return {
           max: 90 + Math.random() * 10,
           q3: 70 + Math.random() * 10,
+          mean: 50 + Math.random() * 10,
           median: 50 + Math.random() * 10,
           q1: 30 + Math.random() * 10,
-          min: 10 + Math.random() * 10
+          min: 10 + Math.random() * 10,
+          outliers: [0 + Math.random() * 5, 5 + Math.random() * 5]
         };
-      },
-
-      /**
-       * Returns copy of data object but with values converted
-       * to svg positions based on the px scale.
-       */
-      _chartDataToSvgPoints: function(data) {
-        const formatted = {};
-        for (const key in data) {
-          formatted[key] = this.y(data[key]);
-        }
-        return formatted;
       },
 
       _colorsSet: function() {

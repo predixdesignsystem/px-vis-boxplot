@@ -1,0 +1,210 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../px-vis/px-vis-behavior-common.html">
+<link rel="import" href="../px-vis/px-vis-scale.html">
+<link rel="import" href="../px-vis/px-vis-svg.html">
+
+
+<dom-module id="px-vis-box-whisker">
+  <template>
+
+  </template>
+  <script>
+    Polymer({
+
+      is: 'px-vis-box-whisker',
+
+      behaviors: [
+        PxVisBehavior.commonMethods
+      ],
+
+      properties: {
+
+        /**
+         * Data used to draw the box and whisker component.
+         *
+         */
+        data: {
+          type: Object,
+          value: {}
+        },
+
+        /**
+         * The position on the X axis. This can be a numeric value
+         * or a String value that exists on the axis.
+         */
+        position: {
+          type: String,
+          value: '0'
+        },
+
+        /**
+         * px-vis-svg component.
+         */
+        svg: {
+          type: Object,
+        },
+
+        /**
+         * Function created by the px-vis-scale component for converting.
+         */
+        x: {
+          type: Function
+        },
+
+        /**
+         * Function created by the px-vis-scale component for converting.
+         */
+        y: {
+          type: Function
+        },
+
+        /**
+         * Width of the box.
+         */
+        boxWidth: {
+          type: Number,
+          value: 30
+        },
+
+        /**
+         * Width of the line that goes on top of the Q3 whisker
+         * and the line on the bottom of the Q1 whisker.
+         */
+        edgeWidth: {
+          type: Number,
+          value: 15
+        },
+
+        /**
+         * Svg <g> element used to contain all drawings. This allows us
+         * to easily manipulate the entire box and whisker drawing.
+         */
+        _svgGroup: {
+          type: Object
+        }
+
+      },
+
+      observers: [
+        '_draw(data, position, svg, scale)'
+      ],
+
+      detached: function() {
+        // remove our data from svg
+        if (this._svgGroup) {
+          this._svgGroup.remove();
+        }
+      },
+
+      /**
+       * Draw or update the box and whisker component to the svg component.
+       */
+      _draw: function(data, position) {
+        // remove previous drawing
+        if (!this._isObjEmpty(this._svgGroup)) {
+          this._svgGroup.remove();
+        }
+        // if data is empty, leave drawing empty
+        if (!data) {
+          return;
+        }
+        // init svg group
+        this._svgGroup = this.svg.append('g');
+        // get svg coordinates for our boxplot values
+        const points = this._chartDataToSvgPoints(data, position);
+        // get the left and right boundries for the box
+        const middle = this.x(position);
+        const left = middle - (this.boxWidth / 2);
+        const right = left + this.boxWidth;
+        // get the left and right boundries for the min and max horiz lines
+        const edgeLeft = middle - (this.edgeWidth / 2);
+        const edgeRight = edgeLeft + this.edgeWidth;
+
+        let dVal = '';
+        // top line
+        dVal = 'M ' + edgeLeft + ' ' + points.max + ' H' + edgeRight;
+        this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
+        // q1 whisker
+        dVal = 'M ' + middle + ' ' + points.max + ' V' + points.q3;
+        this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
+        // q3 box
+        dVal = 'M ' + left + ' ' + points.q3 + ' H' + right + ' V' + points.median
+            + ' H ' + left + ' V' + points.q3;
+        this._appendPath(this._svgGroup, dVal, 'black', 'black');
+        // q1 box
+        dVal = 'M ' + left + ' ' + points.q1 + ' H' + right + ' V' + points.median
+            + ' H ' + left + ' V' + points.q1;
+        this._appendPath(this._svgGroup, dVal, 'black', 'black');
+        // median line
+        dVal = 'M ' + left + ' ' + points.median + ' H' + right;
+        this._appendPath(this._svgGroup, dVal, 'white', 'transparent');
+        // mean circle
+        this._appendCircle(this._svgGroup, middle, points.mean, 2, 'black', 'white');
+        // q3 whisker
+        dVal = 'M ' + middle + ' ' + points.min + 'V' + points.q1;
+        this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
+        // bottom line
+        dVal = 'M ' + edgeLeft + ' ' + points.min + ' H' + edgeRight;
+        this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
+        // outliers
+        points.outliers.forEach((outlier) => {
+          this._appendCircle(this._svgGroup, middle, outlier, 2, 'black', 'white');
+        });
+
+        `<g>
+          <!-- top line -->
+          <path stroke="green" d="M 0 10 H30 " />
+          <!-- q3 wisker -->
+          <path stroke="orange" d="M 15 10 V30 " />
+          <!-- q3 box -->
+          <path stroke="orange" fill="transparent" d="M 0 30 H30 V50 H0 V30" />
+          <!-- q1 box -->
+          <path stroke="red" fill="transparent" d="M 0 70 H30 V50 H0 V70" />
+          <!-- median -->
+          <path stroke="blue" d="M 0 50 H30" />
+          <!-- mean -->
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+          <!-- q1 wisker -->
+          <path stroke="red" d="M 15 90 V70 " />
+          <!-- bottom line -->
+          <path stroke="green" d="M 0 90 H30 " />
+        </g>`;
+      },
+
+      _appendPath: function(svg, d, strokeColor, fillColor) {
+        svg.append('path')
+          .attr('d', d)
+          .attr('stroke', strokeColor)
+          .attr('fill', fillColor);
+      },
+
+      _appendCircle: function(svg, x, y, radius, strokeColor, fillColor) {
+        svg.append('circle')
+          .attr('cx', x).attr('cy', y).attr('r', radius)
+          .attr('stroke', strokeColor)
+          .attr('fill', fillColor);
+      },
+
+      /**
+       * Returns copy of data object but with values converted
+       * to svg positions based on the px scale.
+       */
+      _chartDataToSvgPoints: function(data) {
+        const formatted = {};
+        for (const key in data) {
+          if (Array.isArray(data[key])) {
+            formatted[key] = new Array(data[key].length);
+            // outliers will be in an array
+            for (const i in data[key]) {
+              formatted[key][i] = this.y(data[key][i]);
+            }
+          } else {
+            formatted[key] = this.y(data[key]);
+          }
+        }
+        return formatted;
+      }
+
+    });
+  </script>
+</dom-module>

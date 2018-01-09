@@ -73,6 +73,64 @@
         },
 
         /**
+         * Radius of outlier circles.
+         */
+        outlierRadius: {
+          type: Number,
+          value: 2
+        },
+
+        /**
+         * Radius of mean circle.
+         */
+        meanRadius: {
+          type: Number,
+          value: 2
+        },
+
+        // TODO: move stroke and fill values to CSS?
+
+        /**
+         * Fill color.
+         */
+        fillColor: {
+          type: String,
+          value: '#000'
+        },
+
+        /**
+         * Stroke color.
+         */
+        strokeColor: {
+          type: String,
+          value: '#000'
+        },
+
+        /**
+         * Stroke color for the median line.
+         */
+        medianStrokeColor: {
+          type: String,
+          value: '#FFF'
+        },
+
+        /**
+         * Fill color for mean circle.
+         */
+        meanFillColor: {
+          type: String,
+          value: '#FFF'
+        },
+
+        /**
+         * Fill color for outlier circles.
+         */
+        outlierFillColor: {
+          type: String,
+          value: '#FFF'
+        },
+
+        /**
          * Svg <g> element used to contain all drawings. This allows us
          * to easily manipulate the entire box and whisker drawing.
          */
@@ -107,67 +165,64 @@
         }
         // init svg group
         this._svgGroup = this.svg.append('g');
-        // get svg coordinates for our boxplot values
-        const points = this._chartDataToSvgPoints(data, position);
-        const middle = this.x(position);
-        // get the left and right boundries for the box
-        const boxLeft = middle - (this.boxWidth / 2);
-        const boxRight = boxLeft + this.boxWidth;
-        // get the left and right boundries for the min and max horiz lines
-        const minMaxLeft = middle - (this.edgeWidth / 2);
-        const minMaxRight = minMaxLeft + this.edgeWidth;
-
-        let dVal = '';
-        // top line
-        dVal = 'M ' + minMaxLeft + ' ' + points.max + ' H' + minMaxRight;
-        this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
-        // q1 whisker
-        dVal = 'M ' + middle + ' ' + points.max + ' V' + points.q3;
-        this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
-        // q3 box
-        dVal = 'M ' + boxLeft + ' ' + points.q3 + ' H' + boxRight + ' V' + points.median
-            + ' H ' + boxLeft + ' V' + points.q3;
-        this._appendPath(this._svgGroup, dVal, 'black', 'black');
-        // q1 box
-        dVal = 'M ' + boxLeft + ' ' + points.q1 + ' H' + boxRight + ' V' + points.median
-            + ' H ' + boxLeft + ' V' + points.q1;
-        this._appendPath(this._svgGroup, dVal, 'black', 'black');
-        // median line
-        dVal = 'M ' + boxLeft + ' ' + points.median + ' H' + boxRight;
-        this._appendPath(this._svgGroup, dVal, 'white', 'transparent');
-        // mean circle
-        this._appendCircle(this._svgGroup, middle, points.mean, 2, 'black', 'white');
-        // q3 whisker
-        dVal = 'M ' + middle + ' ' + points.min + 'V' + points.q1;
-        this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
-        // bottom line
-        dVal = 'M ' + minMaxLeft + ' ' + points.min + ' H' + minMaxRight;
-        this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
-        // outliers
-        points.outliers.forEach((outlier) => {
-          this._appendCircle(this._svgGroup, middle, outlier, 2, 'black', 'white');
+        const drawingData = this._getDrawingData(data, position, this.boxWidth, this.edgeWidth);
+        // draw each piece
+        this._appendLine(this._svgGroup, drawingData.max, this.strokeColor);
+        this._appendLine(this._svgGroup, drawingData.q3Whisker, this.strokeColor);
+        this._appendRectangle(this._svgGroup, drawingData.q3Box, this.strokeColor, this.fillColor);
+        this._appendRectangle(this._svgGroup, drawingData.q1Box, this.strokeColor, this.fillColor);
+        this._appendLine(this._svgGroup, drawingData.q1Whisker, this.strokeColor);
+        this._appendLine(this._svgGroup, drawingData.min, this.strokeColor);
+        this._appendLine(this._svgGroup, drawingData.median, this.medianStrokeColor);
+        this._appendCircle(this._svgGroup, drawingData.mean, this.meanRadius,
+          this.strokeColor, this.meanFillColor);
+        drawingData.outliers.forEach((outlier) => {
+          this._appendCircle(this._svgGroup, outlier, this.outlierRadius,
+            this.strokeColor, this.outlierFillColor);
         });
-
-        `<g>
-          <!-- top line -->
-          <path stroke="green" d="M 0 10 H30 " />
-          <!-- q3 wisker -->
-          <path stroke="orange" d="M 15 10 V30 " />
-          <!-- q3 box -->
-          <path stroke="orange" fill="transparent" d="M 0 30 H30 V50 H0 V30" />
-          <!-- q1 box -->
-          <path stroke="red" fill="transparent" d="M 0 70 H30 V50 H0 V70" />
-          <!-- median -->
-          <path stroke="blue" d="M 0 50 H30" />
-          <!-- mean -->
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-          <!-- q1 wisker -->
-          <path stroke="red" d="M 15 90 V70 " />
-          <!-- bottom line -->
-          <path stroke="green" d="M 0 90 H30 " />
-        </g>`;
       },
 
+      /**
+       * Draw rectangle to existing svg element. Coordinates passed in by 'data.x' and 'data.y'
+       * should define the upper left point of the rectangle.
+       */
+      _appendRectangle: function(svg, data, strokeColor, fillColor) {
+        svg.append('rect')
+          .attr('x', data.x)
+          .attr('y', data.y)
+          .attr('width', data.width)
+          .attr('height', data.height)
+          .attr('stroke', strokeColor)
+          .attr('fill', fillColor);
+      },
+
+      /**
+       * Draw a single straight line to an existing svg element.
+       */
+      _appendLine: function(svg, data, strokeColor) {
+        svg.append('line')
+          .attr('x1', data.x1)
+          .attr('y1', data.y1)
+          .attr('x2', data.x2)
+          .attr('y2', data.y2)
+          .attr('stroke', strokeColor);
+      },
+
+      /**
+       * Draw a circle to an existing svg element.
+       */
+      _appendCircle: function(svg, data, radius, strokeColor, fillColor) {
+        svg.append('circle')
+          .attr('cx', data.x)
+          .attr('cy', data.y)
+          .attr('r', radius)
+          .attr('stroke', strokeColor)
+          .attr('fill', fillColor);
+      },
+
+      /**
+       * Draw custom path to existing svg element.
+       */
       _appendPath: function(svg, d, strokeColor, fillColor) {
         svg.append('path')
           .attr('d', d)
@@ -175,11 +230,52 @@
           .attr('fill', fillColor);
       },
 
-      _appendCircle: function(svg, x, y, radius, strokeColor, fillColor) {
-        svg.append('circle')
-          .attr('cx', x).attr('cy', y).attr('r', radius)
-          .attr('stroke', strokeColor)
-          .attr('fill', fillColor);
+      /**
+       * Generates an object svg containing position information for each part
+       * of the box and whisker component. This information can be used to
+       * draw each part to an svg element.
+       */
+      _getDrawingData: function(data, position, boxWidth, minMaxWidth) {
+        const drawingData = {};
+        // convert our raw data to svg points
+        const points = this._chartDataToSvgPoints(data, position);
+        const middle = this.x(position);
+        // get the left and right boundries for the box
+        const boxLeft = middle - (boxWidth / 2);
+        const boxRight = boxLeft + boxWidth;
+        // get the left and right boundries for the min and max horiz lines
+        const minMaxLeft = middle - (minMaxWidth / 2);
+        const minMaxRight = minMaxLeft + minMaxWidth;
+        // generate position data
+        drawingData.max = {
+          x1: minMaxLeft, y1: points.max, x2: minMaxRight, y2: points.max
+        };
+        drawingData.min = {
+          x1: minMaxLeft, y1: points.min, x2: minMaxRight, y2: points.min
+        };
+        drawingData.q3Whisker = {
+          x1: middle, y1: points.max, x2: middle, y2: points.q3
+        };
+        drawingData.q1Whisker = {
+          x1: middle, y1: points.q1, x2: middle, y2: points.min
+        };
+        drawingData.q3Box = {
+          x: boxLeft, y: points.q3, width: boxWidth, height: points.median - points.q3
+        };
+        drawingData.q1Box = {
+          x: boxLeft, y: points.median, width: boxWidth, height: points.q1 - points.median
+        };
+        drawingData.median = {
+          x1: boxLeft, y1: points.median, x2: boxRight, y2: points.median
+        };
+        drawingData.mean = {
+          x: middle, y: points.mean
+        };
+        drawingData.outliers = [];
+        points.outliers.forEach((outlier) => {
+          drawingData.outliers.push({x: middle, y: outlier});
+        });
+        return drawingData;
       },
 
       /**

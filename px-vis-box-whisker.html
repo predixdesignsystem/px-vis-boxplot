@@ -5,9 +5,6 @@
 
 
 <dom-module id="px-vis-box-whisker">
-  <template>
-
-  </template>
   <script>
     Polymer({
 
@@ -112,31 +109,31 @@
         this._svgGroup = this.svg.append('g');
         // get svg coordinates for our boxplot values
         const points = this._chartDataToSvgPoints(data, position);
-        // get the left and right boundries for the box
         const middle = this.x(position);
-        const left = middle - (this.boxWidth / 2);
-        const right = left + this.boxWidth;
+        // get the left and right boundries for the box
+        const boxLeft = middle - (this.boxWidth / 2);
+        const boxRight = boxLeft + this.boxWidth;
         // get the left and right boundries for the min and max horiz lines
-        const edgeLeft = middle - (this.edgeWidth / 2);
-        const edgeRight = edgeLeft + this.edgeWidth;
+        const minMaxLeft = middle - (this.edgeWidth / 2);
+        const minMaxRight = minMaxLeft + this.edgeWidth;
 
         let dVal = '';
         // top line
-        dVal = 'M ' + edgeLeft + ' ' + points.max + ' H' + edgeRight;
+        dVal = 'M ' + minMaxLeft + ' ' + points.max + ' H' + minMaxRight;
         this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
         // q1 whisker
         dVal = 'M ' + middle + ' ' + points.max + ' V' + points.q3;
         this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
         // q3 box
-        dVal = 'M ' + left + ' ' + points.q3 + ' H' + right + ' V' + points.median
-            + ' H ' + left + ' V' + points.q3;
+        dVal = 'M ' + boxLeft + ' ' + points.q3 + ' H' + boxRight + ' V' + points.median
+            + ' H ' + boxLeft + ' V' + points.q3;
         this._appendPath(this._svgGroup, dVal, 'black', 'black');
         // q1 box
-        dVal = 'M ' + left + ' ' + points.q1 + ' H' + right + ' V' + points.median
-            + ' H ' + left + ' V' + points.q1;
+        dVal = 'M ' + boxLeft + ' ' + points.q1 + ' H' + boxRight + ' V' + points.median
+            + ' H ' + boxLeft + ' V' + points.q1;
         this._appendPath(this._svgGroup, dVal, 'black', 'black');
         // median line
-        dVal = 'M ' + left + ' ' + points.median + ' H' + right;
+        dVal = 'M ' + boxLeft + ' ' + points.median + ' H' + boxRight;
         this._appendPath(this._svgGroup, dVal, 'white', 'transparent');
         // mean circle
         this._appendCircle(this._svgGroup, middle, points.mean, 2, 'black', 'white');
@@ -144,7 +141,7 @@
         dVal = 'M ' + middle + ' ' + points.min + 'V' + points.q1;
         this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
         // bottom line
-        dVal = 'M ' + edgeLeft + ' ' + points.min + ' H' + edgeRight;
+        dVal = 'M ' + minMaxLeft + ' ' + points.min + ' H' + minMaxRight;
         this._appendPath(this._svgGroup, dVal, 'black', 'transparent');
         // outliers
         points.outliers.forEach((outlier) => {

@@ -202,26 +202,6 @@
       },
 
       /**
-       * TODO: remove this
-       * Dev function that draws several plotbox components.
-       */
-      drawAll: function() {
-        this.set('_boxPlotDatasets', []);
-        this.push('_boxPlotDatasets', {
-          position: 1,
-          data: this._rawDataToBoxplotData()
-        });
-        this.push('_boxPlotDatasets', {
-          position: 2,
-          data: this._rawDataToBoxplotData()
-        });
-        this.push('_boxPlotDatasets', {
-          position: 3,
-          data: this._rawDataToBoxplotData()
-        });
-      },
-
-      /**
        * Takes array of data points and calculates values required to build
        * a boxplot diagram such as the quartiles, median, etc..
        */

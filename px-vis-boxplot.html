@@ -4,6 +4,7 @@
 <link rel="import" href="../px-vis/px-vis-bar-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
 <link rel="import" href="../px-vis/px-vis-line-svg.html">
+<link rel="import" href="px-vis-box-whisker.html">
 
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
@@ -11,6 +12,9 @@
 
 <dom-module id="px-vis-boxplot">
   <template>
+    <button on-click="_add">Add</button>
+    <button on-click="_remove">Remove</button>
+    <button on-click="_update">Update</button>
     <px-vis-svg
       width="[[width]]"
       height="[[height]]"
@@ -21,12 +25,12 @@
       x-axis-type="linear"
       y-axis-type="linear"
       complete-series-config="[[seriesConfig]]"
-      chart-extents="[[_returnChartExtents()]]"
+      chart-extents="[[chartExtents]]"
       data-extents="[[dataExtents]]"
       width="[[width]]"
       height="[[height]]"
       margin="[[margin]]"
-      chart-data="{{singleChartData}}"
+      chart-data="[[_returnEmptyChartData(dataset)]]"
       x="{{x}}"
       y="{{y}}"
       domain-changed="{{domainChanged}}">
@@ -59,6 +63,17 @@
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
     </px-vis-axis>
+    <!-- box and whisker components -->
+    <template is="dom-repeat" items="[[_boxPlotDatasets]]" restamp>
+      <px-vis-box-whisker
+        data="[[item.data]]"
+        position="[[item.position]]"
+        svg="[[svg]]"
+        x="[[x]]"
+        y="[[y]]">
+      </px-vis-box-whisker>
+    </template>
+
   </template>
   <script>
     Polymer({
@@ -95,6 +110,43 @@
           }
         },
 
+        /**
+         * Some of px components require raw chart data to work properly.
+         * We use this in order to simply satisfy the existance of 'chart data'.
+         */
+        _emptyChartData: {
+          type: Array,
+          value: function() {
+            return [{
+              'x': 0,
+              'y': 0
+            }];
+          }
+        },
+
+        /**
+         * Max and min values for x and y axis.
+         */
+        chartExtents: {
+          type: Object,
+          value: function() {
+            return {
+              x: [0, 10],
+              y: [0, 100],
+            };
+          }
+        },
+
+        dataExtents: {
+          type: Object,
+          value: {}
+        },
+
+        dataset: {
+          type: String,
+          value: 'single'
+        },
+
         domainChanged: {
           type: Boolean
         },
@@ -103,39 +155,14 @@
           type: Object
         },
 
-        dataExtents: {
-          type: Object,
-          value: {}
-        },
-
-        singleChartData: {
-          type: Array,
-          value: function() {
-            return [{
-              'x': 1,
-              'y': 0.56
-            }, {
-              'x': 2,
-              'y': 0.4
-            }, {
-              'x': 3,
-              'y': 0.43
-            }, {
-              'x': 4,
-              'y': 0.33
-            }, {
-              'x': 5,
-              'y': 0.47
-            }, {
-              'x': 6,
-              'y': 0.41
-            }];
-          }
-        },
-
         _colorsAreSet: {
           type: Boolean,
           value: false
+        },
+
+        _boxPlotDatasets: {
+          type: Array,
+          value: []
         }
       },
 
@@ -147,20 +174,59 @@
         'px-data-vis-colors-applied': '_colorsSet'
       },
 
+      ready: function() {
+        window.chart = this;
+      },
+
+      // TODO: REMOVE
+      _add: function() {
+        this.push('_boxPlotDatasets', {
+          position: this._boxPlotDatasets.length + 1,
+          data: this._rawDataToBoxplotData()
+        });
+      },
+
+      // TODO: REMOVE
+      _remove: function() {
+        if (this._boxPlotDatasets.length > 0) {
+          this.splice('_boxPlotDatasets', this._boxPlotDatasets.length - 1, 1);
+        }
+      },
+
+      // TODO: REMOVE
+      _update: function() {
+        const boxWhiskers = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+        boxWhiskers.forEach((drawing) => {
+          drawing.data = this._rawDataToBoxplotData();
+        });
+      },
+
+      /**
+       * Takes array of data points and calculates values required to build
+       * a boxplot diagram such as the quartiles, median, etc..
+       */
+      _rawDataToBoxplotData: function(rawData) {
+        // TODO: implement data conversion/calc logic
+        return {
+          max: 90 + Math.random() * 10,
+          q3: 70 + Math.random() * 10,
+          mean: 50 + Math.random() * 10,
+          median: 50 + Math.random() * 10,
+          q1: 30 + Math.random() * 10,
+          min: 10 + Math.random() * 10,
+          outliers: [0 + Math.random() * 5, 5 + Math.random() * 5]
+        };
+      },
+
       _colorsSet: function() {
         this.set('_colorsAreSet', true);
       },
 
       /**
-      * Gets the charts extent config (the max and min values for both x and y values).
+      * Returns data array with a single point (x0,y0).
       */
-      _returnChartExtents: function() {
-        const yExtents = [0, 0.6];
-        const xExtents = [0, 10];
-        return {
-          'x': xExtents,
-          'y': yExtents,
-        };
+      _returnEmptyChartData: function() {
+        return this._emptyChartData;
       },
 
       _updateSeriesConfig: function() {

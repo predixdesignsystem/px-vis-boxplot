@@ -141,7 +141,8 @@
       },
 
       observers: [
-        '_draw(data, position, svg, scale)'
+        '_draw(data, position, svg, x, y, boxWidth, edgeWidth, outlierRadius, meanRadius)',
+        '_updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor)'
       ],
 
       detached: function() {
@@ -296,6 +297,11 @@
           }
         }
         return formatted;
+      },
+
+      _updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor) {
+        // TODO: implement changes in color
+        console.warn('color change handler not impl');
       }
 
     });

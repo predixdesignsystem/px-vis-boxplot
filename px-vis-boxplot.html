@@ -70,7 +70,16 @@
         position="[[item.position]]"
         svg="[[svg]]"
         x="[[x]]"
-        y="[[y]]">
+        y="[[y]]"
+        box-width="[[boxWidth]]"
+        edge-width="[[edgeWidth]]"
+        fill-color="[[fillColor]]"
+        stroke-color="[[strokeColor]]"
+        median-stroke-color="[[medianStrokeColor]]"
+        mean-radius="[[meanRadius]]"
+        mean-fill-color="[[meanFillColor]]"
+        outlier-radius="[[outlierRadius]]"
+        outlier-fill-color="[[outlierFillColor">
       </px-vis-box-whisker>
     </template>
 
@@ -110,18 +119,76 @@
           }
         },
 
+        boxWidth: {
+          type: Number,
+          value: 30
+        },
+
         /**
-         * Some of px components require raw chart data to work properly.
-         * We use this in order to simply satisfy the existance of 'chart data'.
+         * Width of the line that goes on top of the Q3 whisker
+         * and the line on the bottom of the Q1 whisker.
          */
-        _emptyChartData: {
-          type: Array,
-          value: function() {
-            return [{
-              'x': 0,
-              'y': 0
-            }];
-          }
+        edgeWidth: {
+          type: Number,
+          value: 15
+        },
+
+        /**
+         * Radius of outlier circles.
+         */
+        outlierRadius: {
+          type: Number,
+          value: 2
+        },
+
+        /**
+         * Radius of mean circle.
+         */
+        meanRadius: {
+          type: Number,
+          value: 2
+        },
+
+        // TODO: move stroke and fill values to CSS?
+
+        /**
+         * Fill color.
+         */
+        fillColor: {
+          type: String,
+          value: '#000'
+        },
+
+        /**
+         * Stroke color.
+         */
+        strokeColor: {
+          type: String,
+          value: '#000'
+        },
+
+        /**
+         * Stroke color for the median line.
+         */
+        medianStrokeColor: {
+          type: String,
+          value: '#FFF'
+        },
+
+        /**
+         * Fill color for mean circle.
+         */
+        meanFillColor: {
+          type: String,
+          value: '#FFF'
+        },
+
+        /**
+         * Fill color for outlier circles.
+         */
+        outlierFillColor: {
+          type: String,
+          value: '#FFF'
         },
 
         /**
@@ -155,15 +222,30 @@
           type: Object
         },
 
+        _boxPlotDatasets: {
+          type: Array,
+          value: []
+        },
+
         _colorsAreSet: {
           type: Boolean,
           value: false
         },
 
-        _boxPlotDatasets: {
+        /**
+         * Some of px components require raw chart data to work properly.
+         * We use this in order to simply satisfy the existance of 'chart data'.
+         */
+        _emptyChartData: {
           type: Array,
-          value: []
+          value: function() {
+            return [{
+              'x': 0,
+              'y': 0
+            }];
+          }
         }
+
       },
 
       observers: [

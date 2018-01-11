@@ -8,6 +8,7 @@
 
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
+<link rel="import" href="../px-vis/px-vis-behavior-chart.html">
 
 
 <dom-module id="px-vis-boxplot">
@@ -92,7 +93,9 @@
       behaviors: [
         PxColorsBehavior.dataVisColors,
         PxColorsBehavior.dataVisColorTheming,
-        PxColorsBehavior.getSeriesColors
+        PxColorsBehavior.getSeriesColors,
+        PxVisBehavior.observerCheck,
+        PxVisBehaviorChart.subConfiguration
       ],
 
       properties: {
@@ -119,76 +122,13 @@
           }
         },
 
-        boxWidth: {
-          type: Number,
-          value: 30
-        },
-
         /**
-         * Width of the line that goes on top of the Q3 whisker
-         * and the line on the bottom of the Q1 whisker.
+         * Configuration object used to configure the box and whisker
+         * components.  Refer to px-vis-box-whisker.html for a list
+         * of valid properties.
          */
-        edgeWidth: {
-          type: Number,
-          value: 15
-        },
-
-        /**
-         * Radius of outlier circles.
-         */
-        outlierRadius: {
-          type: Number,
-          value: 2
-        },
-
-        /**
-         * Radius of mean circle.
-         */
-        meanRadius: {
-          type: Number,
-          value: 2
-        },
-
-        // TODO: move stroke and fill values to CSS?
-
-        /**
-         * Fill color.
-         */
-        fillColor: {
-          type: String,
-          value: '#000'
-        },
-
-        /**
-         * Stroke color.
-         */
-        strokeColor: {
-          type: String,
-          value: '#000'
-        },
-
-        /**
-         * Stroke color for the median line.
-         */
-        medianStrokeColor: {
-          type: String,
-          value: '#FFF'
-        },
-
-        /**
-         * Fill color for mean circle.
-         */
-        meanFillColor: {
-          type: String,
-          value: '#FFF'
-        },
-
-        /**
-         * Fill color for outlier circles.
-         */
-        outlierFillColor: {
-          type: String,
-          value: '#FFF'
+        boxWhiskerConfig: {
+          type: Object
         },
 
         /**
@@ -249,6 +189,7 @@
       },
 
       observers: [
+        '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
 
@@ -300,15 +241,26 @@
         };
       },
 
-      _colorsSet: function() {
-        this.set('_colorsAreSet', true);
-      },
-
       /**
       * Returns data array with a single point (x0,y0).
       */
       _returnEmptyChartData: function() {
         return this._emptyChartData;
+      },
+
+      /**
+       * Apply changes to config object to the children components.
+       */
+      _boxWhiskerConfigChanged: function(conf) {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        const comps = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+        if (comps) {
+          comps.forEach(function(comp) {
+            this._applyConfigToElement(this.boxWhiskerConfig, comp);
+          }.bind(this));
+        }
       },
 
       _updateSeriesConfig: function() {
@@ -324,6 +276,10 @@
             });
           }
         }, 10);
+      },
+
+      _colorsSet: function() {
+        this.set('_colorsAreSet', true);
       }
 
     });

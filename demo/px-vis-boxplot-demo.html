@@ -50,7 +50,8 @@
 
       <!-- Component ---------------------------------------------------------->
       <px-demo-component slot="px-demo-component" class="flex" style="width:100%;">
-        <px-vis-boxplot>
+        <px-vis-boxplot
+          box-whisker-config="[[props.boxWhiskerConfig.value]]">
         </px-vis-boxplot>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -220,6 +221,33 @@
      * A reference for `this.props`. Read the documentation there.
      */
     demoProps: {
+
+      boxWhiskerConfig: {
+        type: Object,
+        inputType: 'code:JSON',
+        defaultValue: {
+          boxWidth: {
+            type: Number,
+            defaultValue: 30,
+            inputType: 'number'
+          },
+          edgeWidth: {
+            type: Number,
+            defaultValue: 15,
+            inputType: 'number'
+          },
+          meanRadius: {
+            type: Number,
+            defaultValue: 2,
+            inputType: 'number'
+          },
+          outlierRadius: {
+            type: Number,
+            defaultValue: 2,
+            inputType: 'number'
+          }
+        }
+      }
 
     }
   });

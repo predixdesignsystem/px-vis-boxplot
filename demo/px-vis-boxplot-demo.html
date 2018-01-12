@@ -47,6 +47,8 @@
       <!-- Component ---------------------------------------------------------->
       <px-demo-component slot="px-demo-component" class="flex" style="width:100%;">
         <px-vis-boxplot
+          width="[[props.width.value]]"
+          height="[[props.height.value]]"
           box-whisker-config="[[props.boxWhiskerConfig.value]]">
         </px-vis-boxplot>
       </px-demo-component>

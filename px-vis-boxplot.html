@@ -8,6 +8,7 @@
 
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
+<link rel="import" href="../px-vis/px-vis-behavior-chart.html">
 
 
 <dom-module id="px-vis-boxplot">
@@ -70,7 +71,16 @@
         position="[[item.position]]"
         svg="[[svg]]"
         x="[[x]]"
-        y="[[y]]">
+        y="[[y]]"
+        box-width="[[boxWidth]]"
+        edge-width="[[edgeWidth]]"
+        fill-color="[[fillColor]]"
+        stroke-color="[[strokeColor]]"
+        median-stroke-color="[[medianStrokeColor]]"
+        mean-radius="[[meanRadius]]"
+        mean-fill-color="[[meanFillColor]]"
+        outlier-radius="[[outlierRadius]]"
+        outlier-fill-color="[[outlierFillColor">
       </px-vis-box-whisker>
     </template>
 
@@ -83,7 +93,9 @@
       behaviors: [
         PxColorsBehavior.dataVisColors,
         PxColorsBehavior.dataVisColorTheming,
-        PxColorsBehavior.getSeriesColors
+        PxColorsBehavior.getSeriesColors,
+        PxVisBehavior.observerCheck,
+        PxVisBehaviorChart.subConfiguration
       ],
 
       properties: {
@@ -111,17 +123,12 @@
         },
 
         /**
-         * Some of px components require raw chart data to work properly.
-         * We use this in order to simply satisfy the existance of 'chart data'.
+         * Configuration object used to configure the box and whisker
+         * components.  Refer to px-vis-box-whisker.html for a list
+         * of valid properties.
          */
-        _emptyChartData: {
-          type: Array,
-          value: function() {
-            return [{
-              'x': 0,
-              'y': 0
-            }];
-          }
+        boxWhiskerConfig: {
+          type: Object
         },
 
         /**
@@ -155,18 +162,34 @@
           type: Object
         },
 
+        _boxPlotDatasets: {
+          type: Array,
+          value: []
+        },
+
         _colorsAreSet: {
           type: Boolean,
           value: false
         },
 
-        _boxPlotDatasets: {
+        /**
+         * Some of px components require raw chart data to work properly.
+         * We use this in order to simply satisfy the existance of 'chart data'.
+         */
+        _emptyChartData: {
           type: Array,
-          value: []
+          value: function() {
+            return [{
+              'x': 0,
+              'y': 0
+            }];
+          }
         }
+
       },
 
       observers: [
+        '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
 
@@ -218,15 +241,26 @@
         };
       },
 
-      _colorsSet: function() {
-        this.set('_colorsAreSet', true);
-      },
-
       /**
       * Returns data array with a single point (x0,y0).
       */
       _returnEmptyChartData: function() {
         return this._emptyChartData;
+      },
+
+      /**
+       * Apply changes to config object to the children components.
+       */
+      _boxWhiskerConfigChanged: function(conf) {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        const comps = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+        if (comps) {
+          comps.forEach(function(comp) {
+            this._applyConfigToElement(this.boxWhiskerConfig, comp);
+          }.bind(this));
+        }
       },
 
       _updateSeriesConfig: function() {
@@ -242,6 +276,10 @@
             });
           }
         }, 10);
+      },
+
+      _colorsSet: function() {
+        this.set('_colorsAreSet', true);
       }
 
     });

@@ -14,6 +14,8 @@
     "Px": false,
     "PxColorsBehavior": false,
     "PxVisBehavior": false,
+    "PxVisBehaviorChart": false,
+    "PxVisBehaviorD3": false,
     "Vaadin": false
   }
 }

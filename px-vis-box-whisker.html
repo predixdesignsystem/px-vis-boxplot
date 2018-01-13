@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
+<link rel="import" href="../px-vis/px-vis-behavior-d3.html">
 <link rel="import" href="../px-vis/px-vis-scale.html">
 <link rel="import" href="../px-vis/px-vis-svg.html">
 
@@ -11,7 +12,9 @@
       is: 'px-vis-box-whisker',
 
       behaviors: [
-        PxVisBehavior.commonMethods
+        PxVisBehavior.commonMethods,
+        PxVisBehavior.svgDefinition,
+        PxVisBehaviorD3.axes
       ],
 
       properties: {
@@ -32,27 +35,6 @@
         position: {
           type: String,
           value: '0'
-        },
-
-        /**
-         * px-vis-svg component.
-         */
-        svg: {
-          type: Object,
-        },
-
-        /**
-         * Function created by the px-vis-scale component for converting.
-         */
-        x: {
-          type: Function
-        },
-
-        /**
-         * Function created by the px-vis-scale component for converting.
-         */
-        y: {
-          type: Function
         },
 
         /**
@@ -141,7 +123,7 @@
       },
 
       observers: [
-        '_draw(data, position, svg, x, y, boxWidth, edgeWidth, outlierRadius, meanRadius)',
+        'draw(data, position, svg, x, y, boxWidth, edgeWidth, outlierRadius, meanRadius)',
         '_updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor)'
       ],
 
@@ -155,18 +137,18 @@
       /**
        * Draw or update the box and whisker component to the svg component.
        */
-      _draw: function(data, position) {
+      draw: function() {
         // remove previous drawing
         if (!this._isObjEmpty(this._svgGroup)) {
           this._svgGroup.remove();
         }
         // if data is empty, leave drawing empty
-        if (!data) {
+        if (!this.data) {
           return;
         }
         // init svg group
         this._svgGroup = this.svg.append('g');
-        const drawingData = this._getDrawingData(data, position, this.boxWidth, this.edgeWidth);
+        const drawingData = this._getDrawingData(this.data, this.position, this.boxWidth, this.edgeWidth);
         // draw each piece
         this._appendLine(this._svgGroup, drawingData.max, this.strokeColor);
         this._appendLine(this._svgGroup, drawingData.q3Whisker, this.strokeColor);
@@ -300,8 +282,8 @@
       },
 
       _updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor) {
-        // TODO: implement changes in color
-        this._draw(this.data, this.position);
+        // TODO: change color without re-drawing entirely
+        this.draw(this.data, this.position);
       }
 
     });

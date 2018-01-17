@@ -25,7 +25,7 @@
     <px-vis-scale
       x-axis-type="linear"
       y-axis-type="linear"
-      complete-series-config="[[seriesConfig]]"
+      complete-series-config="[[completeSeriesConfig]]"
       chart-extents="[[chartExtents]]"
       data-extents="[[dataExtents]]"
       width="[[width]]"
@@ -46,7 +46,7 @@
       title="Y Axis"
       orientation="left"
       label-position="center"
-      complete-series-config="[[seriesConfig]]"
+      complete-series-config="[[completeSeriesConfig]]"
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
     </px-vis-axis>
@@ -60,7 +60,7 @@
       title="X Axis"
       orientation="bottom"
       label-position="center"
-      complete-series-config="[[seriesConfig]]"
+      complete-series-config="[[completeSeriesConfig]]"
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
     </px-vis-axis>
@@ -159,7 +159,7 @@
           type: Boolean
         },
 
-        seriesConfig: {
+        completeSeriesConfig: {
           type: Object
         },
 
@@ -267,7 +267,7 @@
       _updateSeriesConfig: function() {
         this.debounce('_updateSeriesConfig', function() {
           if (this._colorsAreSet) {
-            this.set('seriesConfig', {
+            this.set('completeSeriesConfig', {
               'mySeries': {
                 'name': 'My-Series',
                 'x': 'x',

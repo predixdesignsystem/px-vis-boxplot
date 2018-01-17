@@ -132,10 +132,7 @@
           type: Object
         },
 
-        /**
-         * Max and min values for x and y axis.
-         */
-        chartExtents: {
+        dataExtents: {
           type: Object,
           value: function() {
             return {
@@ -143,11 +140,6 @@
               y: [0, 100],
             };
           }
-        },
-
-        dataExtents: {
-          type: Object,
-          value: {}
         },
 
         dataset: {

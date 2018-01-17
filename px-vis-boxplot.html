@@ -101,6 +101,10 @@
 
       properties: {
 
+        chartData: {
+          type: Object
+        },
+
         width: {
           type: Number,
           value: 500
@@ -182,6 +186,7 @@
       },
 
       observers: [
+        '_chartDataChanged(chartData)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
@@ -239,6 +244,31 @@
       */
       _returnEmptyChartData: function() {
         return this._emptyChartData;
+      },
+
+      _chartDataChanged: function(chartData) {
+        this.dataExtents = this._calcDataExtents(chartData);
+      },
+
+      _calcDataExtents: function(chartData) {
+        if (!chartData) {
+          console.warn('Cannot update data extents as chartData is null');
+          return;
+        }
+        const exts = {};
+        exts.x = [0, chartData.length];
+        exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
+        // to find the min/max y values, we need to check each set of data
+        for (const i in chartData) {
+          const outliersMin = Math.min(...chartData[i].outliers);
+          const outliersMax = Math.max(...chartData[i].outliers);
+          // compare current min/max, current series min/max, and the min/max of outliers
+          exts.y = [
+            Math.min(exts.y[0], chartData[i].min, outliersMin),
+            Math.max(exts.y[1], chartData[i].max, outliersMax)
+          ];
+        }
+        return exts;
       },
 
       /**

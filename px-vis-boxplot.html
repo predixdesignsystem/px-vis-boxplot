@@ -72,6 +72,7 @@
         svg="[[svg]]"
         x="[[x]]"
         y="[[y]]"
+        domain-changed="[[domainChanged]]"
         box-width="[[boxWhiskerConfig.boxWidth]]"
         edge-width="[[boxWhiskerConfig.edgeWidth]]"
         fill-color="[[boxWhiskerConfig.fillColor]]"
@@ -190,7 +191,6 @@
 
       observers: [
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
-        '_sizeChanged(width, height)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
 
@@ -277,17 +277,6 @@
             });
           }
         }, 10);
-      },
-
-      _sizeChanged: function() {
-        const comps = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
-        if (comps) {
-          comps.forEach(function(comp) {
-            // x and y changes are not triggering on the box whisker components,
-            // so this is here for now to force a re-draw when the chart size changes
-            comp.draw();
-          });
-        }
       },
 
       _colorsSet: function() {

@@ -65,7 +65,7 @@
       domain-changed="[[domainChanged]]">
     </px-vis-axis>
     <!-- box and whisker components -->
-    <template is="dom-repeat" items="[[_boxPlotDatasets]]" restamp>
+    <template is="dom-repeat" items="[[chartData]]" restamp>
       <px-vis-box-whisker
         data="[[item.data]]"
         position="[[item.position]]"
@@ -109,7 +109,7 @@
          *
          * ```
          * [{
-         *   position: '1',
+         *   position: 1,
          *   data: {
          *     max: 90,
          *     q3: 70,
@@ -123,7 +123,9 @@
          * ```
          */
         chartData: {
-          type: Array
+          type: Array,
+          value: [],
+          notify: true
         },
 
         width: {
@@ -180,11 +182,6 @@
           type: Object
         },
 
-        _boxPlotDatasets: {
-          type: Array,
-          value: []
-        },
-
         _colorsAreSet: {
           type: Boolean,
           value: false
@@ -207,7 +204,7 @@
       },
 
       observers: [
-        '_chartDataChanged(chartData)',
+        '_chartDataChanged(chartData, chartData.*)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
@@ -222,16 +219,16 @@
 
       // TODO: REMOVE
       _add: function() {
-        this.push('_boxPlotDatasets', {
-          position: this._boxPlotDatasets.length + 1,
+        this.push('chartData', {
+          position: this.chartData.length + 1,
           data: this._rawDataToBoxplotData()
         });
       },
 
       // TODO: REMOVE
       _remove: function() {
-        if (this._boxPlotDatasets.length > 0) {
-          this.splice('_boxPlotDatasets', this._boxPlotDatasets.length - 1, 1);
+        if (this.chartData.length > 0) {
+          this.splice('chartData', this.chartData.length - 1, 1);
         }
       },
 
@@ -268,7 +265,9 @@
       },
 
       _chartDataChanged: function(chartData) {
-        this._boxPlotDatasets = chartData;
+        if (!chartData || chartData.length < 1) {
+          return;
+        }
         this.dataExtents = this._calcDataExtents(chartData);
       },
 

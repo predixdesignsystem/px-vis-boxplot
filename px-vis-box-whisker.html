@@ -14,7 +14,8 @@
       behaviors: [
         PxVisBehavior.commonMethods,
         PxVisBehavior.svgDefinition,
-        PxVisBehaviorD3.axes
+        PxVisBehaviorD3.axes,
+        PxVisBehaviorD3.domainUpdate
       ],
 
       properties: {
@@ -123,7 +124,7 @@
       },
 
       observers: [
-        'draw(data, position, svg, x, y, boxWidth, edgeWidth, outlierRadius, meanRadius)',
+        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, outlierRadius, meanRadius)',
         '_updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor)'
       ],
 

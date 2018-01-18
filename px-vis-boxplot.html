@@ -25,7 +25,7 @@
     <px-vis-scale
       x-axis-type="linear"
       y-axis-type="linear"
-      complete-series-config="[[seriesConfig]]"
+      complete-series-config="[[completeSeriesConfig]]"
       chart-extents="[[chartExtents]]"
       data-extents="[[dataExtents]]"
       width="[[width]]"
@@ -46,7 +46,7 @@
       title="Y Axis"
       orientation="left"
       label-position="center"
-      complete-series-config="[[seriesConfig]]"
+      complete-series-config="[[completeSeriesConfig]]"
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
     </px-vis-axis>
@@ -60,12 +60,12 @@
       title="X Axis"
       orientation="bottom"
       label-position="center"
-      complete-series-config="[[seriesConfig]]"
+      complete-series-config="[[completeSeriesConfig]]"
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
     </px-vis-axis>
     <!-- box and whisker components -->
-    <template is="dom-repeat" items="[[_boxPlotDatasets]]" restamp>
+    <template is="dom-repeat" items="[[chartData]]" restamp>
       <px-vis-box-whisker
         data="[[item.data]]"
         position="[[item.position]]"
@@ -95,11 +95,38 @@
         PxColorsBehavior.dataVisColors,
         PxColorsBehavior.dataVisColorTheming,
         PxColorsBehavior.getSeriesColors,
+        PxVisBehavior.baseSize,
+        PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
         PxVisBehaviorChart.subConfiguration
       ],
 
       properties: {
+
+        /**
+         * An array of objects that contain data for each box and whisker
+         * component on the box plot chart.
+         *
+         * ```
+         * [{
+         *   position: 1,
+         *   data: {
+         *     max: 90,
+         *     q3: 70,
+         *     mean: 50,
+         *     median: 50,
+         *     q1: 30,
+         *     min: 10,
+         *     outliers: [5, 2]
+         *   }
+         * }]
+         * ```
+         */
+        chartData: {
+          type: Array,
+          value: [],
+          notify: true
+        },
 
         width: {
           type: Number,
@@ -132,10 +159,7 @@
           type: Object
         },
 
-        /**
-         * Max and min values for x and y axis.
-         */
-        chartExtents: {
+        dataExtents: {
           type: Object,
           value: function() {
             return {
@@ -143,11 +167,6 @@
               y: [0, 100],
             };
           }
-        },
-
-        dataExtents: {
-          type: Object,
-          value: {}
         },
 
         dataset: {
@@ -159,13 +178,8 @@
           type: Boolean
         },
 
-        seriesConfig: {
+        completeSeriesConfig: {
           type: Object
-        },
-
-        _boxPlotDatasets: {
-          type: Array,
-          value: []
         },
 
         _colorsAreSet: {
@@ -190,6 +204,7 @@
       },
 
       observers: [
+        '_chartDataChanged(chartData, chartData.*)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
@@ -204,16 +219,16 @@
 
       // TODO: REMOVE
       _add: function() {
-        this.push('_boxPlotDatasets', {
-          position: this._boxPlotDatasets.length + 1,
+        this.push('chartData', {
+          position: this.chartData.length + 1,
           data: this._rawDataToBoxplotData()
         });
       },
 
       // TODO: REMOVE
       _remove: function() {
-        if (this._boxPlotDatasets.length > 0) {
-          this.splice('_boxPlotDatasets', this._boxPlotDatasets.length - 1, 1);
+        if (this.chartData.length > 0) {
+          this.splice('chartData', this.chartData.length - 1, 1);
         }
       },
 
@@ -249,6 +264,35 @@
         return this._emptyChartData;
       },
 
+      _chartDataChanged: function(chartData) {
+        if (!chartData || chartData.length < 1) {
+          return;
+        }
+        this.dataExtents = this._calcDataExtents(chartData);
+      },
+
+      _calcDataExtents: function(chartData) {
+        if (!chartData) {
+          console.warn('Cannot update data extents as chartData is null');
+          return;
+        }
+        const exts = {};
+        exts.x = [0, chartData.length + 1];
+        exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
+        // to find the min/max y values, we need to check each set of data
+        for (const i in chartData) {
+          const data = chartData[i].data;
+          const outliersMin = Math.min.apply(Math, data.outliers);
+          const outliersMax = Math.max.apply(Math, data.outliers);
+          // compare current min/max, current series min/max, and the min/max of outliers
+          exts.y = [
+            Math.min(exts.y[0], data.min, outliersMin),
+            Math.max(exts.y[1], data.max, outliersMax)
+          ];
+        }
+        return exts;
+      },
+
       /**
        * Apply changes to config object to the children components.
        */
@@ -267,7 +311,7 @@
       _updateSeriesConfig: function() {
         this.debounce('_updateSeriesConfig', function() {
           if (this._colorsAreSet) {
-            this.set('seriesConfig', {
+            this.set('completeSeriesConfig', {
               'mySeries': {
                 'name': 'My-Series',
                 'x': 'x',

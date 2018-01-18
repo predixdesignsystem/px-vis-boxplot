@@ -95,14 +95,35 @@
         PxColorsBehavior.dataVisColors,
         PxColorsBehavior.dataVisColorTheming,
         PxColorsBehavior.getSeriesColors,
+        PxVisBehavior.baseSize,
+        PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
         PxVisBehaviorChart.subConfiguration
       ],
 
       properties: {
 
+        /**
+         * An array of objects that contain data for each box and whisker
+         * component on the box plot chart.
+         *
+         * ```
+         * [{
+         *   position: '1',
+         *   data: {
+         *     max: 90,
+         *     q3: 70,
+         *     mean: 50,
+         *     median: 50,
+         *     q1: 30,
+         *     min: 10,
+         *     outliers: [5, 2]
+         *   }
+         * }]
+         * ```
+         */
         chartData: {
-          type: Object
+          type: Array
         },
 
         width: {
@@ -247,6 +268,7 @@
       },
 
       _chartDataChanged: function(chartData) {
+        this._boxPlotDatasets = chartData;
         this.dataExtents = this._calcDataExtents(chartData);
       },
 

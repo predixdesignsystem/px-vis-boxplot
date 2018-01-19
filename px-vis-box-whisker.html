@@ -123,6 +123,16 @@
         },
 
         /**
+         * A delay time used for drawing/updating the box and whisker
+         * svg.  This helps ensure the draw function is not called too
+         * many times when not needed.
+         */
+        drawDebounceTime: {
+          type: Number,
+          value: 50
+        },
+
+        /**
          * Svg <g> element used to contain all drawings. This allows us
          * to easily manipulate the entire box and whisker drawing.
          */
@@ -148,12 +158,26 @@
        * Draw or update the box and whisker component to the svg component.
        */
       draw: function() {
+        this.debounce('drawDebounce', function() {
+          this._drawDebounced();
+        }, this.drawDebounceTime);
+      },
+
+      /**
+       * Draw but delay by debounce time.
+       */
+      _drawDebounced: function() {
         // remove previous drawing
         if (!this._isObjEmpty(this._svgGroup)) {
           this._svgGroup.remove();
         }
         // if data is empty, leave drawing empty
         if (!this.data) {
+          console.warn('Cannot draw box and whisker without data');
+          return;
+        }
+        if (!this.x || !this.y) {
+          console.warn('Cannot draw box and whisker without valid x and y functions');
           return;
         }
         // init svg group

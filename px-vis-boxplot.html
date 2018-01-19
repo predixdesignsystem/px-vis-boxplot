@@ -69,6 +69,7 @@
       <px-vis-box-whisker
         data="[[item.data]]"
         position="[[item.position]]"
+        orientation="[[orientation]]"
         svg="[[svg]]"
         x="[[x]]"
         y="[[y]]"
@@ -159,6 +160,15 @@
           type: Object
         },
 
+        /**
+         * Direction of the box plot chart.  The values can be
+         * 'vertical' or 'horizontal'.
+         */
+        orientation: {
+          type: String,
+          value: 'vertical'
+        },
+
         dataExtents: {
           type: Object,
           value: function() {
@@ -206,6 +216,7 @@
       observers: [
         '_chartDataChanged(chartData, chartData.*)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
+        '_orientationChanged(orientation)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
 
@@ -271,12 +282,20 @@
         this.dataExtents = this._calcDataExtents(chartData);
       },
 
+      _orientationChanged(orientation) {
+        if (!this.chartData || this.chartData.length < 1) {
+          return;
+        }
+        this.dataExtents = this._calcDataExtents(this.chartData);
+      },
+
       _calcDataExtents: function(chartData) {
         if (!chartData) {
           console.warn('Cannot update data extents as chartData is null');
           return;
         }
         const exts = {};
+        // TODO: x ticks must be definable and can be strings
         exts.x = [0, chartData.length + 1];
         exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
         // to find the min/max y values, we need to check each set of data
@@ -289,6 +308,12 @@
             Math.min(exts.y[0], data.min, outliersMin),
             Math.max(exts.y[1], data.max, outliersMax)
           ];
+        }
+        // if the orientation is horizontal, we actually need to swap our extents
+        if (this.orientation === 'horizontal') {
+          const y = exts.y;
+          exts.y = exts.x;
+          exts.x = y;
         }
         return exts;
       },

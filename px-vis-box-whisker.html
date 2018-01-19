@@ -39,6 +39,15 @@
         },
 
         /**
+         * The direction of the box and whisker component.  Can be 'vertical'
+         * or 'horizontal'.  Defaults to vertical.
+         */
+        orientation: {
+          type: String,
+          value: 'vertical'
+        },
+
+        /**
          * Width of the box.
          */
         boxWidth: {
@@ -149,7 +158,8 @@
         }
         // init svg group
         this._svgGroup = this.svg.append('g');
-        const drawingData = this._getDrawingData(this.data, this.position, this.boxWidth, this.edgeWidth);
+        const drawingData = this._getDrawingData(this.data, this.position,
+          this.orientation, this.boxWidth, this.edgeWidth);
         // draw each piece
         this._appendLine(this._svgGroup, drawingData.max, this.strokeColor);
         this._appendLine(this._svgGroup, drawingData.q3Whisker, this.strokeColor);
@@ -219,10 +229,19 @@
        * of the box and whisker component. This information can be used to
        * draw each part to an svg element.
        */
-      _getDrawingData: function(data, position, boxWidth, minMaxWidth) {
+      _getDrawingData: function(data, position, orientation, boxWidth, minMaxWidth) {
+        return orientation === 'horizontal'
+          ? this._getDrawingDataHorizontal(data, position, boxWidth, minMaxWidth)
+          : this._getDrawingDataVertical(data, position, boxWidth, minMaxWidth);
+      },
+
+      /**
+       * Gets drawing coordinates for vertical box and whisker.
+       */
+      _getDrawingDataVertical: function(data, position, boxWidth, minMaxWidth) {
         const drawingData = {};
         // convert our raw data to svg points
-        const points = this._chartDataToSvgPoints(data, position);
+        const points = this._chartDataToSvgPoints(data, this.y);
         const middle = this.x(position);
         // get the left and right boundries for the box
         const boxLeft = middle - (boxWidth / 2);
@@ -263,20 +282,66 @@
       },
 
       /**
+       * Gets drawing coordinates for horizontal box and whisker.
+       */
+      _getDrawingDataHorizontal: function(data, position, boxWidth, minMaxWidth) {
+        const drawingData = {};
+        // convert our raw data to svg points
+        const points = this._chartDataToSvgPoints(data, this.x);
+        const middle = this.y(position);
+        // get the left and right boundries for the box
+        const boxLeft = middle - (boxWidth / 2);
+        const boxRight = boxLeft + boxWidth;
+        // get the left and right boundries for the min and max horiz lines
+        const minMaxLeft = middle - (minMaxWidth / 2);
+        const minMaxRight = minMaxLeft + minMaxWidth;
+        // generate position data
+        drawingData.max = {
+          y1: minMaxLeft, x1: points.max, y2: minMaxRight, x2: points.max
+        };
+        drawingData.min = {
+          y1: minMaxLeft, x1: points.min, y2: minMaxRight, x2: points.min
+        };
+        drawingData.q3Whisker = {
+          y1: middle, x1: points.max, y2: middle, x2: points.q3
+        };
+        drawingData.q1Whisker = {
+          y1: middle, x1: points.q1, y2: middle, x2: points.min
+        };
+        drawingData.q3Box = {
+          y: boxLeft, x: points.median, height: boxWidth, width: points.q3 - points.median
+        };
+        drawingData.q1Box = {
+          y: boxLeft, x: points.q1, height: boxWidth, width: points.median - points.q1
+        };
+        drawingData.median = {
+          y1: boxLeft, x1: points.median, y2: boxRight, x2: points.median
+        };
+        drawingData.mean = {
+          y: middle, x: points.mean
+        };
+        drawingData.outliers = [];
+        points.outliers.forEach((outlier) => {
+          drawingData.outliers.push({y: middle, x: outlier});
+        });
+        return drawingData;
+      },
+
+      /**
        * Returns copy of data object but with values converted
        * to svg positions based on the px scale.
        */
-      _chartDataToSvgPoints: function(data) {
+      _chartDataToSvgPoints: function(data, y) {
         const formatted = {};
         for (const key in data) {
           if (Array.isArray(data[key])) {
             formatted[key] = new Array(data[key].length);
             // outliers will be in an array
             for (const i in data[key]) {
-              formatted[key][i] = this.y(data[key][i]);
+              formatted[key][i] = y(data[key][i]);
             }
           } else {
-            formatted[key] = this.y(data[key]);
+            formatted[key] = y(data[key]);
           }
         }
         return formatted;

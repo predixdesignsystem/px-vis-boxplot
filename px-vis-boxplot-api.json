@@ -1,0 +1,2456 @@
+{
+  "schema_version": "1.0.0",
+  "elements": [
+    {
+      "description": "",
+      "summary": "",
+      "path": "px-vis-box-whisker.html",
+      "properties": [
+        {
+          "name": "svg",
+          "type": "Object",
+          "description": "svg is a holder for the d3 instantiated svg container to draw to.\nMust be set in ready and passed to all components so they know whom to draw to.\n\nFUTURE: when Polymer supports SVG, this only need be set on the SVG element.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 1974,
+              "column": 4
+            },
+            "end": {
+              "line": 1976,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "PxVisBehavior.svgDefinition"
+        },
+        {
+          "name": "x",
+          "type": "Object",
+          "description": "x is a holder for the d3 instantiated scale object\nMust be set in the svg component and passed to all components so they know the drawing scale.\nThis can be set declaratively\n\nSee: https://github.com/d3/d3/blob/master/API.md#scales-d3-scale",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 429,
+              "column": 4
+            },
+            "end": {
+              "line": 432,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          },
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "name": "y",
+          "type": "Object",
+          "description": "y is a holder for the d3 instantiated scale object\nMust be set in the svg component and passed to all components so they know the drawing scale.\nThis can be set declaratively\n\nSee: https://github.com/d3/d3/blob/master/API.md#scales-d3-scale",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 443,
+              "column": 4
+            },
+            "end": {
+              "line": 446,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          },
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "name": "isMultiY",
+          "type": "boolean",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 447,
+              "column": 4
+            },
+            "end": {
+              "line": 451,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": true
+            }
+          },
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "name": "domainChanged",
+          "type": "boolean",
+          "description": "Boolean switching when the domain(s) has(have) changed\n\nServes as a trigger for many elements to redraw",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 509,
+              "column": 4
+            },
+            "end": {
+              "line": 512,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "null",
+          "inheritedFrom": "PxVisBehaviorD3.domainUpdate"
+        },
+        {
+          "name": "data",
+          "type": "Object",
+          "description": "Data used to draw the box and whisker component.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 26,
+              "column": 8
+            },
+            "end": {
+              "line": 29,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "{}"
+        },
+        {
+          "name": "position",
+          "type": "string",
+          "description": "The position on the X axis. This can be a numeric value\nor a String value that exists on the axis.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 35,
+              "column": 8
+            },
+            "end": {
+              "line": 38,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"0\""
+        },
+        {
+          "name": "orientation",
+          "type": "string",
+          "description": "The direction of the box and whisker component.  Can be 'vertical'\nor 'horizontal'.  Defaults to vertical.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 44,
+              "column": 8
+            },
+            "end": {
+              "line": 47,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"vertical\""
+        },
+        {
+          "name": "boxWidth",
+          "type": "number",
+          "description": "Width of the box.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 52,
+              "column": 8
+            },
+            "end": {
+              "line": 55,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "30"
+        },
+        {
+          "name": "edgeWidth",
+          "type": "number",
+          "description": "Width of the line that goes on top of the Q3 whisker\nand the line on the bottom of the Q1 whisker.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 61,
+              "column": 8
+            },
+            "end": {
+              "line": 64,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "15"
+        },
+        {
+          "name": "outlierRadius",
+          "type": "number",
+          "description": "Radius of outlier circles.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 69,
+              "column": 8
+            },
+            "end": {
+              "line": 72,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "2"
+        },
+        {
+          "name": "meanRadius",
+          "type": "number",
+          "description": "Radius of mean circle.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 77,
+              "column": 8
+            },
+            "end": {
+              "line": 80,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "2"
+        },
+        {
+          "name": "fillColor",
+          "type": "string",
+          "description": "Fill color.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 87,
+              "column": 8
+            },
+            "end": {
+              "line": 90,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"#000\""
+        },
+        {
+          "name": "strokeColor",
+          "type": "string",
+          "description": "Stroke color.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 95,
+              "column": 8
+            },
+            "end": {
+              "line": 98,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"#000\""
+        },
+        {
+          "name": "medianStrokeColor",
+          "type": "string",
+          "description": "Stroke color for the median line.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 103,
+              "column": 8
+            },
+            "end": {
+              "line": 106,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"#FFF\""
+        },
+        {
+          "name": "meanFillColor",
+          "type": "string",
+          "description": "Fill color for mean circle.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 111,
+              "column": 8
+            },
+            "end": {
+              "line": 114,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"#FFF\""
+        },
+        {
+          "name": "outlierFillColor",
+          "type": "string",
+          "description": "Fill color for outlier circles.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 119,
+              "column": 8
+            },
+            "end": {
+              "line": 122,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"#FFF\""
+        },
+        {
+          "name": "_svgGroup",
+          "type": "Object",
+          "description": "Svg <g> element used to contain all drawings. This allows us\nto easily manipulate the entire box and whisker drawing.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 128,
+              "column": 8
+            },
+            "end": {
+              "line": 130,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        }
+      ],
+      "methods": [
+        {
+          "name": "_isObjEmpty",
+          "description": "Checks to see if an object is empty",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 807,
+              "column": 2
+            },
+            "end": {
+              "line": 815,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "bool"
+          },
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_isD3Empty",
+          "description": "Checks to see if an d3 obj is empty",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 823,
+              "column": 2
+            },
+            "end": {
+              "line": 828,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "bool"
+          },
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_doesD3HaveValues",
+          "description": "Checks to see if an d3 obj has something",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 836,
+              "column": 2
+            },
+            "end": {
+              "line": 841,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "bool"
+          },
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_doesObjHaveValues",
+          "description": "Checks to see if an object has values",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 849,
+              "column": 2
+            },
+            "end": {
+              "line": 858,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "bool"
+          },
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_hasProps",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 860,
+              "column": 2
+            },
+            "end": {
+              "line": 872,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_isVarDefined",
+          "description": "Checks to see if an object is defined",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 880,
+              "column": 2
+            },
+            "end": {
+              "line": 885,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "bool"
+          },
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_isVarUndefined",
+          "description": "Checks to see if an object is defined",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 892,
+              "column": 2
+            },
+            "end": {
+              "line": 897,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "bool"
+          },
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_escapeCssSelector",
+          "description": "escapes '.' in css selectors so that we can appropriately select stuff with dots in thei ids",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 902,
+              "column": 2
+            },
+            "end": {
+              "line": 904,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "selector"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_checkThemeVariable",
+          "description": "Checks if a theme variable exists, if so, returns the theme value, if not, returns the default",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 909,
+              "column": 2
+            },
+            "end": {
+              "line": 926,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "varName"
+            },
+            {
+              "name": "defaultValue"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_checkColorType",
+          "description": "Checks if a color is already hex or rgb, if must be a colors obj",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 931,
+              "column": 2
+            },
+            "end": {
+              "line": 936,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "c"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_hexToRgb",
+          "description": "converts a hex to rgb color",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 941,
+              "column": 2
+            },
+            "end": {
+              "line": 952,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "hex"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_binarySearch",
+          "description": "Binary search through sorted chartData",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 957,
+              "column": 2
+            },
+            "end": {
+              "line": 974,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "data"
+            },
+            {
+              "name": "key"
+            },
+            {
+              "name": "val"
+            },
+            {
+              "name": "lowerIndex"
+            },
+            {
+              "name": "upperIndex"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_fuzzyBinarySearch",
+          "description": "Binary search through sorted chartData returning all vals within a window",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 979,
+              "column": 2
+            },
+            "end": {
+              "line": 996,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "data"
+            },
+            {
+              "name": "key"
+            },
+            {
+              "name": "lowerFuzz"
+            },
+            {
+              "name": "upperFuzz"
+            },
+            {
+              "name": "lowerIndex"
+            },
+            {
+              "name": "upperIndex"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "_getAdjacentValues",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 998,
+              "column": 2
+            },
+            "end": {
+              "line": 1028,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "data"
+            },
+            {
+              "name": "key"
+            },
+            {
+              "name": "lowerFuzz"
+            },
+            {
+              "name": "upperFuzz"
+            },
+            {
+              "name": "lowerIndex"
+            },
+            {
+              "name": "upperIndex"
+            },
+            {
+              "name": "index"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "clone",
+          "description": "deep-copy object into newObject",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 1033,
+              "column": 2
+            },
+            "end": {
+              "line": 1046,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "object"
+            },
+            {
+              "name": "newObject"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "isVarNumber",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 1048,
+              "column": 2
+            },
+            "end": {
+              "line": 1050,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "n"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
+          "name": "hasUndefinedArguments",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 19,
+              "column": 2
+            },
+            "end": {
+              "line": 28,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "args"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.observerCheck"
+        },
+        {
+          "name": "_getIsMultiY",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 453,
+              "column": 2
+            },
+            "end": {
+              "line": 459,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "name": "_processYValues",
+          "description": "This functions process Y axis and applies the result to some variable.\nIf in single Y it just run the function and assign the result to `result`, if multi Y\nit runs the function for each axis and stores the result against the axis key\non `result`",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 466,
+              "column": 2
+            },
+            "end": {
+              "line": 484,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "callback"
+            }
+          ],
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "name": "detached",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 139,
+              "column": 6
+            },
+            "end": {
+              "line": 144,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "draw",
+          "description": "Draw or update the box and whisker component to the svg component.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 149,
+              "column": 6
+            },
+            "end": {
+              "line": 176,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_appendRectangle",
+          "description": "Draw rectangle to existing svg element. Coordinates passed in by 'data.x' and 'data.y'\nshould define the upper left point of the rectangle.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 182,
+              "column": 6
+            },
+            "end": {
+              "line": 190,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "svg"
+            },
+            {
+              "name": "data"
+            },
+            {
+              "name": "strokeColor"
+            },
+            {
+              "name": "fillColor"
+            }
+          ]
+        },
+        {
+          "name": "_appendLine",
+          "description": "Draw a single straight line to an existing svg element.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 195,
+              "column": 6
+            },
+            "end": {
+              "line": 202,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "svg"
+            },
+            {
+              "name": "data"
+            },
+            {
+              "name": "strokeColor"
+            }
+          ]
+        },
+        {
+          "name": "_appendCircle",
+          "description": "Draw a circle to an existing svg element.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 207,
+              "column": 6
+            },
+            "end": {
+              "line": 214,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "svg"
+            },
+            {
+              "name": "data"
+            },
+            {
+              "name": "radius"
+            },
+            {
+              "name": "strokeColor"
+            },
+            {
+              "name": "fillColor"
+            }
+          ]
+        },
+        {
+          "name": "_appendPath",
+          "description": "Draw custom path to existing svg element.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 219,
+              "column": 6
+            },
+            "end": {
+              "line": 224,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "svg"
+            },
+            {
+              "name": "d"
+            },
+            {
+              "name": "strokeColor"
+            },
+            {
+              "name": "fillColor"
+            }
+          ]
+        },
+        {
+          "name": "_getDrawingData",
+          "description": "Generates an object svg containing position information for each part\nof the box and whisker component. This information can be used to\ndraw each part to an svg element.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 231,
+              "column": 6
+            },
+            "end": {
+              "line": 235,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "data"
+            },
+            {
+              "name": "position"
+            },
+            {
+              "name": "orientation"
+            },
+            {
+              "name": "boxWidth"
+            },
+            {
+              "name": "minMaxWidth"
+            }
+          ]
+        },
+        {
+          "name": "_getDrawingDataVertical",
+          "description": "Gets drawing coordinates for vertical box and whisker.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 240,
+              "column": 6
+            },
+            "end": {
+              "line": 281,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "data"
+            },
+            {
+              "name": "position"
+            },
+            {
+              "name": "boxWidth"
+            },
+            {
+              "name": "minMaxWidth"
+            }
+          ]
+        },
+        {
+          "name": "_getDrawingDataHorizontal",
+          "description": "Gets drawing coordinates for horizontal box and whisker.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 286,
+              "column": 6
+            },
+            "end": {
+              "line": 327,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "data"
+            },
+            {
+              "name": "position"
+            },
+            {
+              "name": "boxWidth"
+            },
+            {
+              "name": "minMaxWidth"
+            }
+          ]
+        },
+        {
+          "name": "_chartDataToSvgPoints",
+          "description": "Returns copy of data object but with values converted\nto svg positions based on the px scale.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 333,
+              "column": 6
+            },
+            "end": {
+              "line": 347,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "data"
+            },
+            {
+              "name": "y"
+            }
+          ]
+        },
+        {
+          "name": "_updateColors",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 349,
+              "column": 6
+            },
+            "end": {
+              "line": 352,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "fillColor"
+            },
+            {
+              "name": "strokeColor"
+            },
+            {
+              "name": "medianStrokeColor"
+            },
+            {
+              "name": "meanFillColor"
+            },
+            {
+              "name": "outlierFillColor"
+            }
+          ]
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 9,
+          "column": 12
+        },
+        "end": {
+          "line": 354,
+          "column": 5
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "attributes": [
+        {
+          "name": "svg",
+          "description": "svg is a holder for the d3 instantiated svg container to draw to.\nMust be set in ready and passed to all components so they know whom to draw to.\n\nFUTURE: when Polymer supports SVG, this only need be set on the SVG element.",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 1974,
+              "column": 4
+            },
+            "end": {
+              "line": 1976,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "PxVisBehavior.svgDefinition"
+        },
+        {
+          "name": "x",
+          "description": "x is a holder for the d3 instantiated scale object\nMust be set in the svg component and passed to all components so they know the drawing scale.\nThis can be set declaratively\n\nSee: https://github.com/d3/d3/blob/master/API.md#scales-d3-scale",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 429,
+              "column": 4
+            },
+            "end": {
+              "line": 432,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "name": "y",
+          "description": "y is a holder for the d3 instantiated scale object\nMust be set in the svg component and passed to all components so they know the drawing scale.\nThis can be set declaratively\n\nSee: https://github.com/d3/d3/blob/master/API.md#scales-d3-scale",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 443,
+              "column": 4
+            },
+            "end": {
+              "line": 446,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "name": "is-multi-y",
+          "description": "",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 447,
+              "column": 4
+            },
+            "end": {
+              "line": 451,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "boolean",
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "name": "domain-changed",
+          "description": "Boolean switching when the domain(s) has(have) changed\n\nServes as a trigger for many elements to redraw",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 509,
+              "column": 4
+            },
+            "end": {
+              "line": 512,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "boolean",
+          "inheritedFrom": "PxVisBehaviorD3.domainUpdate"
+        },
+        {
+          "name": "data",
+          "description": "Data used to draw the box and whisker component.",
+          "sourceRange": {
+            "start": {
+              "line": 26,
+              "column": 8
+            },
+            "end": {
+              "line": 29,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "position",
+          "description": "The position on the X axis. This can be a numeric value\nor a String value that exists on the axis.",
+          "sourceRange": {
+            "start": {
+              "line": 35,
+              "column": 8
+            },
+            "end": {
+              "line": 38,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "orientation",
+          "description": "The direction of the box and whisker component.  Can be 'vertical'\nor 'horizontal'.  Defaults to vertical.",
+          "sourceRange": {
+            "start": {
+              "line": 44,
+              "column": 8
+            },
+            "end": {
+              "line": 47,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "box-width",
+          "description": "Width of the box.",
+          "sourceRange": {
+            "start": {
+              "line": 52,
+              "column": 8
+            },
+            "end": {
+              "line": 55,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "edge-width",
+          "description": "Width of the line that goes on top of the Q3 whisker\nand the line on the bottom of the Q1 whisker.",
+          "sourceRange": {
+            "start": {
+              "line": 61,
+              "column": 8
+            },
+            "end": {
+              "line": 64,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "outlier-radius",
+          "description": "Radius of outlier circles.",
+          "sourceRange": {
+            "start": {
+              "line": 69,
+              "column": 8
+            },
+            "end": {
+              "line": 72,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "mean-radius",
+          "description": "Radius of mean circle.",
+          "sourceRange": {
+            "start": {
+              "line": 77,
+              "column": 8
+            },
+            "end": {
+              "line": 80,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "fill-color",
+          "description": "Fill color.",
+          "sourceRange": {
+            "start": {
+              "line": 87,
+              "column": 8
+            },
+            "end": {
+              "line": 90,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "stroke-color",
+          "description": "Stroke color.",
+          "sourceRange": {
+            "start": {
+              "line": 95,
+              "column": 8
+            },
+            "end": {
+              "line": 98,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "median-stroke-color",
+          "description": "Stroke color for the median line.",
+          "sourceRange": {
+            "start": {
+              "line": 103,
+              "column": 8
+            },
+            "end": {
+              "line": 106,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "mean-fill-color",
+          "description": "Fill color for mean circle.",
+          "sourceRange": {
+            "start": {
+              "line": 111,
+              "column": 8
+            },
+            "end": {
+              "line": 114,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "outlier-fill-color",
+          "description": "Fill color for outlier circles.",
+          "sourceRange": {
+            "start": {
+              "line": 119,
+              "column": 8
+            },
+            "end": {
+              "line": 122,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "x-changed",
+          "description": "Fired when the `x` property changes.",
+          "metadata": {},
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        },
+        {
+          "type": "CustomEvent",
+          "name": "y-changed",
+          "description": "Fired when the `y` property changes.",
+          "metadata": {},
+          "inheritedFrom": "PxVisBehaviorD3.axes"
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "px-vis-box-whisker"
+    },
+    {
+      "description": "",
+      "summary": "",
+      "path": "px-vis-boxplot.html",
+      "properties": [
+        {
+          "name": "seriesColorList",
+          "type": "Array",
+          "description": "Defines an colors in order that will be used for series.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 19,
+              "column": 4
+            },
+            "end": {
+              "line": 27,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "[\"rgb(0,0,0)\",\"rgb(75,75,75)\",\"rgb(125,125,125)\",\"rgb(200,200,200)\"]",
+          "inheritedFrom": "PxColorsBehavior.dataVisColors"
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 131,
+              "column": 8
+            },
+            "end": {
+              "line": 134,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "500"
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 136,
+              "column": 8
+            },
+            "end": {
+              "line": 139,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "200"
+        },
+        {
+          "name": "_defaultMargin",
+          "type": "Object",
+          "description": "Copy of the default margin for checking if it has changed",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 79,
+              "column": 4
+            },
+            "end": {
+              "line": 89,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "PxVisBehavior.margins"
+        },
+        {
+          "name": "margin",
+          "type": "Object",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 141,
+              "column": 8
+            },
+            "end": {
+              "line": 151,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "{\"top\":10,\"right\":10,\"bottom\":50,\"left\":50}"
+        },
+        {
+          "name": "chartData",
+          "type": "Array",
+          "description": "An array of objects that contain data for each box and whisker\ncomponent on the box plot chart.\n\n```\n[{\n  position: 1,\n  data: {\n    max: 90,\n    q3: 70,\n    mean: 50,\n    median: 50,\n    q1: 30,\n    min: 10,\n    outliers: [5, 2]\n  }\n}]\n```",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 125,
+              "column": 8
+            },
+            "end": {
+              "line": 129,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          },
+          "defaultValue": "[]"
+        },
+        {
+          "name": "boxWhiskerConfig",
+          "type": "Object",
+          "description": "Configuration object used to configure the box and whisker\ncomponents.  Refer to px-vis-box-whisker.html for a list\nof valid properties.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 158,
+              "column": 8
+            },
+            "end": {
+              "line": 160,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "orientation",
+          "type": "string",
+          "description": "Direction of the box plot chart.  The values can be\n'vertical' or 'horizontal'.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 166,
+              "column": 8
+            },
+            "end": {
+              "line": 169,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"vertical\""
+        },
+        {
+          "name": "dataExtents",
+          "type": "Object",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 171,
+              "column": 8
+            },
+            "end": {
+              "line": 179,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "dataset",
+          "type": "string",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 181,
+              "column": 8
+            },
+            "end": {
+              "line": 184,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"single\""
+        },
+        {
+          "name": "domainChanged",
+          "type": "boolean",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 186,
+              "column": 8
+            },
+            "end": {
+              "line": 188,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "completeSeriesConfig",
+          "type": "Object",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 190,
+              "column": 8
+            },
+            "end": {
+              "line": 192,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "_colorsAreSet",
+          "type": "boolean",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 194,
+              "column": 8
+            },
+            "end": {
+              "line": 197,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "_emptyChartData",
+          "type": "Array",
+          "description": "Some of px components require raw chart data to work properly.\nWe use this in order to simply satisfy the existance of 'chart data'.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 203,
+              "column": 8
+            },
+            "end": {
+              "line": 211,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "[{\"x\":0,\"y\":0}]"
+        }
+      ],
+      "methods": [
+        {
+          "name": "ready",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 226,
+              "column": 6
+            },
+            "end": {
+              "line": 228,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "syncCSSTheme",
+          "description": "Retrieves the CSS style variables set on this element and applies them\nto the appropriate properties, triggering a redraw.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 55,
+              "column": 4
+            },
+            "end": {
+              "line": 60,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PxColorsBehavior.dataVisColorTheming"
+        },
+        {
+          "name": "_debounceSyncCSSTheme",
+          "description": "Debounced function call for `syncCSSTheme` method. Loops through available\nstyle variables to apply them to appropriate objects.",
+          "privacy": "private",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 69,
+              "column": 4
+            },
+            "end": {
+              "line": 92,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PxColorsBehavior.dataVisColorTheming"
+        },
+        {
+          "name": "_applyStyleVariables",
+          "description": "Called when there is at least one style variable applied (the first is\nexpected to be named `--px-vis-series-color-0`). Loops through each\nstyle variable in the format `--px-vis-series-color-[n]` and applies\nthe resulting values and series color order to the element. Stops looping\nthrough style variables when it finds a gap.",
+          "privacy": "private",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 104,
+              "column": 4
+            },
+            "end": {
+              "line": 149,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "inheritedFrom": "PxColorsBehavior.dataVisColorTheming"
+        },
+        {
+          "name": "_colorHexToRgb",
+          "description": "Converts a hex-format color to RGB.",
+          "privacy": "private",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 160,
+              "column": 4
+            },
+            "end": {
+              "line": 170,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "hex",
+              "type": "String",
+              "description": "A color in hex format"
+            }
+          ],
+          "return": {
+            "type": "String",
+            "desc": "A color in RGB format"
+          },
+          "inheritedFrom": "PxColorsBehavior.dataVisColorTheming"
+        },
+        {
+          "name": "_checkIfDevSetSeriesColorOrder",
+          "description": "Compares seriesColorOrder property value to the seriesColorOrder to determine if the dev set their own override.",
+          "privacy": "private",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 179,
+              "column": 4
+            },
+            "end": {
+              "line": 193,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [],
+          "return": {
+            "type": "Boolean",
+            "desc": "true if dev set seriesColorOrder"
+          },
+          "inheritedFrom": "PxColorsBehavior.dataVisColorTheming"
+        },
+        {
+          "name": "_getColor",
+          "description": "Helper function to return the correct color for a particular index.",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 213,
+              "column": 2
+            },
+            "end": {
+              "line": 218,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "i"
+            }
+          ],
+          "inheritedFrom": "PxColorsBehavior.getSeriesColors"
+        },
+        {
+          "name": "_calcIndex",
+          "description": "Helper function to calculate the index. When we run out of indcies, it loops back over valid indicies.",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 223,
+              "column": 2
+            },
+            "end": {
+              "line": 225,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "i"
+            },
+            {
+              "name": "l"
+            }
+          ],
+          "inheritedFrom": "PxColorsBehavior.getSeriesColors"
+        },
+        {
+          "name": "hasUndefinedArguments",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 19,
+              "column": 2
+            },
+            "end": {
+              "line": 28,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "args"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.observerCheck"
+        },
+        {
+          "name": "_applyConfigToElement",
+          "description": "Applies the config object to the element. Each key in the config object\nis the name of the property to be applied",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-chart.html",
+            "start": {
+              "line": 873,
+              "column": 4
+            },
+            "end": {
+              "line": 891,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "config"
+            },
+            {
+              "name": "element"
+            }
+          ],
+          "inheritedFrom": "PxVisBehaviorChart.subConfiguration"
+        },
+        {
+          "name": "_add",
+          "description": "TODO: REMOVE",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 231,
+              "column": 6
+            },
+            "end": {
+              "line": 236,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_remove",
+          "description": "TODO: REMOVE",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 239,
+              "column": 6
+            },
+            "end": {
+              "line": 243,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_update",
+          "description": "TODO: REMOVE",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 246,
+              "column": 6
+            },
+            "end": {
+              "line": 251,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_rawDataToBoxplotData",
+          "description": "Takes array of data points and calculates values required to build\na boxplot diagram such as the quartiles, median, etc..",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 257,
+              "column": 6
+            },
+            "end": {
+              "line": 268,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "rawData"
+            }
+          ]
+        },
+        {
+          "name": "_returnEmptyChartData",
+          "description": "Returns data array with a single point (x0,y0).",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 273,
+              "column": 6
+            },
+            "end": {
+              "line": 275,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_chartDataChanged",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 277,
+              "column": 6
+            },
+            "end": {
+              "line": 282,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "chartData"
+            }
+          ]
+        },
+        {
+          "name": "_orientationChanged",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 284,
+              "column": 6
+            },
+            "end": {
+              "line": 289,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "orientation"
+            }
+          ]
+        },
+        {
+          "name": "_calcDataExtents",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 291,
+              "column": 6
+            },
+            "end": {
+              "line": 318,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "chartData"
+            }
+          ]
+        },
+        {
+          "name": "_boxWhiskerConfigChanged",
+          "description": "Apply changes to config object to the children components.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 323,
+              "column": 6
+            },
+            "end": {
+              "line": 333,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "conf"
+            }
+          ]
+        },
+        {
+          "name": "_updateSeriesConfig",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 335,
+              "column": 6
+            },
+            "end": {
+              "line": 348,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_colorsSet",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 350,
+              "column": 6
+            },
+            "end": {
+              "line": 352,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        }
+      ],
+      "staticMethods": [],
+      "demos": [],
+      "metadata": {},
+      "sourceRange": {
+        "start": {
+          "line": 90,
+          "column": 12
+        },
+        "end": {
+          "line": 354,
+          "column": 5
+        }
+      },
+      "privacy": "public",
+      "superclass": "HTMLElement",
+      "attributes": [
+        {
+          "name": "series-color-list",
+          "description": "Defines an colors in order that will be used for series.",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-colors.html",
+            "start": {
+              "line": 19,
+              "column": 4
+            },
+            "end": {
+              "line": 27,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Array",
+          "inheritedFrom": "PxColorsBehavior.dataVisColors"
+        },
+        {
+          "name": "width",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 131,
+              "column": 8
+            },
+            "end": {
+              "line": 134,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "height",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 136,
+              "column": 8
+            },
+            "end": {
+              "line": 139,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "margin",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 141,
+              "column": 8
+            },
+            "end": {
+              "line": 151,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "chart-data",
+          "description": "An array of objects that contain data for each box and whisker\ncomponent on the box plot chart.\n\n```\n[{\n  position: 1,\n  data: {\n    max: 90,\n    q3: 70,\n    mean: 50,\n    median: 50,\n    q1: 30,\n    min: 10,\n    outliers: [5, 2]\n  }\n}]\n```",
+          "sourceRange": {
+            "start": {
+              "line": 125,
+              "column": 8
+            },
+            "end": {
+              "line": 129,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Array"
+        },
+        {
+          "name": "box-whisker-config",
+          "description": "Configuration object used to configure the box and whisker\ncomponents.  Refer to px-vis-box-whisker.html for a list\nof valid properties.",
+          "sourceRange": {
+            "start": {
+              "line": 158,
+              "column": 8
+            },
+            "end": {
+              "line": 160,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "orientation",
+          "description": "Direction of the box plot chart.  The values can be\n'vertical' or 'horizontal'.",
+          "sourceRange": {
+            "start": {
+              "line": 166,
+              "column": 8
+            },
+            "end": {
+              "line": 169,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "data-extents",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 171,
+              "column": 8
+            },
+            "end": {
+              "line": 179,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        },
+        {
+          "name": "dataset",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 181,
+              "column": 8
+            },
+            "end": {
+              "line": 184,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "domain-changed",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 186,
+              "column": 8
+            },
+            "end": {
+              "line": 188,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "complete-series-config",
+          "description": "",
+          "sourceRange": {
+            "start": {
+              "line": 190,
+              "column": 8
+            },
+            "end": {
+              "line": 192,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "Object"
+        }
+      ],
+      "events": [
+        {
+          "type": "CustomEvent",
+          "name": "width-changed",
+          "description": "Fired when the `width` property changes.",
+          "metadata": {},
+          "inheritedFrom": "PxVisBehavior.baseSize"
+        },
+        {
+          "type": "CustomEvent",
+          "name": "height-changed",
+          "description": "Fired when the `height` property changes.",
+          "metadata": {},
+          "inheritedFrom": "PxVisBehavior.baseSize"
+        },
+        {
+          "type": "CustomEvent",
+          "name": "chart-data-changed",
+          "description": "Fired when the `chartData` property changes.",
+          "metadata": {}
+        }
+      ],
+      "styling": {
+        "cssVariables": [],
+        "selectors": []
+      },
+      "slots": [],
+      "tagname": "px-vis-boxplot"
+    }
+  ]
+}

@@ -49,7 +49,8 @@
         <px-vis-boxplot
           width="[[props.width.value]]"
           height="[[props.height.value]]"
-          box-whisker-config="[[props.boxWhiskerConfig.value]]">
+          box-whisker-config="[[props.boxWhiskerConfig.value]]"
+          orientation="[[props.orientation.value]]">
         </px-vis-boxplot>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
@@ -102,6 +103,18 @@
      */
     demoProps: {
 
+      width: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 500
+      },
+
+      height: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 200
+      },
+
       boxWhiskerConfig: {
         type: Object,
         inputType: 'code:JSON',
@@ -118,16 +131,11 @@
         }
       },
 
-      width: {
-        type: Number,
-        inputType: 'number',
-        defaultValue: 500
-      },
-
-      height: {
-        type: Number,
-        inputType: 'number',
-        defaultValue: 200
+      orientation: {
+        type: String,
+        inputType: 'dropdown',
+        defaultValue: 'vertical',
+        inputChoices: ['vertical', 'horizontal']
       }
 
     }

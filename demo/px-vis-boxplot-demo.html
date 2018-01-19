@@ -47,6 +47,7 @@
       <!-- Component ---------------------------------------------------------->
       <px-demo-component slot="px-demo-component" class="flex" style="width:100%;">
         <px-vis-boxplot
+          chart-data="[[props.chartData.value]]"
           width="[[props.width.value]]"
           height="[[props.height.value]]"
           box-whisker-config="[[props.boxWhiskerConfig.value]]"
@@ -115,6 +116,49 @@
         defaultValue: 200
       },
 
+      chartData: {
+        input: Array,
+        inputType: 'code:JSON',
+        defaultValue: [
+          {
+            position: 1,
+            data: {
+              max: 92,
+              q3: 79,
+              mean: 55,
+              median: 52,
+              q1: 30,
+              min: 15,
+              outliers: [2, 5]
+            }
+          },
+          {
+            position: 2,
+            data: {
+              max: 105,
+              q3: 90,
+              mean: 40,
+              median: 55,
+              q1: 30,
+              min: 15,
+              outliers: [10, 13]
+            }
+          },
+          {
+            position: 3,
+            data: {
+              max: 80,
+              q3: 60,
+              mean: 50,
+              median: 50,
+              q1: 30,
+              min: 15,
+              outliers: [5, 100, 105]
+            }
+          }
+        ]
+      },
+
       boxWhiskerConfig: {
         type: Object,
         inputType: 'code:JSON',
@@ -139,6 +183,7 @@
       }
 
     }
+
   });
 
 </script>

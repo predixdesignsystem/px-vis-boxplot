@@ -23,8 +23,8 @@
       svg="{{svg}}">
     </px-vis-svg>
     <px-vis-scale
-      x-axis-type="linear"
-      y-axis-type="linear"
+      x-axis-type="[[xAxisType]]"
+      y-axis-type="[[yAxisType]]"
       complete-series-config="[[completeSeriesConfig]]"
       chart-extents="[[chartExtents]]"
       data-extents="[[dataExtents]]"
@@ -97,6 +97,7 @@
         PxColorsBehavior.dataVisColors,
         PxColorsBehavior.dataVisColorTheming,
         PxColorsBehavior.getSeriesColors,
+        PxVisBehavior.axisTypes,
         PxVisBehavior.baseSize,
         PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
@@ -211,7 +212,6 @@
             }];
           }
         }
-
       },
 
       observers: [
@@ -287,6 +287,17 @@
         if (!this.chartData || this.chartData.length < 1) {
           return;
         }
+        // update axis types
+        if (orientation === 'horizontal') {
+          // TODO: x axis should be scaleBand
+          this.xAxisType = 'linear';
+          this.yAxisType = 'linear';
+        } else {
+          // TODO: y axis should be scaleBand
+          this.xAxisType = 'linear';
+          this.yAxisType = 'linear';
+        }
+        // update extents
         this.dataExtents = this._calcDataExtents(this.chartData);
       },
 
@@ -296,7 +307,10 @@
           return;
         }
         const exts = {};
-        // TODO: x ticks must be definable and can be strings
+        // TODO: the axis values should match the chartData position values once axis type is set to scaleBand
+        // set x axis to match the data items
+        // exts.x = [];
+        // chartData.forEach((item) => exts.x.push(item.position));
         exts.x = [0, chartData.length + 1];
         exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
         // to find the min/max y values, we need to check each set of data

@@ -23,8 +23,8 @@
       svg="{{svg}}">
     </px-vis-svg>
     <px-vis-scale
-      x-axis-type="linear"
-      y-axis-type="linear"
+      x-axis-type="[[xAxisType]]"
+      y-axis-type="[[yAxisType]]"
       complete-series-config="[[completeSeriesConfig]]"
       chart-extents="[[chartExtents]]"
       data-extents="[[dataExtents]]"
@@ -38,6 +38,7 @@
     </px-vis-scale>
     <!-- y axis -->
     <px-vis-axis
+      id="yAxis"
       svg="[[svg]]"
       axis="[[y]]"
       margin="[[margin]]"
@@ -52,6 +53,7 @@
     </px-vis-axis>
     <!-- x axis -->
     <px-vis-axis
+      id="xAxis"
       svg="[[svg]]"
       axis="[[x]]"
       margin="[[margin]]"
@@ -82,7 +84,8 @@
         mean-radius="[[boxWhiskerConfig.meanRadius]]"
         mean-fill-color="[[boxWhiskerConfig.meanFillColor]]"
         outlier-radius="[[boxWhiskerConfig.outlierRadius]]"
-        outlier-fill-color="[[boxWhiskerConfig.outlierFillColor]]">
+        outlier-fill-color="[[boxWhiskerConfig.outlierFillColor]]"
+        draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]">
       </px-vis-box-whisker>
     </template>
 
@@ -96,9 +99,11 @@
         PxColorsBehavior.dataVisColors,
         PxColorsBehavior.dataVisColorTheming,
         PxColorsBehavior.getSeriesColors,
+        PxVisBehavior.axisTypes,
         PxVisBehavior.baseSize,
         PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
+        PxVisBehaviorChart.axisConfigs,
         PxVisBehaviorChart.subConfiguration
       ],
 
@@ -210,13 +215,14 @@
             }];
           }
         }
-
       },
 
       observers: [
         '_chartDataChanged(chartData, chartData.*)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_orientationChanged(orientation)',
+        '_xAxisConfigChanged(xAxisConfig)',
+        '_yAxisConfigChanged(yAxisConfig)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
 
@@ -286,6 +292,17 @@
         if (!this.chartData || this.chartData.length < 1) {
           return;
         }
+        // update axis types
+        if (orientation === 'horizontal') {
+          // TODO: x axis should be scaleBand
+          this.xAxisType = 'linear';
+          this.yAxisType = 'linear';
+        } else {
+          // TODO: y axis should be scaleBand
+          this.xAxisType = 'linear';
+          this.yAxisType = 'linear';
+        }
+        // update extents
         this.dataExtents = this._calcDataExtents(this.chartData);
       },
 
@@ -295,7 +312,10 @@
           return;
         }
         const exts = {};
-        // TODO: x ticks must be definable and can be strings
+        // TODO: the axis values should match the chartData position values once axis type is set to scaleBand
+        // set x axis to match the data items
+        // exts.x = [];
+        // chartData.forEach((item) => exts.x.push(item.position));
         exts.x = [0, chartData.length + 1];
         exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
         // to find the min/max y values, we need to check each set of data
@@ -331,6 +351,20 @@
             this._applyConfigToElement(this.boxWhiskerConfig, comp);
           }.bind(this));
         }
+      },
+
+      _xAxisConfigChanged: function(xAxisConfig) {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        this._applyConfigToElement(xAxisConfig, this.$.xAxis);
+      },
+
+      _yAxisConfigChanged: function(yAxisConfig) {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        this._applyConfigToElement(yAxisConfig, this.$.yAxis);
       },
 
       _updateSeriesConfig: function() {

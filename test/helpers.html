@@ -1,0 +1,32 @@
+<script>
+
+  // Set to true to add breakpoint to each checkBreak call
+  var breakAfterTest = false;
+
+  function checkBreak() {
+    if (breakAfterTest) {
+      debugger; // eslint-disable-line
+    }
+  }
+
+  function generateChartData(count) {
+    var data = [];
+    for (var i = 0; i < count; ++i) {
+      var item = {
+        position: i,
+        data: {
+          max: 9 + i,
+          mean: 5 + i,
+          median: 4 + i,
+          min: 1 + i,
+          outliers: [0 + i, 10 + i],
+          q3: 7 + i,
+          q1: 3 + i
+        }
+      };
+      data.push(item);
+    }
+    return data;
+  }
+
+</script>

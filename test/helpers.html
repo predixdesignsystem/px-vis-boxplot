@@ -1,0 +1,47 @@
+<script>
+
+  // Set to true to add breakpoint to each checkBreak call
+  var breakAfterTest = false;
+
+  function checkBreak() {
+    if (breakAfterTest) {
+      debugger; // eslint-disable-line
+    }
+  }
+
+  /**
+   * Will wait until chart is updated
+   * Will break if breakAfterTest has been set to true
+   */
+  function waitDrawUpdate(callback) {
+    window._testDebouncer = Polymer.Debouncer.debounce(
+      window._testDebouncer, // initially undefined
+      Polymer.Async.timeOut.after(400),
+      () => {
+        checkBreak();
+        callback();
+      }
+    );
+  }
+
+  function generateChartData(count) {
+    var data = [];
+    for (var i = 0; i < count; ++i) {
+      var item = {
+        position: i + 1,
+        data: {
+          max: 9 + i,
+          mean: 5 + i,
+          median: 4 + i,
+          min: 1 + i,
+          outliers: [0 + i, 10 + i],
+          q3: 7 + i,
+          q1: 3 + i
+        }
+      };
+      data.push(item);
+    }
+    return data;
+  }
+
+</script>

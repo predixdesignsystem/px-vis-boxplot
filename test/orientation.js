@@ -1,6 +1,6 @@
 document.addEventListener('WebComponentsReady', () => {
 
-  describe('Test basic input values', () => {
+  describe('Orientation tests', () => {
 
     let chart;
 
@@ -14,18 +14,13 @@ document.addEventListener('WebComponentsReady', () => {
       });
     });
 
-    it('One whisker box with outliers', (done) => {
-      chart.chartData = generateChartData(1); // eslint-disable-line
-
-      waitDrawUpdate(() => {
-        done();
-      });
-    });
-
-    it('Two whisker box with outliers', (done) => {
+    it('Toggle orientation to horizontal', (done) => {
+      expect(chart.orientation).to.be.eq('vertical');
+      chart.orientation = 'horizontal';
       chart.chartData = generateChartData(2); // eslint-disable-line
 
       waitDrawUpdate(() => {
+        expect(chart.orientation).to.be.eq('horizontal');
         done();
       });
     });

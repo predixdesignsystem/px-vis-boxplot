@@ -38,6 +38,7 @@
     </px-vis-scale>
     <!-- y axis -->
     <px-vis-axis
+      id="yAxis"
       svg="[[svg]]"
       axis="[[y]]"
       margin="[[margin]]"
@@ -52,6 +53,7 @@
     </px-vis-axis>
     <!-- x axis -->
     <px-vis-axis
+      id="xAxis"
       svg="[[svg]]"
       axis="[[x]]"
       margin="[[margin]]"
@@ -101,6 +103,7 @@
         PxVisBehavior.baseSize,
         PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
+        PxVisBehaviorChart.axisConfigs,
         PxVisBehaviorChart.subConfiguration
       ],
 
@@ -218,6 +221,8 @@
         '_chartDataChanged(chartData, chartData.*)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_orientationChanged(orientation)',
+        '_xAxisConfigChanged(xAxisConfig)',
+        '_yAxisConfigChanged(yAxisConfig)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
 
@@ -346,6 +351,20 @@
             this._applyConfigToElement(this.boxWhiskerConfig, comp);
           }.bind(this));
         }
+      },
+
+      _xAxisConfigChanged: function(xAxisConfig) {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        this._applyConfigToElement(xAxisConfig, this.$.xAxis);
+      },
+
+      _yAxisConfigChanged: function(yAxisConfig) {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        this._applyConfigToElement(yAxisConfig, this.$.yAxis);
       },
 
       _updateSeriesConfig: function() {

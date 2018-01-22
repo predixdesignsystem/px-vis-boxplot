@@ -16,7 +16,7 @@
   function waitDrawUpdate(callback) {
     window._testDebouncer = Polymer.Debouncer.debounce(
       window._testDebouncer, // initially undefined
-      Polymer.Async.timeOut.after(400),
+      Polymer.Async.timeOut.after(1000),
       () => {
         checkBreak();
         callback();

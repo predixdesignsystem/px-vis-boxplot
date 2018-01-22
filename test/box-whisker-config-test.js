@@ -15,10 +15,8 @@ document.addEventListener('WebComponentsReady', () => {
     });
 
     it('Set whisker box confid', (done) => {
-      chart.width = 300;
-      chart.height = 300;
       chart.chartData = generateChartData(3); // eslint-disable-line
-      chart.whiskerBoxConfig = {
+      chart.boxWhiskerConfig = {
         'boxWidth': 30,
         'edgeWidth': 15,
         'meanRadius': 4,

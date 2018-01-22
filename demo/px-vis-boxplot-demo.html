@@ -53,6 +53,11 @@
           box-whisker-config="[[props.boxWhiskerConfig.value]]"
           orientation="[[props.orientation.value]]">
         </px-vis-boxplot>
+        <div>
+          <button on-click="_add">Add</button>
+          <button on-click="_remove">Remove</button>
+          <button on-click="_update">Update</button>
+        </div>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
 
@@ -183,8 +188,30 @@
         inputChoices: ['vertical', 'horizontal']
       }
 
-    }
+    },
 
+    _add: function() {
+      const chart = this.shadowRoot.querySelector('px-vis-boxplot');
+      chart.push('chartData', {
+        position: chart.chartData.length + 1,
+        data: chart._rawDataToBoxplotData()
+      });
+    },
+
+    _remove: function() {
+      const chart = this.shadowRoot.querySelector('px-vis-boxplot');
+      if (chart.chartData.length > 0) {
+        chart.splice('chartData', chart.chartData.length - 1, 1);
+      }
+    },
+
+    _update: function() {
+      const chart = this.shadowRoot.querySelector('px-vis-boxplot');
+      const boxWhiskers = chart.shadowRoot.querySelectorAll('px-vis-box-whisker');
+      boxWhiskers.forEach((drawing) => {
+        drawing.data = chart._rawDataToBoxplotData();
+      });
+    }
   });
 
 </script>

@@ -29,5 +29,17 @@ document.addEventListener('WebComponentsReady', () => {
         done();
       });
     });
+
+    it('Negative values', (done) => {
+      var chartData = generateChartData(2); // eslint-disable-line
+      for (var i = 0; i < chartData.length; ++i) {
+        chartData[i].data.min = 0 - (i + 1);
+      }
+      chart.chartData = chartData;
+
+      waitDrawUpdate(() => {
+        done();
+      });
+    });
   });
 });

@@ -10,6 +10,6 @@
     "it": false,
     "expect": false,
     "sinon": false,
-    "checkBreak": false
+    "waitDrawUpdate": false
   }
 }

@@ -19,9 +19,8 @@ document.addEventListener('WebComponentsReady', () => {
       chart.orientation = 'horizontal';
       chart.chartData = generateChartData(2); // eslint-disable-line
 
-      Polymer.RenderStatus.afterNextRender(chart, () => {
+      waitDrawUpdate(() => {
         expect(chart.orientation).to.be.eq('horizontal');
-        checkBreak();
         done();
       });
     });

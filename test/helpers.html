@@ -9,6 +9,21 @@
     }
   }
 
+  /**
+   * Will wait until chart is updated
+   * Will break if breakAfterTest has been set to true
+   */
+  function waitDrawUpdate(callback) {
+    window._testDebouncer = Polymer.Debouncer.debounce(
+      window._testDebouncer, // initially undefined
+      Polymer.Async.timeOut.after(400),
+      () => {
+        checkBreak();
+        callback();
+      }
+    );
+  }
+
   function generateChartData(count) {
     var data = [];
     for (var i = 0; i < count; ++i) {

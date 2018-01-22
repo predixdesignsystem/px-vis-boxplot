@@ -17,8 +17,7 @@ document.addEventListener('WebComponentsReady', () => {
     it('One whisker box with outliers', (done) => {
       chart.chartData = generateChartData(1); // eslint-disable-line
 
-      Polymer.RenderStatus.afterNextRender(chart, () => {
-        checkBreak();
+      waitDrawUpdate(() => {
         done();
       });
     });
@@ -26,8 +25,7 @@ document.addEventListener('WebComponentsReady', () => {
     it('Two whisker box with outliers', (done) => {
       chart.chartData = generateChartData(2); // eslint-disable-line
 
-      Polymer.RenderStatus.afterNextRender(chart, () => {
-        checkBreak();
+      waitDrawUpdate(() => {
         done();
       });
     });

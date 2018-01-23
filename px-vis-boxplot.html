@@ -202,26 +202,6 @@
         'px-data-vis-colors-applied': '_colorsSet'
       },
 
-      ready: function() {
-      },
-
-      /**
-       * Takes array of data points and calculates values required to build
-       * a boxplot diagram such as the quartiles, median, etc..
-       */
-      _rawDataToBoxplotData: function(rawData) {
-        // TODO: implement data conversion/calc logic
-        return {
-          max: 90 + Math.random() * 10,
-          q3: 70 + Math.random() * 10,
-          mean: 50 + Math.random() * 10,
-          median: 50 + Math.random() * 10,
-          q1: 30 + Math.random() * 10,
-          min: 10 + Math.random() * 10,
-          outliers: [0 + Math.random() * 5, 5 + Math.random() * 5]
-        };
-      },
-
       _chartDataChanged: function(chartData) {
         if (!chartData || chartData.length < 1) {
           return;

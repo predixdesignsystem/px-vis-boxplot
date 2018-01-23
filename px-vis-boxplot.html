@@ -1,9 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../px-vis/px-vis-scale.html">
 <link rel="import" href="../px-vis/px-vis-svg.html">
-<link rel="import" href="../px-vis/px-vis-bar-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
-<link rel="import" href="../px-vis/px-vis-line-svg.html">
 <link rel="import" href="px-vis-box-whisker.html">
 
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
@@ -28,7 +26,7 @@
       width="[[width]]"
       height="[[height]]"
       margin="[[margin]]"
-      chart-data="[[_returnEmptyChartData(dataset)]]"
+      chart-data="[[_emptyChartData]]"
       x="{{x}}"
       y="{{y}}"
       domain-changed="{{domainChanged}}">
@@ -98,8 +96,13 @@
         PxColorsBehavior.getSeriesColors,
         PxVisBehavior.axisTypes,
         PxVisBehavior.baseSize,
+        PxVisBehavior.chartExtents,
+        PxVisBehavior.completeSeriesConfig,
+        PxVisBehavior.dataset,
+        PxVisBehavior.dataExtents,
         PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
+        PxVisBehaviorD3.domainUpdate,
         PxVisBehaviorChart.axisConfigs,
         PxVisBehaviorChart.subConfiguration
       ],
@@ -131,16 +134,11 @@
           notify: true
         },
 
-        width: {
-          type: Number,
-          value: 500
-        },
-
-        height: {
-          type: Number,
-          value: 200
-        },
-
+        /**
+        * Defines the base margin for the chart. Calcs are run to add to the margin
+        * to accommodate axes and other elements which exist within the SVG frame,
+        * but outside the chart frame.
+        */
         margin: {
           type: Object,
           value: function() {
@@ -169,29 +167,6 @@
         orientation: {
           type: String,
           value: 'vertical'
-        },
-
-        dataExtents: {
-          type: Object,
-          value: function() {
-            return {
-              x: [0, 10],
-              y: [0, 100],
-            };
-          }
-        },
-
-        dataset: {
-          type: String,
-          value: 'single'
-        },
-
-        domainChanged: {
-          type: Boolean
-        },
-
-        completeSeriesConfig: {
-          type: Object
         },
 
         _colorsAreSet: {
@@ -225,33 +200,6 @@
 
       listeners: {
         'px-data-vis-colors-applied': '_colorsSet'
-      },
-
-      ready: function() {
-      },
-
-      /**
-       * Takes array of data points and calculates values required to build
-       * a boxplot diagram such as the quartiles, median, etc..
-       */
-      _rawDataToBoxplotData: function(rawData) {
-        // TODO: implement data conversion/calc logic
-        return {
-          max: 90 + Math.random() * 10,
-          q3: 70 + Math.random() * 10,
-          mean: 50 + Math.random() * 10,
-          median: 50 + Math.random() * 10,
-          q1: 30 + Math.random() * 10,
-          min: 10 + Math.random() * 10,
-          outliers: [0 + Math.random() * 5, 5 + Math.random() * 5]
-        };
-      },
-
-      /**
-      * Returns data array with a single point (x0,y0).
-      */
-      _returnEmptyChartData: function() {
-        return this._emptyChartData;
       },
 
       _chartDataChanged: function(chartData) {

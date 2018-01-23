@@ -24,8 +24,6 @@
 <dom-module id="px-vis-boxplot-demo">
   <template>
 
-
-
     <!-- Header -->
     <px-demo-header
       module-name="px-vis-boxplot"
@@ -194,7 +192,7 @@
       const chart = this.shadowRoot.querySelector('px-vis-boxplot');
       chart.push('chartData', {
         position: chart.chartData.length + 1,
-        data: chart._rawDataToBoxplotData()
+        data: this._generateRandomData()
       });
     },
 
@@ -209,9 +207,22 @@
       const chart = this.shadowRoot.querySelector('px-vis-boxplot');
       const boxWhiskers = chart.shadowRoot.querySelectorAll('px-vis-box-whisker');
       boxWhiskers.forEach((drawing) => {
-        drawing.data = chart._rawDataToBoxplotData();
+        drawing.data = this._generateRandomData();
       });
-    }
+    },
+
+    _generateRandomData: function(rawData) {
+      return {
+        max: 90 + Math.random() * 10,
+        q3: 70 + Math.random() * 10,
+        mean: 50 + Math.random() * 10,
+        median: 50 + Math.random() * 10,
+        q1: 30 + Math.random() * 10,
+        min: 10 + Math.random() * 10,
+        outliers: [0 + Math.random() * 5, 5 + Math.random() * 5]
+      };
+    },
+
   });
 
 </script>

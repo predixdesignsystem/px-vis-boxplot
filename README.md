@@ -1,4 +1,4 @@
-# px-vis-boxplot
+# px-vis-boxplot [![Build Status](https://travis-ci.org/vaadin/px-vis-boxplot.svg?branch=master)](https://travis-ci.org/vaadin/px-vis-boxplot)
 
 ## Overview
 

@@ -1,6 +1,6 @@
 document.addEventListener('WebComponentsReady', () => {
 
-  describe('Stresshold tests', () => {
+  describe('Threshold tests', () => {
 
     let chart;
 
@@ -14,7 +14,7 @@ document.addEventListener('WebComponentsReady', () => {
       });
     });
 
-    it('Adding thressholds', (done) => {
+    it('Adding thresholds', (done) => {
       expect(chart.thresholdData).to.be.eq(undefined);
       chart.chartData = generateChartData(2); // eslint-disable-line
 

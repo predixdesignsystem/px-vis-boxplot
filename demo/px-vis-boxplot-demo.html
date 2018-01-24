@@ -50,6 +50,8 @@
           height="[[props.height.value]]"
           box-whisker-config="[[props.boxWhiskerConfig.value]]"
           orientation="[[props.orientation.value]]"
+          x-axis-config="[[props.xAxisConfig.value]]"
+          y-axis-config="[[props.yAxisConfig.value]]"
           threshold-data="[[props.thresholdData.value]]"
           threshold-config="[[props.thresholdConfig.value]]">
         </px-vis-boxplot>
@@ -186,6 +188,26 @@
         inputType: 'dropdown',
         defaultValue: 'vertical',
         inputChoices: ['vertical', 'horizontal']
+      },
+
+      xAxisConfig: {
+        type: Object,
+        inputType: 'code:JSON',
+        defaultValue: {
+          title: 'X Axis Label',
+          orientation: 'bottom',
+          labelPosition: 'center'
+        }
+      },
+
+      yAxisConfig: {
+        type: Object,
+        inputType: 'code:JSON',
+        defaultValue: {
+          title: 'Y Axis Label',
+          orientation: 'left',
+          labelPosition: 'center'
+        }
       },
 
       thresholdData: {

@@ -27,7 +27,7 @@
       width="[[width]]"
       height="[[height]]"
       margin="[[margin]]"
-      chart-data="[[_emptyChartData]]"
+      chart-data="[[chartData]]"
       x="{{x}}"
       y="{{y}}"
       domain-changed="{{domainChanged}}">
@@ -35,14 +35,16 @@
     <!-- y axis -->
     <px-vis-axis
       id="yAxis"
-      svg="[[svg]]"
+      svg="[[layer.1]]"
       axis="[[y]]"
+      axis-type="[[yAxisType]]"
       margin="[[margin]]"
       width="[[width]]"
       height="[[height]]"
       title="Y Axis"
       orientation="left"
       label-position="center"
+      prevent-series-bar
       complete-series-config="[[completeSeriesConfig]]"
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
@@ -50,14 +52,16 @@
     <!-- x axis -->
     <px-vis-axis
       id="xAxis"
-      svg="[[svg]]"
+      svg="[[layer.1]]"
       axis="[[x]]"
+      axis-type="[[xAxisType]]"
       margin="[[margin]]"
       width="[[width]]"
       height="[[height]]"
       title="X Axis"
       orientation="bottom"
       label-position="center"
+      prevent-series-bar
       complete-series-config="[[completeSeriesConfig]]"
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
@@ -68,7 +72,7 @@
         data="[[item.data]]"
         position="[[item.position]]"
         orientation="[[orientation]]"
-        svg="[[svg]]"
+        svg="[[layer.1]]"
         x="[[x]]"
         y="[[y]]"
         domain-changed="[[domainChanged]]"
@@ -87,13 +91,16 @@
     <!-- threshold lines -->
     <px-vis-threshold
       id="threshold"
-      svg="[[svg]]"
+      svg="[[layer.2]]"
       complete-series-config="[[completeSeriesConfig]]"
       threshold-data="[[thresholdData]]"
       threshold-config="[[thresholdConfig]]"
       width="[[width]]"
+      height="[[height]]"
       margin="[[margin]]"
+      x="[[x]]"
       y="[[y]]"
+      type="[[thresholdType]]"
       domain-changed="[[domainChanged]]"
       show-threshold-box="[[showThresholdBox]]"
       language="[[language]]">
@@ -120,6 +127,7 @@
         PxVisBehavior.thresholds,
         PxVisBehaviorD3.domainUpdate,
         PxVisBehaviorChart.axisConfigs,
+        PxVisBehaviorChart.layers,
         PxVisBehaviorChart.subConfiguration,
         PxVisBehaviorChart.thresholdConfig
       ],
@@ -186,24 +194,22 @@
           value: 'vertical'
         },
 
+        /**
+         * Sets the orientation of the threshold line. Applicable values:
+         *
+         * `x`: Threshold line will be vertical. Aligning with a value on the x-axis.
+         * `y`: Threshold line will be horizontal. Aligning with a value on the y-axis.
+         */
+        thresholdType: {
+          type: String,
+          value: 'y'
+        },
+
         _colorsAreSet: {
           type: Boolean,
           value: false
-        },
-
-        /**
-         * Some of px components require raw chart data to work properly.
-         * We use this in order to simply satisfy the existance of 'chart data'.
-         */
-        _emptyChartData: {
-          type: Array,
-          value: function() {
-            return [{
-              'x': 0,
-              'y': 0
-            }];
-          }
         }
+
       },
 
       observers: [
@@ -220,6 +226,10 @@
         'px-data-vis-colors-applied': '_colorsSet'
       },
 
+      ready: function() {
+        this.set('numberOfLayers', 5);
+      },
+
       _chartDataChanged: function(chartData) {
         if (!chartData || chartData.length < 1) {
           return;
@@ -231,15 +241,15 @@
         if (!this.chartData || this.chartData.length < 1) {
           return;
         }
-        // update axis types
+        // update axis and threshold types
         if (orientation === 'horizontal') {
-          // TODO: x axis should be scaleBand
           this.xAxisType = 'linear';
           this.yAxisType = 'linear';
+          this.thresholdType = 'x';
         } else {
-          // TODO: y axis should be scaleBand
           this.xAxisType = 'linear';
           this.yAxisType = 'linear';
+          this.thresholdType = 'y';
         }
         // update extents
         this.dataExtents = this._calcDataExtents(this.chartData);
@@ -321,8 +331,8 @@
             this.set('completeSeriesConfig', {
               'mySeries': {
                 'name': 'My-Series',
-                'x': 'x',
-                'y': 'y',
+                'x': 'position',
+                'y': 'data',
                 'color': this._getColor(0)
               }
             });

@@ -55,7 +55,9 @@
           threshold-data="[[props.thresholdData.value]]"
           threshold-config="[[props.thresholdConfig.value]]"
           on-box-mouseover="_handleBoxMouseover"
-          on-box-mouseout="_handleBoxMouseout">
+          on-box-mouseout="_handleBoxMouseout"
+          on-outlier-mouseover="_handleOutlierMouseover"
+          on-outlier-mouseout="_handleOutlierMouseout">
         </px-vis-boxplot>
         <div>
           <button on-click="_add">Add</button>
@@ -245,13 +247,23 @@
     },
 
     _handleBoxMouseover: function(event, data) {
-      console.log("mouseover");
-      console.log(data);
+      console.info('box whisker mouseover');
+      console.info(data);
     },
 
     _handleBoxMouseout: function(event, data) {
-      console.log("mouseout");
-      console.log(data);
+      console.info('box whisker mouseout');
+      console.info(data);
+    },
+
+    _handleOutlierMouseover: function(event, data) {
+      console.info('outlier mouseover');
+      console.info(data);
+    },
+
+    _handleOutlierMouseout: function(event, data) {
+      console.info('outlier mouseout');
+      console.info(data);
     },
 
     _add: function() {

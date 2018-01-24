@@ -2,6 +2,7 @@
 <link rel="import" href="../px-vis/px-vis-scale.html">
 <link rel="import" href="../px-vis/px-vis-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
+<link rel="import" href="../px-vis/px-vis-threshold.html">
 <link rel="import" href="px-vis-box-whisker.html">
 
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
@@ -83,6 +84,20 @@
         draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]">
       </px-vis-box-whisker>
     </template>
+    <!-- threshold lines -->
+    <px-vis-threshold
+      id="threshold"
+      svg="[[svg]]"
+      complete-series-config="[[completeSeriesConfig]]"
+      threshold-data="[[thresholdData]]"
+      threshold-config="[[thresholdConfig]]"
+      width="[[width]]"
+      margin="[[margin]]"
+      y="[[y]]"
+      domain-changed="[[domainChanged]]"
+      show-threshold-box="[[showThresholdBox]]"
+      language="[[language]]">
+    </px-vis-threshold>
 
   </template>
   <script>
@@ -102,9 +117,11 @@
         PxVisBehavior.dataExtents,
         PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
+        PxVisBehavior.thresholds,
         PxVisBehaviorD3.domainUpdate,
         PxVisBehaviorChart.axisConfigs,
-        PxVisBehaviorChart.subConfiguration
+        PxVisBehaviorChart.subConfiguration,
+        PxVisBehaviorChart.thresholdConfig
       ],
 
       properties: {
@@ -195,6 +212,7 @@
         '_orientationChanged(orientation)',
         '_xAxisConfigChanged(xAxisConfig)',
         '_yAxisConfigChanged(yAxisConfig)',
+        '_thresholdConfigChanged(thresholdConfig)',
         '_updateSeriesConfig(_colorsAreSet)'
       ],
 
@@ -286,6 +304,15 @@
           return;
         }
         this._applyConfigToElement(yAxisConfig, this.$.yAxis);
+      },
+
+      _thresholdConfigChanged: function(thresholdConfig) {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        this._applyConfigToElement(thresholdConfig, this.$.threshold);
+        // TODO: remove this - currently threshold doesn't update automatically if config changes
+        this.$.threshold.drawElement();
       },
 
       _updateSeriesConfig: function() {

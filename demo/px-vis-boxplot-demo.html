@@ -45,11 +45,13 @@
       <!-- Component ---------------------------------------------------------->
       <px-demo-component slot="px-demo-component" class="flex" style="width:100%;">
         <px-vis-boxplot
-          chart-data="[[props.chartData.value]]"
+          chart-data="{{props.chartData.value}}"
           width="[[props.width.value]]"
           height="[[props.height.value]]"
           box-whisker-config="[[props.boxWhiskerConfig.value]]"
-          orientation="[[props.orientation.value]]">
+          orientation="[[props.orientation.value]]"
+          threshold-data="[[props.thresholdData.value]]"
+          threshold-config="[[props.thresholdConfig.value]]">
         </px-vis-boxplot>
         <div>
           <button on-click="_add">Add</button>
@@ -184,6 +186,36 @@
         inputType: 'dropdown',
         defaultValue: 'vertical',
         inputChoices: ['vertical', 'horizontal']
+      },
+
+      thresholdData: {
+        type: Array,
+        inputType: 'code:JSON',
+        defaultValue: [
+          {
+            'for': 'y',
+            'type': 'max',
+            'value': 82
+          }, {
+            'for': 'y',
+            'type': 'min',
+            'value': 20
+          }
+        ]
+      },
+
+      thresholdConfig: {
+        type: Object,
+        inputType: 'code:JSON',
+        defaultValue: {
+          'max': {
+            'color': 'red',
+            'dashPattern': '5,0',
+            'title': 'MAX',
+            'showThresholdBox': true,
+            'displayTitle': true
+          }
+        }
       }
 
     },

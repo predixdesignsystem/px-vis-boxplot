@@ -53,7 +53,9 @@
           x-axis-config="[[props.xAxisConfig.value]]"
           y-axis-config="[[props.yAxisConfig.value]]"
           threshold-data="[[props.thresholdData.value]]"
-          threshold-config="[[props.thresholdConfig.value]]">
+          threshold-config="[[props.thresholdConfig.value]]"
+          on-box-mouseover="_handleBoxMouseover"
+          on-box-mouseout="_handleBoxMouseout">
         </px-vis-boxplot>
         <div>
           <button on-click="_add">Add</button>
@@ -240,6 +242,16 @@
         }
       }
 
+    },
+
+    _handleBoxMouseover: function(event, data) {
+      console.log("mouseover");
+      console.log(data);
+    },
+
+    _handleBoxMouseout: function(event, data) {
+      console.log("mouseout");
+      console.log(data);
     },
 
     _add: function() {

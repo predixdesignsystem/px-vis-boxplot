@@ -205,13 +205,29 @@
        * should define the upper left point of the rectangle.
        */
       _appendRectangle: function(svg, data, strokeColor, fillColor) {
-        svg.append('rect')
+        return svg.append('rect')
           .attr('x', data.x)
           .attr('y', data.y)
           .attr('width', data.width)
           .attr('height', data.height)
           .attr('stroke', strokeColor)
-          .attr('fill', fillColor);
+          .attr('fill', fillColor)
+          .on('mouseover', this._handleBoxMouseover.bind(this))
+          .on('mouseout', this._handleBoxMouseout.bind(this));
+      },
+
+      _handleBoxMouseover: function(d, i, svgEl) {
+        this.fire('box-mouseover', {
+          data: this.data,
+          svgEl: svgEl
+        });
+      },
+
+      _handleBoxMouseout: function(d, i, svgEl) {
+        this.fire('box-mouseout', {
+          data: this.data,
+          svgEl: svgEl
+        });
       },
 
       /**

@@ -25,7 +25,7 @@ document.addEventListener('WebComponentsReady', () => {
       });
     });
 
-    it('Stresholds in horizontal (currently behaving wrong)', (done) => {
+    it('Thresholds in horizontal (currently behaving wrong)', (done) => {
       expect(chart.orientation).to.be.eq('vertical');
       chart.orientation = 'horizontal';
       chart.chartData = generateChartData(2); // eslint-disable-line

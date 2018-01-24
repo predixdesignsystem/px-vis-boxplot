@@ -24,5 +24,27 @@ document.addEventListener('WebComponentsReady', () => {
         done();
       });
     });
+
+    it('Stresholds in horizontal (currently behaving wrong)', (done) => {
+      expect(chart.orientation).to.be.eq('vertical');
+      chart.orientation = 'horizontal';
+      chart.chartData = generateChartData(2); // eslint-disable-line
+      chart.thresholdData = [
+        {
+          'for': 'x',
+          'type': 'max',
+          'value': 0.5
+        }, {
+          'for': 'x',
+          'type': 'min',
+          'value': 2.5
+        }
+      ];
+
+      waitDrawUpdate(() => {
+        expect(chart.orientation).to.be.eq('horizontal');
+        done();
+      });
+    });
   });
 });

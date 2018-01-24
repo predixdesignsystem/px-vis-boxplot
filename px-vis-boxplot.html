@@ -37,6 +37,7 @@
       id="yAxis"
       svg="[[layer.1]]"
       axis="[[y]]"
+      axis-type="[[yAxisType]]"
       margin="[[margin]]"
       width="[[width]]"
       height="[[height]]"
@@ -53,6 +54,7 @@
       id="xAxis"
       svg="[[layer.1]]"
       axis="[[x]]"
+      axis-type="[[xAxisType]]"
       margin="[[margin]]"
       width="[[width]]"
       height="[[height]]"
@@ -98,7 +100,7 @@
       margin="[[margin]]"
       x="[[x]]"
       y="[[y]]"
-      type="[[_thresholdType]]"
+      type="[[thresholdType]]"
       domain-changed="[[domainChanged]]"
       show-threshold-box="[[showThresholdBox]]"
       language="[[language]]">
@@ -192,7 +194,13 @@
           value: 'vertical'
         },
 
-        _thresholdType: {
+        /**
+         * Sets the orientation of the threshold line. Applicable values:
+         *
+         * `x`: Threshold line will be vertical. Aligning with a value on the x-axis.
+         * `y`: Threshold line will be horizontal. Aligning with a value on the y-axis.
+         */
+        thresholdType: {
           type: String,
           value: 'y'
         },
@@ -235,15 +243,13 @@
         }
         // update axis and threshold types
         if (orientation === 'horizontal') {
-          // TODO: x axis should be scaleBand
           this.xAxisType = 'linear';
           this.yAxisType = 'linear';
-          this._thresholdType = 'x';
+          this.thresholdType = 'x';
         } else {
-          // TODO: y axis should be scaleBand
           this.xAxisType = 'linear';
           this.yAxisType = 'linear';
-          this._thresholdType = 'y';
+          this.thresholdType = 'y';
         }
         // update extents
         this.dataExtents = this._calcDataExtents(this.chartData);

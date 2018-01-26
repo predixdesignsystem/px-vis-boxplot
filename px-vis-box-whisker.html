@@ -382,7 +382,9 @@
           }
         }
         // add special key for the mid point
-        formatted.middle = x(position);
+        // because we are using scaleband scaling, we need to add half the
+        // width (bandwidth) to center the point
+        formatted.middle = x(position) + x.bandwidth() / 2;
         if (isNaN(formatted.middle)) {
           throw String('Value ' + position + ' converted to NaN');
         }

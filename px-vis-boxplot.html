@@ -125,6 +125,7 @@
         PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
         PxVisBehavior.thresholds,
+        PxVisBehavior.updateStylesOverride,
         PxVisBehaviorD3.domainUpdate,
         PxVisBehaviorChart.axisConfigs,
         PxVisBehaviorChart.layers,
@@ -205,9 +206,17 @@
           value: 'y'
         },
 
-        _colorsAreSet: {
-          type: Boolean,
-          value: false
+        _defaultSeriesConfig: {
+          value: function() {
+            return {
+              'mySeries': {
+                'name': 'My-Series',
+                'x': 'position',
+                'y': 'data',
+                'color': '#000'
+              }
+            };
+          }
         }
 
       },
@@ -219,11 +228,11 @@
         '_xAxisConfigChanged(xAxisConfig)',
         '_yAxisConfigChanged(yAxisConfig)',
         '_thresholdConfigChanged(thresholdConfig)',
-        '_updateSeriesConfig(_colorsAreSet)'
+        '_updateStyles(_stylesUpdated)'
       ],
 
       listeners: {
-        'px-data-vis-colors-applied': '_colorsSet'
+        'px-data-vis-colors-applied': '_updateSeriesConfig'
       },
 
       ready: function() {
@@ -326,21 +335,13 @@
 
       _updateSeriesConfig: function() {
         this.debounce('_updateSeriesConfig', function() {
-          if (this._colorsAreSet) {
-            this.set('completeSeriesConfig', {
-              'mySeries': {
-                'name': 'My-Series',
-                'x': 'position',
-                'y': 'data',
-                'color': this._getColor(0)
-              }
-            });
-          }
+          const seriesConfig = this.seriesConfig || this._defaultSeriesConfig;
+          this.set('completeSeriesConfig', seriesConfig);
         }, 10);
       },
 
-      _colorsSet: function() {
-        this.set('_colorsAreSet', true);
+      _updateStyles: function(_stylesUpdated) {
+        console.log('updated styles');
       }
 
     });

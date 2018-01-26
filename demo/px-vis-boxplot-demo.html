@@ -48,6 +48,7 @@
           chart-data="{{props.chartData.value}}"
           width="[[props.width.value]]"
           height="[[props.height.value]]"
+          series-config="[[props.seriesConfig.value]]"
           box-whisker-config="[[props.boxWhiskerConfig.value]]"
           orientation="[[props.orientation.value]]"
           x-axis-config="[[props.xAxisConfig.value]]"
@@ -170,6 +171,26 @@
         ]
       },
 
+      orientation: {
+        type: String,
+        inputType: 'dropdown',
+        defaultValue: 'vertical',
+        inputChoices: ['vertical', 'horizontal']
+      },
+
+      seriesConfig: {
+        type: Object,
+        inputType: 'code:JSON',
+        defaultValue: {
+          'mySeries': {
+            'name': 'My-Series',
+            'x': 'position',
+            'y': 'data',
+            'color': 'green'
+          }
+        }
+      },
+
       boxWhiskerConfig: {
         type: Object,
         inputType: 'code:JSON',
@@ -185,13 +206,6 @@
           outlierFillColor: '#FFF',
           drawDebounceTime: 50
         }
-      },
-
-      orientation: {
-        type: String,
-        inputType: 'dropdown',
-        defaultValue: 'vertical',
-        inputChoices: ['vertical', 'horizontal']
       },
 
       xAxisConfig: {

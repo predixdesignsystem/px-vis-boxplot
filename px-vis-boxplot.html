@@ -160,6 +160,11 @@
           notify: true
         },
 
+        // TODO: import behavior PxVisBehaviorChart.chartCommon
+        seriesConfig: {
+          type: Object
+        },
+
         /**
         * Defines the base margin for the chart. Calcs are run to add to the margin
         * to accommodate axes and other elements which exist within the SVG frame,
@@ -228,7 +233,8 @@
         '_xAxisConfigChanged(xAxisConfig)',
         '_yAxisConfigChanged(yAxisConfig)',
         '_thresholdConfigChanged(thresholdConfig)',
-        '_updateStyles(_stylesUpdated)'
+        '_updateStyles(_stylesUpdated)',
+        '_updateSeriesConfig(seriesConfig)'
       ],
 
       listeners: {
@@ -341,7 +347,7 @@
       },
 
       _updateStyles: function(_stylesUpdated) {
-        console.log('updated styles');
+        console.info('updated styles');
       }
 
     });

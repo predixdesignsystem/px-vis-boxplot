@@ -20,6 +20,14 @@
 
       properties: {
 
+        seriesKey: {
+          type: String
+        },
+
+        completeSeriesConfig: {
+          type: Object,
+        },
+
         /**
          * Data used to draw the box and whisker component.
          *
@@ -80,22 +88,18 @@
           value: 2
         },
 
-        // TODO: move stroke and fill values to CSS?
-
         /**
-         * Fill color.
+         * Fill color. If set, this value overrides the color value in the series config.
          */
         fillColor: {
-          type: String,
-          value: '#000'
+          type: String
         },
 
         /**
-         * Stroke color.
+         * Stroke color. If set, this value overrides the color value in the series config.
          */
         strokeColor: {
-          type: String,
-          value: '#000'
+          type: String
         },
 
         /**
@@ -138,13 +142,19 @@
          */
         _svgGroup: {
           type: Object
-        }
+        },
+
+        _defaultColor: {
+          type: String,
+          value: '#000'
+        },
 
       },
 
       observers: [
-        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, outlierRadius, meanRadius)',
-        '_updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor)'
+        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, outlierRadius, meanRadius, seriesKey)',
+        '_updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor, seriesKey)',
+        '_seriesConfigUpdated(seriesKey, completeSeriesConfig)'
       ],
 
       detached: function() {
@@ -222,6 +232,7 @@
        */
       _appendRectangle: function(svg, data, strokeColor, fillColor) {
         return svg.append('rect')
+          .attr('class', 'test')
           .attr('x', data.x)
           .attr('y', data.y)
           .attr('width', data.width)
@@ -433,7 +444,20 @@
       _updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor) {
         // TODO: change color without re-drawing entirely
         this.draw(this.data, this.position);
-      }
+      },
+
+      _seriesConfigUpdated: function() {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        const config = this.completeSeriesConfig[this.seriesKey];
+        // update colors
+        if (config) {
+          this.fillColor = config.color || this._defaultColor;
+          this.strokeColor = config.color || this._defaultColor;
+        }
+
+      },
 
     });
   </script>

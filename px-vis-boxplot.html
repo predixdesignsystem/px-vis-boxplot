@@ -74,6 +74,7 @@
     <template is="dom-repeat" items="[[chartData]]" restamp>
       <px-vis-box-whisker
         series-key="[[_getBoxWhiskerSeriesKey(item)]]"
+        complete-series-config="[[completeSeriesConfig]]"
         data="[[_getBoxWhiskerData(item)]]"
         position="[[_getBoxWhiskerPosition(item)]]"
         orientation="[[orientation]]"
@@ -83,8 +84,8 @@
         domain-changed="[[domainChanged]]"
         box-width="[[boxWhiskerConfig.boxWidth]]"
         edge-width="[[boxWhiskerConfig.edgeWidth]]"
-        fill-color="[[boxWhiskerConfig.fillColor]]"
-        stroke-color="[[boxWhiskerConfig.strokeColor]]"
+        fill-color="[[_getBoxWhiskerFillColor(item)]]"
+        stroke-color="[[_getBoxWhiskerStrokeColor(item)]]"
         median-stroke-color="[[boxWhiskerConfig.medianStrokeColor]]"
         mean-radius="[[boxWhiskerConfig.meanRadius]]"
         mean-fill-color="[[boxWhiskerConfig.meanFillColor]]"
@@ -231,17 +232,9 @@
           value: 'y'
         },
 
-        _defaultSeriesConfig: {
-          value: function() {
-            return {
-              'mySeries': {
-                'name': 'My-Series',
-                'x': 'position',
-                'y': 'data',
-                'color': '#000'
-              }
-            };
-          }
+        _defaultColor: {
+          type: String,
+          value: '#000'
         }
 
       },
@@ -345,6 +338,22 @@
         return item[Object.keys(item)[0]].position;
       },
 
+      _getBoxWhiskerFillColor: function(item) {
+        const seriesKey = this._getBoxWhiskerSeriesKey(item);
+        if (!this.completeSeriesConfig || !this.completeSeriesConfig[seriesKey]) {
+          return 'orange';
+        }
+        return this.completeSeriesConfig[seriesKey].color;
+      },
+
+      _getBoxWhiskerStrokeColor: function(item) {
+        const seriesKey = this._getBoxWhiskerSeriesKey(item);
+        if (!this.completeSeriesConfig || !this.completeSeriesConfig[seriesKey]) {
+          return 'orange';
+        }
+        return this.completeSeriesConfig[seriesKey].color;
+      },
+
       _boxWhiskerConfigChanged: function(conf) {
         if (this.hasUndefinedArguments(arguments)) {
           return;
@@ -382,9 +391,27 @@
 
       _updateSeriesConfig: function() {
         this.debounce('_updateSeriesConfig', function() {
-          const seriesConfig = this.seriesConfig || this._defaultSeriesConfig;
+          const seriesConfig = this.seriesConfig || this._generateSeriesConfig(this.chartData);
           this.set('completeSeriesConfig', seriesConfig);
         }, 10);
+      },
+
+      /**
+       * Generates seriesConfig object based on chartData. Used if application does
+       * not define its own seriesConfig.
+       */
+      _generateSeriesConfig: function(chartData) {
+        const seriesConfig = {};
+        chartData.forEach((item) => {
+          const seriesKey = this._getBoxWhiskerSeriesKey(item);
+          seriesConfig[seriesKey] = {
+            'name': seriesKey,
+            'x': 'position',
+            'y': 'data',
+            'color': this._defaultColor
+          };
+        });
+        return seriesConfig;
       },
 
       _updateStyles: function(_stylesUpdated) {

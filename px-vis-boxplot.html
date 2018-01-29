@@ -227,6 +227,7 @@
       },
 
       ready: function() {
+        window.chart = this;
         this.set('numberOfLayers', 5);
       },
 
@@ -244,10 +245,10 @@
         // update axis and threshold types
         if (orientation === 'horizontal') {
           this.xAxisType = 'linear';
-          this.yAxisType = 'linear';
+          this.yAxisType = 'scaleBand';
           this.thresholdType = 'x';
         } else {
-          this.xAxisType = 'linear';
+          this.xAxisType = 'scaleBand';
           this.yAxisType = 'linear';
           this.thresholdType = 'y';
         }
@@ -261,11 +262,9 @@
           return;
         }
         const exts = {};
-        // TODO: the axis values should match the chartData position values once axis type is set to scaleBand
         // set x axis to match the data items
-        // exts.x = [];
-        // chartData.forEach((item) => exts.x.push(item.position));
-        exts.x = [0, chartData.length + 1];
+        exts.x = [];
+        chartData.forEach((item) => exts.x.push(item.position));
         exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
         // to find the min/max y values, we need to check each set of data
         for (const i in chartData) {

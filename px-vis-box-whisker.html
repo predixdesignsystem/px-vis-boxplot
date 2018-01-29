@@ -173,11 +173,20 @@
         }
         // if data is empty, leave drawing empty
         if (!this.data) {
-          console.warn('Cannot draw box and whisker without data');
+          console.info('Skipping draw, no data');
           return;
         }
         if (!this.x || !this.y) {
-          console.warn('Cannot draw box and whisker without valid x and y functions');
+          console.warn('Skipping draw, no x and y functions');
+          return;
+        }
+        // calc svg coord points for drawing
+        let drawingData;
+        try {
+          drawingData = this._getDrawingData(this.data, this.position,
+            this.orientation, this.boxWidth, this.edgeWidth);
+        } catch (e) {
+          console.info('Skipping draw, invalid draw data (likely due to out of date x or y function)');
           return;
         }
         // init svg group
@@ -186,6 +195,7 @@
         const boxWhisker = this._svgGroup.append('g');
         const drawingData = this._getDrawingData(this.data, this.position,
           this.orientation, this.boxWidth, this.edgeWidth);
+
         // draw each piece
         this._appendLine(boxWhisker, drawingData.max, this.strokeColor);
         this._appendLine(boxWhisker, drawingData.q3Whisker, this.strokeColor);
@@ -273,13 +283,12 @@
       _getDrawingDataVertical: function(data, position, boxWidth, minMaxWidth) {
         const drawingData = {};
         // convert our raw data to svg points
-        const points = this._chartDataToSvgPoints(data, this.y);
-        const middle = this.x(position);
+        const points = this._chartDataToSvgPoints(data, position, this.y, this.x);
         // get the left and right boundries for the box
-        const boxLeft = middle - (boxWidth / 2);
+        const boxLeft = points.middle - (boxWidth / 2);
         const boxRight = boxLeft + boxWidth;
         // get the left and right boundries for the min and max horiz lines
-        const minMaxLeft = middle - (minMaxWidth / 2);
+        const minMaxLeft = points.middle - (minMaxWidth / 2);
         const minMaxRight = minMaxLeft + minMaxWidth;
         // generate position data
         drawingData.max = {
@@ -289,10 +298,10 @@
           x1: minMaxLeft, y1: points.min, x2: minMaxRight, y2: points.min
         };
         drawingData.q3Whisker = {
-          x1: middle, y1: points.max, x2: middle, y2: points.q3
+          x1: points.middle, y1: points.max, x2: points.middle, y2: points.q3
         };
         drawingData.q1Whisker = {
-          x1: middle, y1: points.q1, x2: middle, y2: points.min
+          x1: points.middle, y1: points.q1, x2: points.middle, y2: points.min
         };
         drawingData.q3Box = {
           x: boxLeft, y: points.q3, width: boxWidth, height: points.median - points.q3
@@ -304,11 +313,11 @@
           x1: boxLeft, y1: points.median, x2: boxRight, y2: points.median
         };
         drawingData.mean = {
-          x: middle, y: points.mean
+          x: points.middle, y: points.mean
         };
         drawingData.outliers = [];
         points.outliers.forEach((outlier) => {
-          drawingData.outliers.push({x: middle, y: outlier});
+          drawingData.outliers.push({x: points.middle, y: outlier});
         });
         return drawingData;
       },
@@ -319,13 +328,12 @@
       _getDrawingDataHorizontal: function(data, position, boxWidth, minMaxWidth) {
         const drawingData = {};
         // convert our raw data to svg points
-        const points = this._chartDataToSvgPoints(data, this.x);
-        const middle = this.y(position);
+        const points = this._chartDataToSvgPoints(data, position, this.x, this.y);
         // get the left and right boundries for the box
-        const boxLeft = middle - (boxWidth / 2);
+        const boxLeft = points.middle - (boxWidth / 2);
         const boxRight = boxLeft + boxWidth;
         // get the left and right boundries for the min and max horiz lines
-        const minMaxLeft = middle - (minMaxWidth / 2);
+        const minMaxLeft = points.middle - (minMaxWidth / 2);
         const minMaxRight = minMaxLeft + minMaxWidth;
         // generate position data
         drawingData.max = {
@@ -335,10 +343,10 @@
           y1: minMaxLeft, x1: points.min, y2: minMaxRight, x2: points.min
         };
         drawingData.q3Whisker = {
-          y1: middle, x1: points.max, y2: middle, x2: points.q3
+          y1: points.middle, x1: points.max, y2: points.middle, x2: points.q3
         };
         drawingData.q1Whisker = {
-          y1: middle, x1: points.q1, y2: middle, x2: points.min
+          y1: points.middle, x1: points.q1, y2: points.middle, x2: points.min
         };
         drawingData.q3Box = {
           y: boxLeft, x: points.median, height: boxWidth, width: points.q3 - points.median
@@ -350,11 +358,11 @@
           y1: boxLeft, x1: points.median, y2: boxRight, x2: points.median
         };
         drawingData.mean = {
-          y: middle, x: points.mean
+          y: points.middle, x: points.mean
         };
         drawingData.outliers = [];
         points.outliers.forEach((outlier) => {
-          drawingData.outliers.push({y: middle, x: outlier});
+          drawingData.outliers.push({y: points.middle, x: outlier});
         });
         return drawingData;
       },
@@ -362,8 +370,10 @@
       /**
        * Returns copy of data object but with values converted
        * to svg positions based on the px scale.
+       *
+       * Throws exception if any conversions are invalid.
        */
-      _chartDataToSvgPoints: function(data, y) {
+      _chartDataToSvgPoints: function(data, position, y, x) {
         const formatted = {};
         for (const key in data) {
           if (Array.isArray(data[key])) {
@@ -371,10 +381,23 @@
             // outliers will be in an array
             for (const i in data[key]) {
               formatted[key][i] = y(data[key][i]);
+              if (isNaN(formatted[key][i])) {
+                throw String('Value ' + data[key][i] + ' converted to NaN');
+              }
             }
           } else {
             formatted[key] = y(data[key]);
+            if (isNaN(formatted[key])) {
+              throw String('Value ' + data[key] + ' converted to NaN');
+            }
           }
+        }
+        // add special key for the mid point
+        // because we are using scaleband scaling, we need to add half the
+        // width (bandwidth) to center the point
+        formatted.middle = x(position) + x.bandwidth() / 2;
+        if (isNaN(formatted.middle)) {
+          throw String('Value ' + position + ' converted to NaN');
         }
         return formatted;
       },

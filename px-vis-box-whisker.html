@@ -193,8 +193,6 @@
         this._svgGroup = this.svg.append('g');
         // group together box + whisker parts
         const boxWhisker = this._svgGroup.append('g');
-        const drawingData = this._getDrawingData(this.data, this.position,
-          this.orientation, this.boxWidth, this.edgeWidth);
 
         // draw each piece
         this._appendLine(boxWhisker, drawingData.max, this.strokeColor);

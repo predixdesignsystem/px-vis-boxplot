@@ -9,9 +9,13 @@
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
 <link rel="import" href="../px-vis/px-vis-behavior-chart.html">
 
+<link rel="import" href="css/px-vis-boxplot-styles.html">
+
 
 <dom-module id="px-vis-boxplot">
   <template>
+    <style include="px-vis-boxplot-styles"></style>
+
     <px-vis-svg
       width="[[width]]"
       height="[[height]]"
@@ -124,6 +128,7 @@
         PxVisBehavior.dataExtents,
         PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
+        PxVisBehavior.seriesId,
         PxVisBehavior.thresholds,
         PxVisBehavior.updateStylesOverride,
         PxVisBehaviorD3.domainUpdate,

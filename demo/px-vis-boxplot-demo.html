@@ -133,39 +133,45 @@
         inputType: 'code:JSON',
         defaultValue: [
           {
-            position: 1,
-            data: {
-              max: 92,
-              q3: 79,
-              mean: 55,
-              median: 52,
-              q1: 30,
-              min: 15,
-              outliers: [2, 5]
+            series1: {
+              position: 1,
+              data: {
+                max: 92,
+                q3: 79,
+                mean: 55,
+                median: 52,
+                q1: 30,
+                min: 15,
+                outliers: [2, 5]
+              }
             }
           },
           {
-            position: 2,
-            data: {
-              max: 105,
-              q3: 90,
-              mean: 40,
-              median: 55,
-              q1: 30,
-              min: 15,
-              outliers: [10, 13]
+            series2: {
+              position: 2,
+              data: {
+                max: 105,
+                q3: 90,
+                mean: 40,
+                median: 55,
+                q1: 30,
+                min: 15,
+                outliers: [10, 13]
+              }
             }
           },
           {
-            position: 3,
-            data: {
-              max: 80,
-              q3: 60,
-              mean: 50,
-              median: 50,
-              q1: 30,
-              min: 15,
-              outliers: [5, 100, 105]
+            series3: {
+              position: 3,
+              data: {
+                max: 80,
+                q3: 60,
+                mean: 50,
+                median: 50,
+                q1: 30,
+                min: 15,
+                outliers: [5, 100, 105]
+              }
             }
           }
         ]
@@ -282,10 +288,12 @@
 
     _add: function() {
       const chart = this.shadowRoot.querySelector('px-vis-boxplot');
-      chart.push('chartData', {
+      const newSeries = {};
+      newSeries['series' + (chart.chartData.length + 1)] = {
         position: chart.chartData.length + 1,
         data: this._generateRandomData()
-      });
+      };
+      chart.push('chartData', newSeries);
     },
 
     _remove: function() {

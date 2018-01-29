@@ -6,6 +6,17 @@
 
 
 <dom-module id="px-vis-box-whisker">
+  <template>
+    <style>
+      :host {
+        --fill-color: '#000';
+        --stroke-color: '#000';
+        --median-color: '#FFF';
+        --mean-color: '#FFF';
+        --outlier-color: '#FFF';
+      }
+    </style>
+  </template>
   <script>
     Polymer({
 
@@ -89,14 +100,14 @@
         },
 
         /**
-         * Fill color. If set, this value overrides the color value in the series config.
+         * Fill color.
          */
         fillColor: {
           type: String
         },
 
         /**
-         * Stroke color. If set, this value overrides the color value in the series config.
+         * Stroke color.
          */
         strokeColor: {
           type: String
@@ -105,25 +116,22 @@
         /**
          * Stroke color for the median line.
          */
-        medianStrokeColor: {
-          type: String,
-          value: '#FFF'
+        medianColor: {
+          type: String
         },
 
         /**
          * Fill color for mean circle.
          */
-        meanFillColor: {
-          type: String,
-          value: '#FFF'
+        meanColor: {
+          type: String
         },
 
         /**
          * Fill color for outlier circles.
          */
-        outlierFillColor: {
-          type: String,
-          value: '#FFF'
+        outlierColor: {
+          type: String
         },
 
         /**
@@ -153,7 +161,7 @@
 
       observers: [
         'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, outlierRadius, meanRadius, seriesKey)',
-        '_updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor, seriesKey)',
+        '_updateColors(fillColor, strokeColor, medianColor, meanColor, outlierColor, seriesKey)',
         '_seriesConfigUpdated(seriesKey, completeSeriesConfig)'
       ],
 
@@ -211,13 +219,13 @@
         this._appendRectangle(boxWhisker, drawingData.q1Box, this.strokeColor, this.fillColor);
         this._appendLine(boxWhisker, drawingData.q1Whisker, this.strokeColor);
         this._appendLine(boxWhisker, drawingData.min, this.strokeColor);
-        this._appendLine(boxWhisker, drawingData.median, this.medianStrokeColor);
+        this._appendLine(boxWhisker, drawingData.median, this.medianColor);
         this._appendCircle(boxWhisker, drawingData.mean, this.meanRadius,
-          this.strokeColor, this.meanFillColor);
+          this.strokeColor, this.meanColor);
         // draw outliers and attach event handlers to each individually
         drawingData.outliers.forEach((outlier) => {
           this._appendCircle(this._svgGroup, outlier, this.outlierRadius,
-            this.strokeColor, this.outlierFillColor)
+            this.strokeColor, this.outlierColor)
             .on('mouseover', this._handleOutlierMouseover.bind(this))
             .on('mouseout', this._handleOutlierMouseout.bind(this));
         });
@@ -232,7 +240,6 @@
        */
       _appendRectangle: function(svg, data, strokeColor, fillColor) {
         return svg.append('rect')
-          .attr('class', 'test')
           .attr('x', data.x)
           .attr('y', data.y)
           .attr('width', data.width)
@@ -441,7 +448,7 @@
         });
       },
 
-      _updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor) {
+      _updateColors(fillColor, strokeColor, medianColor, meanColor, outlierColor) {
         // TODO: change color without re-drawing entirely
         this.draw(this.data, this.position);
       },
@@ -453,11 +460,31 @@
         const config = this.completeSeriesConfig[this.seriesKey];
         // update colors
         if (config) {
-          this.fillColor = config.color || this._defaultColor;
-          this.strokeColor = config.color || this._defaultColor;
+          this.fillColor = config.color || this._resolveColorVar('--fill-color');
+          this.strokeColor = config.strokeColor || this._resolveColorVar('--stroke-color');
+          this.medianColor = config.medianColor || this._resolveColorVar('--median-color');
+          this.meanColor = config.meanColor || this._resolveColorVar('--mean-color');
+          this.outlierColor = config.outlierColor || this._resolveColorVar('--outlier-color');
         }
-
       },
+
+      _resolveColorVar: function(varName) {
+        let color;
+        if (Polymer.Element) {
+          // 2.0 code
+          if (window.ShadyCSS) {
+            color = ShadyCSS.getComputedStyleValue(this, varName);
+          } else {
+            color = getComputedStyle(this).getPropertyValue(varName);
+          }
+        } else {
+          // 1.0 code
+          color = this.getComputedStyleValue(varName);
+        }
+        // remove quotes
+        color = color.replace(/\"/g, '').replace(/\'/g, '');
+        return color;
+      }
 
     });
   </script>

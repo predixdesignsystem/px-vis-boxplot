@@ -191,20 +191,31 @@
         }
         // init svg group
         this._svgGroup = this.svg.append('g');
+        // group together box + whisker parts
+        const boxWhisker = this._svgGroup.append('g');
+        const drawingData = this._getDrawingData(this.data, this.position,
+          this.orientation, this.boxWidth, this.edgeWidth);
+
         // draw each piece
-        this._appendLine(this._svgGroup, drawingData.max, this.strokeColor);
-        this._appendLine(this._svgGroup, drawingData.q3Whisker, this.strokeColor);
-        this._appendRectangle(this._svgGroup, drawingData.q3Box, this.strokeColor, this.fillColor);
-        this._appendRectangle(this._svgGroup, drawingData.q1Box, this.strokeColor, this.fillColor);
-        this._appendLine(this._svgGroup, drawingData.q1Whisker, this.strokeColor);
-        this._appendLine(this._svgGroup, drawingData.min, this.strokeColor);
-        this._appendLine(this._svgGroup, drawingData.median, this.medianStrokeColor);
-        this._appendCircle(this._svgGroup, drawingData.mean, this.meanRadius,
+        this._appendLine(boxWhisker, drawingData.max, this.strokeColor);
+        this._appendLine(boxWhisker, drawingData.q3Whisker, this.strokeColor);
+        this._appendRectangle(boxWhisker, drawingData.q3Box, this.strokeColor, this.fillColor);
+        this._appendRectangle(boxWhisker, drawingData.q1Box, this.strokeColor, this.fillColor);
+        this._appendLine(boxWhisker, drawingData.q1Whisker, this.strokeColor);
+        this._appendLine(boxWhisker, drawingData.min, this.strokeColor);
+        this._appendLine(boxWhisker, drawingData.median, this.medianStrokeColor);
+        this._appendCircle(boxWhisker, drawingData.mean, this.meanRadius,
           this.strokeColor, this.meanFillColor);
+        // draw outliers and attach event handlers to each individually
         drawingData.outliers.forEach((outlier) => {
           this._appendCircle(this._svgGroup, outlier, this.outlierRadius,
-            this.strokeColor, this.outlierFillColor);
+            this.strokeColor, this.outlierFillColor)
+            .on('mouseover', this._handleOutlierMouseover.bind(this))
+            .on('mouseout', this._handleOutlierMouseout.bind(this));
         });
+        // attach box + whisker event handlers
+        boxWhisker.on('mouseover', this._handleBoxMouseover.bind(this))
+          .on('mouseout', this._handleBoxMouseout.bind(this));
       },
 
       /**
@@ -212,7 +223,7 @@
        * should define the upper left point of the rectangle.
        */
       _appendRectangle: function(svg, data, strokeColor, fillColor) {
-        svg.append('rect')
+        return svg.append('rect')
           .attr('x', data.x)
           .attr('y', data.y)
           .attr('width', data.width)
@@ -225,7 +236,7 @@
        * Draw a single straight line to an existing svg element.
        */
       _appendLine: function(svg, data, strokeColor) {
-        svg.append('line')
+        return svg.append('line')
           .attr('x1', data.x1)
           .attr('y1', data.y1)
           .attr('x2', data.x2)
@@ -237,7 +248,7 @@
        * Draw a circle to an existing svg element.
        */
       _appendCircle: function(svg, data, radius, strokeColor, fillColor) {
-        svg.append('circle')
+        return svg.append('circle')
           .attr('cx', data.x)
           .attr('cy', data.y)
           .attr('r', radius)
@@ -249,7 +260,7 @@
        * Draw custom path to existing svg element.
        */
       _appendPath: function(svg, d, strokeColor, fillColor) {
-        svg.append('path')
+        return svg.append('path')
           .attr('d', d)
           .attr('stroke', strokeColor)
           .attr('fill', fillColor);
@@ -389,6 +400,36 @@
           throw String('Value ' + position + ' converted to NaN');
         }
         return formatted;
+      },
+
+      _handleBoxMouseover: function(d, i, svgEl) {
+        this.fire('box-mouseover', {
+          data: this.data,
+          svgEl: svgEl
+        });
+      },
+
+      _handleBoxMouseout: function(d, i, svgEl) {
+        this.fire('box-mouseout', {
+          data: this.data,
+          svgEl: svgEl
+        });
+      },
+
+      _handleOutlierMouseover: function(d, i, svgEl) {
+        this.fire('outlier-mouseover', {
+          // TODO: need to get the correct outlier data
+          data: this.data,
+          svgEl: svgEl
+        });
+      },
+
+      _handleOutlierMouseout: function(d, i, svgEl) {
+        this.fire('outlier-mouseout', {
+          // TODO: need to get the correct outlier data
+          data: this.data,
+          svgEl: svgEl
+        });
       },
 
       _updateColors(fillColor, strokeColor, medianStrokeColor, meanFillColor, outlierFillColor) {

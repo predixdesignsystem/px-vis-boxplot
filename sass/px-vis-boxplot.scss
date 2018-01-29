@@ -11,6 +11,7 @@
 
 // Settings
 @import "px-defaults-design/_settings.defaults.scss";
+@import "px-colors-design/_settings.colors.scss";
 
 // Tools
 
@@ -31,3 +32,29 @@
 
 // Trumps
 
+// override with theme colors
+// :host {
+//   px-vis-box-whisker {
+//     --px-vis-box-whisker-fill-color: $pink7;
+//     --px-vis-box-whisker-stroke-color: $pink7;
+//     --px-vis-box-whisker-median-color: $purple1;
+//     --px-vis-box-whisker-mean-color: $white;
+//     --px-vis-box-whisker-outlier-color: $white;
+//   }
+
+//   px-vis-threshold {
+//     --px-vis-threshold-color: $yellow-green6;
+//   }
+
+//   px-vis-gridlines {
+//     --px-vis-gridlines-color: $gray3;
+//   }
+
+//   px-vis-axis {
+//     --px-vis-axis-color: $gray10;
+//     --px-vis-axis-title-color: $gray10;
+//     --px-vis-axis-inline-title-color: $gray10;
+//     --px-vis-axis-inline-type-color: $gray10;
+//     --px-vis-axis-inline-box-color: $gray10;
+//   }
+// }

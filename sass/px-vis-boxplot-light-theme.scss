@@ -1,0 +1,28 @@
+/**
+ * CSS variables for Predix Light Theme
+ */
+
+@import "px-colors-design/_settings.colors.scss";
+
+
+html {
+  // boxplot chart
+  --px-vis-box-whisker-fill-color: $pink7;
+  --px-vis-box-whisker-stroke-color: $pink7;
+  --px-vis-box-whisker-median-color: $purple1;
+  --px-vis-box-whisker-mean-color: $white;
+  --px-vis-box-whisker-outlier-color: $white;
+
+  // threshold
+  --px-vis-threshold-color: $yellow-green6;
+
+  // grid lines
+  --px-vis-gridlines-color: $gray3;
+
+  // axis
+  --px-vis-axis-color: $gray10;
+  --px-vis-axis-title-color: $gray10;
+  --px-vis-axis-inline-title-color: $gray10;
+  --px-vis-axis-inline-type-color: $gray10;
+  --px-vis-axis-inline-box-color: $gray10;
+}

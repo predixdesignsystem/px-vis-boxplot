@@ -9,11 +9,11 @@
   <template>
     <style>
       :host {
-        --fill-color: '#000';
-        --stroke-color: '#000';
-        --median-color: '#FFF';
-        --mean-color: '#FFF';
-        --outlier-color: '#FFF';
+        --px-vis-box-whisker-fill-color: '#000';
+        --px-vis-box-whisker-stroke-color: '#000';
+        --px-vis-box-whisker-median-color: '#FFF';
+        --px-vis-box-whisker-mean-color: '#FFF';
+        --px-vis-box-whisker-outlier-color: '#FFF';
       }
     </style>
   </template>
@@ -460,11 +460,11 @@
         const config = this.completeSeriesConfig[this.seriesKey];
         // update colors
         if (config) {
-          this.fillColor = config.color || this._resolveColorVar('--fill-color');
-          this.strokeColor = config.strokeColor || this._resolveColorVar('--stroke-color');
-          this.medianColor = config.medianColor || this._resolveColorVar('--median-color');
-          this.meanColor = config.meanColor || this._resolveColorVar('--mean-color');
-          this.outlierColor = config.outlierColor || this._resolveColorVar('--outlier-color');
+          this.fillColor = config.color || this._resolveColorVar('--px-vis-box-whisker-fill-color');
+          this.strokeColor = config.strokeColor || this._resolveColorVar('--px-vis-box-whisker-stroke-color');
+          this.medianColor = config.medianColor || this._resolveColorVar('--px-vis-box-whisker-median-color');
+          this.meanColor = config.meanColor || this._resolveColorVar('--px-vis-box-whisker-mean-color');
+          this.outlierColor = config.outlierColor || this._resolveColorVar('--px-vis-box-whisker-outlier-color');
         }
       },
 

@@ -84,13 +84,8 @@
         domain-changed="[[domainChanged]]"
         box-width="[[boxWhiskerConfig.boxWidth]]"
         edge-width="[[boxWhiskerConfig.edgeWidth]]"
-        fill-color="[[_getBoxWhiskerFillColor(item)]]"
-        stroke-color="[[_getBoxWhiskerStrokeColor(item)]]"
-        median-stroke-color="[[boxWhiskerConfig.medianStrokeColor]]"
         mean-radius="[[boxWhiskerConfig.meanRadius]]"
-        mean-fill-color="[[boxWhiskerConfig.meanFillColor]]"
         outlier-radius="[[boxWhiskerConfig.outlierRadius]]"
-        outlier-fill-color="[[boxWhiskerConfig.outlierFillColor]]"
         draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]">
       </px-vis-box-whisker>
     </template>
@@ -338,22 +333,6 @@
         return item[Object.keys(item)[0]].position;
       },
 
-      _getBoxWhiskerFillColor: function(item) {
-        const seriesKey = this._getBoxWhiskerSeriesKey(item);
-        if (!this.completeSeriesConfig || !this.completeSeriesConfig[seriesKey]) {
-          return 'orange';
-        }
-        return this.completeSeriesConfig[seriesKey].color;
-      },
-
-      _getBoxWhiskerStrokeColor: function(item) {
-        const seriesKey = this._getBoxWhiskerSeriesKey(item);
-        if (!this.completeSeriesConfig || !this.completeSeriesConfig[seriesKey]) {
-          return 'orange';
-        }
-        return this.completeSeriesConfig[seriesKey].color;
-      },
-
       _boxWhiskerConfigChanged: function(conf) {
         if (this.hasUndefinedArguments(arguments)) {
           return;
@@ -405,10 +384,9 @@
         chartData.forEach((item) => {
           const seriesKey = this._getBoxWhiskerSeriesKey(item);
           seriesConfig[seriesKey] = {
-            'name': seriesKey,
-            'x': 'position',
-            'y': 'data',
-            'color': this._defaultColor
+            name: seriesKey,
+            x: 'position',
+            y: 'data'
           };
         });
         return seriesConfig;

@@ -49,6 +49,7 @@
     -->
     <link rel="import" href="../px-theme/px-theme-styles.html">
     <style include="px-theme-styles" is="custom-style"></style>
+
     <link rel="import" href="css/px-vis-boxplot-dark-theme-styles.html">
     <link rel="import" href="css/px-vis-boxplot-light-theme-styles.html">
 
@@ -56,13 +57,17 @@
       <style include="px-vis-boxplot-light-theme-styles" is="custom-style"></style>
     </custom-style>
 
+    <custom-style id="px-dark-demo-theme-styles">
+      <!-- <style include="px-dark-demo-theme-styles" is="custom-style"></style> -->
+    </custom-style>
+
     <!--
       Load dark theme files for later use. Stamp dynamic theme switcher, which
       listens for theme update messages from the parent page and applies them.
     -->
-    <link defer rel="import" href="../px-dark-theme/px-dark-theme-styles.html">
-    <link defer rel="import" href="../px-dark-demo-theme/px-dark-demo-theme-styles.html">
-    <link defer rel="import" href="../px-demo/px-demo-theme-switcher.html"/>
+    <link rel="import" href="../px-dark-theme/px-dark-theme-styles.html">
+    <link rel="import" href="../px-dark-demo-theme/px-dark-demo-theme-styles.html">
+    <link rel="import" href="../px-demo/px-demo-theme-switcher.html"/>
     <px-demo-theme-switcher-frame id="themeMessenger" origin="https://www.predix-ui.com"></px-demo-theme-switcher-frame>
     <px-demo-theme-switcher id="themeSwitcher"></px-demo-theme-switcher>
     <script>
@@ -73,6 +78,34 @@
           switcher.isDarkTheme = evt.detail.value;
         });
       })();
+
+      // TODO: remove custom theme toggle when integrated into predix online demos
+      let dark = false;
+      let customStyle = document.getElementById('px-vis-boxplot-theme-styles');
+      let darkStyle = document.getElementById('px-dark-demo-theme-styles');
+      // add toggle button
+      const toggleThemeBtn = document.createElement('button');
+      toggleThemeBtn.innerHTML = 'Light Theme';
+      toggleThemeBtn.onclick = toggleTheme;
+      document.body.prepend(toggleThemeBtn);
+      // toggle theme func
+      function toggleTheme(e) {
+        if (e) {
+          e.target.innerHTML = dark ? 'Light Theme' : 'Dark Theme';
+        }
+        dark = !dark;
+        const newCustomStyle = document.createElement('custom-style');
+        newCustomStyle.innerHTML = `<style include="px-vis-boxplot-${dark ? 'dark' : 'light'}-theme-styles" is="custom-style"></style>`;
+        document.head.appendChild(newCustomStyle);
+        customStyle.remove();
+        customStyle = newCustomStyle;
+        // add dark predix demo theme
+        darkStyle.remove();
+        darkStyle = document.createElement('custom-style');
+        darkStyle.innerHTML = dark ? `<style include="px-dark-demo-theme-styles" is="custom-style"></style>` : null;
+        document.head.append(darkStyle);
+      }
+
     </script>
 
     <!--

@@ -2250,11 +2250,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 2845,
+              "line": 2854,
               "column": 4
             },
             "end": {
-              "line": 2847,
+              "line": 2856,
               "column": 5
             }
           },
@@ -2379,11 +2379,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1187,
+              "line": 1196,
               "column": 4
             },
             "end": {
-              "line": 1189,
+              "line": 1198,
               "column": 5
             }
           },
@@ -2400,11 +2400,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1195,
+              "line": 1204,
               "column": 4
             },
             "end": {
-              "line": 1197,
+              "line": 1206,
               "column": 5
             }
           },
@@ -2489,11 +2489,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1425,
+              "line": 1434,
               "column": 4
             },
             "end": {
-              "line": 1428,
+              "line": 1437,
               "column": 5
             }
           },
@@ -2512,11 +2512,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1429,
+              "line": 1438,
               "column": 4
             },
             "end": {
-              "line": 1431,
+              "line": 1440,
               "column": 5
             }
           },
@@ -2533,11 +2533,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1432,
+              "line": 1441,
               "column": 4
             },
             "end": {
-              "line": 1435,
+              "line": 1444,
               "column": 5
             }
           },
@@ -2902,7 +2902,7 @@
               "column": 2
             },
             "end": {
-              "line": 3263,
+              "line": 3270,
               "column": 3
             }
           },
@@ -3556,11 +3556,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1445,
+              "line": 1454,
               "column": 2
             },
             "end": {
-              "line": 1468,
+              "line": 1477,
               "column": 3
             }
           },
@@ -3585,11 +3585,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1469,
+              "line": 1478,
               "column": 2
             },
             "end": {
-              "line": 1480,
+              "line": 1489,
               "column": 3
             }
           },
@@ -3617,11 +3617,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 875,
+              "line": 884,
               "column": 4
             },
             "end": {
-              "line": 893,
+              "line": 902,
               "column": 5
             }
           },
@@ -4122,11 +4122,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 2845,
+              "line": 2854,
               "column": 4
             },
             "end": {
-              "line": 2847,
+              "line": 2856,
               "column": 5
             }
           },
@@ -4176,11 +4176,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1187,
+              "line": 1196,
               "column": 4
             },
             "end": {
-              "line": 1189,
+              "line": 1198,
               "column": 5
             }
           },
@@ -4194,11 +4194,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1195,
+              "line": 1204,
               "column": 4
             },
             "end": {
-              "line": 1197,
+              "line": 1206,
               "column": 5
             }
           },
@@ -4248,11 +4248,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1425,
+              "line": 1434,
               "column": 4
             },
             "end": {
-              "line": 1428,
+              "line": 1437,
               "column": 5
             }
           },
@@ -4266,11 +4266,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1429,
+              "line": 1438,
               "column": 4
             },
             "end": {
-              "line": 1431,
+              "line": 1440,
               "column": 5
             }
           },
@@ -4284,11 +4284,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1432,
+              "line": 1441,
               "column": 4
             },
             "end": {
-              "line": 1435,
+              "line": 1444,
               "column": 5
             }
           },

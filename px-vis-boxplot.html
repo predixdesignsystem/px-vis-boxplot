@@ -81,9 +81,9 @@
         svg="[[layer.1]]"
         x="[[x]]"
         y="[[y]]"
+        box-width="[[_boxWidth]]"
+        edge-width="[[_edgeWidth]]"
         domain-changed="[[domainChanged]]"
-        box-width="[[boxWhiskerConfig.boxWidth]]"
-        edge-width="[[boxWhiskerConfig.edgeWidth]]"
         mean-radius="[[boxWhiskerConfig.meanRadius]]"
         outlier-radius="[[boxWhiskerConfig.outlierRadius]]"
         draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]">
@@ -208,6 +208,14 @@
         },
 
         /**
+         * Padding between boxes.
+         */
+        scalePadding: {
+          type: Number,
+          value: 0.5
+        },
+
+        /**
          * Direction of the box plot chart.  The values can be
          * 'vertical' or 'horizontal'.
          */
@@ -230,19 +238,28 @@
         _defaultColor: {
           type: String,
           value: '#000'
+        },
+
+        _boxWidth: {
+          type: Number
+        },
+
+        _edgeWidth: {
+          type: Number
         }
 
       },
 
       observers: [
-        '_chartDataChanged(chartData, chartData.*)',
+        '_chartDataChanged(chartData, chartData.*, scalePadding)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_orientationChanged(orientation)',
         '_xAxisConfigChanged(xAxisConfig)',
         '_yAxisConfigChanged(yAxisConfig)',
         '_thresholdConfigChanged(thresholdConfig)',
         '_updateStyles(_stylesUpdated)',
-        '_updateSeriesConfig(seriesConfig)'
+        '_updateSeriesConfig(seriesConfig)',
+        '_setScalePadding(domainChanged, x, y)'
       ],
 
       listeners: {
@@ -390,6 +407,18 @@
 
       _updateStyles: function(_stylesUpdated) {
         console.info('updated styles');
+      },
+
+      _setScalePadding: function() {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        const scaleFunc = this.orientation === 'horizontal' ? this.y : this.x;
+        if (scaleFunc.paddingOuter) {
+          scaleFunc.paddingOuter(this.scalePadding);
+          this._boxWidth = scaleFunc.bandwidth();
+          this._edgeWidth = this._boxWidth / 3;
+        }
       }
 
     });

@@ -50,6 +50,7 @@
           height="[[props.height.value]]"
           series-config="[[props.seriesConfig.value]]"
           box-whisker-config="[[props.boxWhiskerConfig.value]]"
+          scale-padding="[[props.scalePadding.value]]"
           orientation="[[props.orientation.value]]"
           x-axis-config="[[props.xAxisConfig.value]]"
           y-axis-config="[[props.yAxisConfig.value]]"
@@ -125,7 +126,13 @@
       height: {
         type: Number,
         inputType: 'number',
-        defaultValue: 200
+        defaultValue: 300
+      },
+
+      scalePadding: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 0.5
       },
 
       chartData: {

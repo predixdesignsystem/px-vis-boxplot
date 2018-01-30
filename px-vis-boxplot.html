@@ -9,9 +9,13 @@
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
 <link rel="import" href="../px-vis/px-vis-behavior-chart.html">
 
+<link rel="import" href="css/px-vis-boxplot-styles.html">
+
 
 <dom-module id="px-vis-boxplot">
   <template>
+    <style include="px-vis-boxplot-styles"></style>
+
     <px-vis-svg
       width="[[width]]"
       height="[[height]]"
@@ -69,8 +73,10 @@
     <!-- box and whisker components -->
     <template is="dom-repeat" items="[[chartData]]" restamp>
       <px-vis-box-whisker
-        data="[[item.data]]"
-        position="[[item.position]]"
+        series-key="[[_getBoxWhiskerSeriesKey(item)]]"
+        complete-series-config="[[completeSeriesConfig]]"
+        data="[[_getBoxWhiskerData(item)]]"
+        position="[[_getBoxWhiskerPosition(item)]]"
         orientation="[[orientation]]"
         svg="[[layer.1]]"
         x="[[x]]"
@@ -78,13 +84,8 @@
         domain-changed="[[domainChanged]]"
         box-width="[[boxWhiskerConfig.boxWidth]]"
         edge-width="[[boxWhiskerConfig.edgeWidth]]"
-        fill-color="[[boxWhiskerConfig.fillColor]]"
-        stroke-color="[[boxWhiskerConfig.strokeColor]]"
-        median-stroke-color="[[boxWhiskerConfig.medianStrokeColor]]"
         mean-radius="[[boxWhiskerConfig.meanRadius]]"
-        mean-fill-color="[[boxWhiskerConfig.meanFillColor]]"
         outlier-radius="[[boxWhiskerConfig.outlierRadius]]"
-        outlier-fill-color="[[boxWhiskerConfig.outlierFillColor]]"
         draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]">
       </px-vis-box-whisker>
     </template>
@@ -124,7 +125,9 @@
         PxVisBehavior.dataExtents,
         PxVisBehavior.margins,
         PxVisBehavior.observerCheck,
+        PxVisBehavior.seriesId,
         PxVisBehavior.thresholds,
+        PxVisBehavior.updateStylesOverride,
         PxVisBehaviorD3.domainUpdate,
         PxVisBehaviorChart.axisConfigs,
         PxVisBehaviorChart.layers,
@@ -140,15 +143,29 @@
          *
          * ```
          * [{
-         *   position: 1,
-         *   data: {
-         *     max: 90,
-         *     q3: 70,
-         *     mean: 50,
-         *     median: 50,
-         *     q1: 30,
-         *     min: 10,
-         *     outliers: [5, 2]
+         *   series1: {
+         *     position: 1,
+         *     data: {
+         *       max: 90,
+         *       q3: 70,
+         *       mean: 50,
+         *       median: 50,
+         *       q1: 30,
+         *       min: 10,
+         *       outliers: [5, 2]
+         *     }
+         *   },
+         *   series2: {
+         *     position: 1,
+         *     data: {
+         *       max: 90,
+         *       q3: 70,
+         *       mean: 50,
+         *       median: 50,
+         *       q1: 30,
+         *       min: 10,
+         *       outliers: [5, 2]
+         *     }
          *   }
          * }]
          * ```
@@ -157,6 +174,11 @@
           type: Array,
           value: [],
           notify: true
+        },
+
+        // TODO: import behavior PxVisBehaviorChart.chartCommon
+        seriesConfig: {
+          type: Object
         },
 
         /**
@@ -205,9 +227,9 @@
           value: 'y'
         },
 
-        _colorsAreSet: {
-          type: Boolean,
-          value: false
+        _defaultColor: {
+          type: String,
+          value: '#000'
         }
 
       },
@@ -219,15 +241,15 @@
         '_xAxisConfigChanged(xAxisConfig)',
         '_yAxisConfigChanged(yAxisConfig)',
         '_thresholdConfigChanged(thresholdConfig)',
-        '_updateSeriesConfig(_colorsAreSet)'
+        '_updateStyles(_stylesUpdated)',
+        '_updateSeriesConfig(seriesConfig)'
       ],
 
       listeners: {
-        'px-data-vis-colors-applied': '_colorsSet'
+        'px-data-vis-colors-applied': '_updateSeriesConfig'
       },
 
       ready: function() {
-        window.chart = this;
         this.set('numberOfLayers', 5);
       },
 
@@ -264,11 +286,11 @@
         const exts = {};
         // set x axis to match the data items
         exts.x = [];
-        chartData.forEach((item) => exts.x.push(item.position));
+        chartData.forEach((item) => exts.x.push(this._getBoxWhiskerPosition(item)));
         exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
         // to find the min/max y values, we need to check each set of data
         for (const i in chartData) {
-          const data = chartData[i].data;
+          const data = this._getBoxWhiskerData(chartData[i]);
           const outliersMin = Math.min.apply(Math, data.outliers);
           const outliersMax = Math.max.apply(Math, data.outliers);
           // compare current min/max, current series min/max, and the min/max of outliers
@@ -287,8 +309,29 @@
       },
 
       /**
-       * Apply changes to config object to the children components.
+       * Returns name of the series for an object from the
+       * chartData array. Used mainly by template.
        */
+      _getBoxWhiskerSeriesKey: function(item) {
+        return Object.keys(item)[0];
+      },
+
+      /**
+       * Returns box plot data from an object in the
+       * chartData array. Used mainly by template.
+       */
+      _getBoxWhiskerData: function(item) {
+        return item[Object.keys(item)[0]].data;
+      },
+
+      /**
+       * Returns box plot position value from an object in the
+       * chartData array. Used mainly by template.
+       */
+      _getBoxWhiskerPosition: function(item) {
+        return item[Object.keys(item)[0]].position;
+      },
+
       _boxWhiskerConfigChanged: function(conf) {
         if (this.hasUndefinedArguments(arguments)) {
           return;
@@ -326,21 +369,30 @@
 
       _updateSeriesConfig: function() {
         this.debounce('_updateSeriesConfig', function() {
-          if (this._colorsAreSet) {
-            this.set('completeSeriesConfig', {
-              'mySeries': {
-                'name': 'My-Series',
-                'x': 'position',
-                'y': 'data',
-                'color': this._getColor(0)
-              }
-            });
-          }
+          const seriesConfig = this.seriesConfig || this._generateSeriesConfig(this.chartData);
+          this.set('completeSeriesConfig', seriesConfig);
         }, 10);
       },
 
-      _colorsSet: function() {
-        this.set('_colorsAreSet', true);
+      /**
+       * Generates seriesConfig object based on chartData. Used if application does
+       * not define its own seriesConfig.
+       */
+      _generateSeriesConfig: function(chartData) {
+        const seriesConfig = {};
+        chartData.forEach((item) => {
+          const seriesKey = this._getBoxWhiskerSeriesKey(item);
+          seriesConfig[seriesKey] = {
+            name: seriesKey,
+            x: 'position',
+            y: 'data'
+          };
+        });
+        return seriesConfig;
+      },
+
+      _updateStyles: function(_stylesUpdated) {
+        console.info('updated styles');
       }
 
     });

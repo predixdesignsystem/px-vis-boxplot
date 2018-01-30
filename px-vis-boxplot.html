@@ -114,6 +114,7 @@
     <!-- tooltip -->
     <px-tooltip
       id="tooltip"
+      orientation="top"
       ignore-target-events>
       <div id="tooltipContent"></div>
     </px-tooltip>
@@ -433,25 +434,23 @@
       },
 
       _handleBoxMouseover: function(event, details) {
-        console.info('box whisker mouseover');
-        this._showTooltip(details.svgEl, this._createTooltipMessage(details.details));
+        this._showTooltip(details.svgEl[0], this._createTooltipMessageBox(details.details));
       },
 
       _handleBoxMouseout: function(event, details) {
-        console.info('box whisker mouseout');
         this._closeTooltip();
       },
 
       _handleOutlierMouseover: function(event, details) {
-        console.info('outlier mouseover');
+        this._showTooltip(details.svgEl[0], this._createTooltipMessageOutlier(details.details));
       },
 
       _handleOutlierMouseout: function(event, details) {
-        console.info('outlier mouseout');
+        this._closeTooltip();
       },
 
       _showTooltip: function(el, msg) {
-        // this.$.tooltip.for = el;
+        this.$.tooltip.for = el;
         this.tooltipContent.innerHTML = msg;
         this.$.tooltip.opened = true;
       },
@@ -460,15 +459,29 @@
         this.$.tooltip.opened = false;
       },
 
-      _createTooltipMessage: function(item) {
+      _createTooltipMessageBox: function(item) {
         let msg = '<h1 style="text-weight:bold;font-size:125%;">';
         msg += this.completeSeriesConfig[item.seriesKey].name;
         msg += '</h1>';
+        // use parseFloat to be safe of XSS
         msg += 'Maximum: ' + Number.parseFloat(item.data.max) + '<br>';
         msg += 'Upper quartile: ' + Number.parseFloat(item.data.q3) + '<br>';
         msg += 'Median: ' + Number.parseFloat(item.data.median) + '<br>';
         msg += 'Lower quartile: ' + Number.parseFloat(item.data.q1) + '<br>';
         msg += 'Minimum: ' + Number.parseFloat(item.data.min) + '<br>';
+        return msg;
+      },
+
+      _createTooltipMessageOutlier: function(item) {
+        let msg = '<h1 style="text-weight:bold;font-size:125%;">';
+        msg += this.completeSeriesConfig[item.seriesKey].name + ' Outlier';
+        msg += '</h1>';
+        if (item.data.outliers) {
+          item.data.outliers.forEach((outlier) => {
+            // use parseFloat to be safe of XSS
+            msg += 'Outlier: ' + Number.parseFloat(outlier) + '<br>';
+          });
+        }
         return msg;
       }
 

@@ -51,6 +51,7 @@
           series-config="[[props.seriesConfig.value]]"
           box-whisker-config="[[props.boxWhiskerConfig.value]]"
           scale-padding="[[props.scalePadding.value]]"
+          padding-outer="[[props.paddingOuter.value]]"
           orientation="[[props.orientation.value]]"
           x-axis-config="[[props.xAxisConfig.value]]"
           y-axis-config="[[props.yAxisConfig.value]]"
@@ -126,6 +127,12 @@
       },
 
       scalePadding: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 0.5
+      },
+
+      paddingOuter: {
         type: Number,
         inputType: 'number',
         defaultValue: 0.5
@@ -213,15 +220,8 @@
         type: Object,
         inputType: 'code:JSON',
         defaultValue: {
-          boxWidth: 30,
-          edgeWidth: 15,
           meanRadius: 2,
           outlierRadius: 2,
-          fillColor: '#000',
-          strokeColor: '#000',
-          medianStrokeColor: '#FFF',
-          meanFillColor: '#FFF',
-          outlierFillColor: '#FFF',
           drawDebounceTime: 50
         }
       },

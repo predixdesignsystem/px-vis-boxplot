@@ -191,7 +191,7 @@
       },
 
       _resolveColorsTimer: function() {
-        setTimeout(function() {
+        this._resolveColorsTimeout = setTimeout(function() {
           this._resolveColors();
           this._resolveColorsTimer();
         }.bind(this), 500);
@@ -202,6 +202,7 @@
         if (this._svgGroup) {
           this._svgGroup.remove();
         }
+        clearTimeout(this._resolveColorsTimeout);
       },
 
       /**

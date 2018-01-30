@@ -16,6 +16,7 @@
     "PxVisBehavior": false,
     "PxVisBehaviorChart": false,
     "PxVisBehaviorD3": false,
+    "ShadyCSS": false,
     "Vaadin": false
   }
 }

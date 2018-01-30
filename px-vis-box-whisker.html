@@ -6,18 +6,15 @@
 
 
 <dom-module id="px-vis-box-whisker">
-  <template>
-    <style>
-      :host {
-        --px-vis-box-whisker-fill-color: '#000';
-        --px-vis-box-whisker-stroke-color: '#000';
-        --px-vis-box-whisker-median-color: '#FFF';
-        --px-vis-box-whisker-mean-color: '#FFF';
-        --px-vis-box-whisker-outlier-color: '#FFF';
-      }
-    </style>
-  </template>
   <script>
+    // TODO: properly document css vars
+    /**
+     * --px-vis-box-whisker-fill-color
+     * --px-vis-box-whisker-stroke-color
+     * --px-vis-box-whisker-median-color
+     * --px-vis-box-whisker-mean-color
+     * --px-vis-box-whisker-outlier-color
+     */
     Polymer({
 
       is: 'px-vis-box-whisker',
@@ -156,6 +153,11 @@
           type: String,
           value: '#000'
         },
+
+        _defaultAltColor: {
+          type: String,
+          value: '#FFF'
+        }
 
       },
 
@@ -460,11 +462,16 @@
         const config = this.completeSeriesConfig[this.seriesKey];
         // update colors
         if (config) {
-          this.fillColor = config.color || this._resolveColorVar('--px-vis-box-whisker-fill-color');
-          this.strokeColor = config.strokeColor || this._resolveColorVar('--px-vis-box-whisker-stroke-color');
-          this.medianColor = config.medianColor || this._resolveColorVar('--px-vis-box-whisker-median-color');
-          this.meanColor = config.meanColor || this._resolveColorVar('--px-vis-box-whisker-mean-color');
-          this.outlierColor = config.outlierColor || this._resolveColorVar('--px-vis-box-whisker-outlier-color');
+          this.fillColor = config.color
+            || this._resolveColorVar('--px-vis-box-whisker-fill-color') || this._defaultColor;
+          this.strokeColor = config.strokeColor
+            || this._resolveColorVar('--px-vis-box-whisker-stroke-color') || this._defaultColor;
+          this.medianColor = config.medianColor
+            || this._resolveColorVar('--px-vis-box-whisker-median-color') || this._defaultAltColor;
+          this.meanColor = config.meanColor
+            || this._resolveColorVar('--px-vis-box-whisker-mean-color') || this._defaultAltColor;
+          this.outlierColor = config.outlierColor
+            || this._resolveColorVar('--px-vis-box-whisker-outlier-color') || this._defaultAltColor;
         }
       },
 

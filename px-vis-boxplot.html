@@ -35,6 +35,7 @@
       chart-data="[[chartData]]"
       x="{{x}}"
       y="{{y}}"
+      scale-padding="[[scalePadding]]"
       domain-changed="{{domainChanged}}">
     </px-vis-scale>
     <!-- y axis -->
@@ -227,6 +228,14 @@
         },
 
         /**
+         * Padding seperating the axis and the box and whisker drawings.
+         */
+        paddingOuter: {
+          type: Number,
+          value: 0.5
+        },
+
+        /**
          * Direction of the box plot chart.  The values can be
          * 'vertical' or 'horizontal'.
          */
@@ -262,7 +271,7 @@
       },
 
       observers: [
-        '_chartDataChanged(chartData, chartData.*, scalePadding)',
+        '_chartDataChanged(chartData, chartData.*, scalePadding, paddingOuter)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_orientationChanged(orientation)',
         '_xAxisConfigChanged(xAxisConfig)',
@@ -325,6 +334,8 @@
             Math.max(exts.y[1], data.max, outliersMax)
           ];
         }
+        // pad the y axis by 1/10 of the total range
+        exts.y[1] += (exts.y[1] - exts.y[0]) / 10;
         // if the orientation is horizontal, we actually need to swap our extents
         if (this.orientation === 'horizontal') {
           const y = exts.y;
@@ -427,7 +438,9 @@
         }
         const scaleFunc = this.orientation === 'horizontal' ? this.y : this.x;
         if (scaleFunc.paddingOuter) {
-          scaleFunc.paddingOuter(this.scalePadding);
+          // update outer padding manually
+          scaleFunc.paddingOuter(this.paddingOuter);
+          // update box width and edge width, they are dependend on scalePadding and paddingOuter
           this._boxWidth = scaleFunc.bandwidth();
           this._edgeWidth = this._boxWidth / 3;
         }

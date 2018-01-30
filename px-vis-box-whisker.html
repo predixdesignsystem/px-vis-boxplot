@@ -181,10 +181,21 @@
       },
 
       observers: [
-        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, outlierRadius, meanRadius, seriesKey)',
-        '_updateColors(fillColor, strokeColor, medianColor, meanStrokeColor, outlierStrokeColor, outlierFillColor, seriesKey)',
-        '_seriesConfigUpdated(seriesKey, completeSeriesConfig)'
+        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, outlierRadius, meanRadius, seriesKey, completeSeriesConfig)',
+        '_updateColors(fillColor, strokeColor, medianColor, meanStrokeColor, outlierStrokeColor, outlierFillColor)'
       ],
+
+      ready: function() {
+        // TODO: find another way to watch for style changes?
+        this._resolveColorsTimer();
+      },
+
+      _resolveColorsTimer: function() {
+        setTimeout(function() {
+          this._resolveColors();
+          this._resolveColorsTimer();
+        }.bind(this), 500);
+      },
 
       detached: function() {
         // remove our data from svg
@@ -228,6 +239,8 @@
           console.info('Skipping draw, invalid draw data (likely due to out of date x or y function)');
           return;
         }
+        // make sure colors are current
+        this._resolveColors();
         // init svg group
         this._svgGroup = this.svg.append('g');
         // group together box + whisker parts
@@ -474,28 +487,26 @@
         this.draw(this.data, this.position);
       },
 
-      _seriesConfigUpdated: function() {
+      _resolveColors: function() {
         if (this.hasUndefinedArguments(arguments)) {
           return;
         }
-        const config = this.completeSeriesConfig[this.seriesKey];
-        // update colors
-        if (config) {
-          this.fillColor = config.color
-            || this._resolveColorVar('--px-vis-box-whisker-fill-color') || this._defaultColor;
-          this.strokeColor = config.strokeColor
-            || this._resolveColorVar('--px-vis-box-whisker-stroke-color') || this._defaultColor;
-          this.medianColor = config.medianColor
-            || this._resolveColorVar('--px-vis-box-whisker-median-color') || this._defaultAltColor;
-          this.meanStrokeColor = config.meanStrokeColor
-            || this._resolveColorVar('--px-vis-box-whisker-mean-color') || this.strokeColor;
-          this.meanFillColor = config.meanFillColor
-            || this._resolveColorVar('--px-vis-box-whisker-mean-fill-color') || this._defaultAltColor;
-          this.outlierStrokeColor = config.outlierStrokeColor
-            || this._resolveColorVar('--px-vis-box-whisker-outlier-color') || this.strokeColor;
-          this.outlierFillColor = config.outlierFillColor
-            || this._resolveColorVar('--px-vis-box-whisker-outlier-fill-color') || this._defaultOutlierFillColor;
-        }
+        const seriesConfig = this.completeSeriesConfig || {};
+        const config = seriesConfig[this.seriesKey] || {};
+        this.fillColor = config.color
+          || this._resolveColorVar('--px-vis-box-whisker-fill-color') || this._defaultColor;
+        this.strokeColor = config.strokeColor
+          || this._resolveColorVar('--px-vis-box-whisker-stroke-color') || this._defaultColor;
+        this.medianColor = config.medianColor
+          || this._resolveColorVar('--px-vis-box-whisker-median-color') || this._defaultAltColor;
+        this.meanStrokeColor = config.meanStrokeColor
+          || this._resolveColorVar('--px-vis-box-whisker-mean-color') || this.strokeColor;
+        this.meanFillColor = config.meanFillColor
+          || this._resolveColorVar('--px-vis-box-whisker-mean-fill-color') || this._defaultAltColor;
+        this.outlierStrokeColor = config.outlierStrokeColor
+          || this._resolveColorVar('--px-vis-box-whisker-outlier-color') || this.strokeColor;
+        this.outlierFillColor = config.outlierFillColor
+          || this._resolveColorVar('--px-vis-box-whisker-outlier-fill-color') || this._defaultOutlierFillColor;
       },
 
       _resolveColorVar: function(varName) {

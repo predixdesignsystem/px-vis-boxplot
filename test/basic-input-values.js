@@ -32,9 +32,8 @@ document.addEventListener('WebComponentsReady', () => {
 
     it('Negative values', (done) => {
       var chartData = generateChartData(2); // eslint-disable-line
-      for (var i = 0; i < chartData.length; ++i) {
-        chartData[i].data.min = 0 - (i + 1);
-      }
+      chartData[0].series1.data.min = -1;
+      chartData[1].series2.data.min = -2;
       chart.chartData = chartData;
 
       waitDrawUpdate(() => {

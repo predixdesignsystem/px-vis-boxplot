@@ -118,16 +118,30 @@
         },
 
         /**
+         * Stroke color for mean circle.
+         */
+        meanStrokeColor: {
+          type: String
+        },
+
+        /**
          * Fill color for mean circle.
          */
-        meanColor: {
+        meanFillColor: {
+          type: String
+        },
+
+        /**
+         * Stroke color for outlier circles.
+         */
+        outlierStrokeColor: {
           type: String
         },
 
         /**
          * Fill color for outlier circles.
          */
-        outlierColor: {
+        outlierFillColor: {
           type: String
         },
 
@@ -157,13 +171,18 @@
         _defaultAltColor: {
           type: String,
           value: '#FFF'
+        },
+
+        _defaultOutlierFillColor: {
+          type: String,
+          value: 'transparent'
         }
 
       },
 
       observers: [
         'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, outlierRadius, meanRadius, seriesKey)',
-        '_updateColors(fillColor, strokeColor, medianColor, meanColor, outlierColor, seriesKey)',
+        '_updateColors(fillColor, strokeColor, medianColor, meanStrokeColor, outlierStrokeColor, outlierFillColor, seriesKey)',
         '_seriesConfigUpdated(seriesKey, completeSeriesConfig)'
       ],
 
@@ -223,11 +242,11 @@
         this._appendLine(boxWhisker, drawingData.min, this.strokeColor);
         this._appendLine(boxWhisker, drawingData.median, this.medianColor);
         this._appendCircle(boxWhisker, drawingData.mean, this.meanRadius,
-          this.strokeColor, this.meanColor);
+          this.meanStrokeColor, this.meanFillColor);
         // draw outliers and attach event handlers to each individually
         drawingData.outliers.forEach((outlier) => {
           this._appendCircle(this._svgGroup, outlier, this.outlierRadius,
-            this.strokeColor, this.outlierColor)
+            this.outlierStrokeColor, this.outlierFillColor)
             .on('mouseover', this._handleOutlierMouseover.bind(this))
             .on('mouseout', this._handleOutlierMouseout.bind(this));
         });
@@ -450,7 +469,7 @@
         });
       },
 
-      _updateColors(fillColor, strokeColor, medianColor, meanColor, outlierColor) {
+      _updateColors() {
         // TODO: change color without re-drawing entirely
         this.draw(this.data, this.position);
       },
@@ -468,10 +487,14 @@
             || this._resolveColorVar('--px-vis-box-whisker-stroke-color') || this._defaultColor;
           this.medianColor = config.medianColor
             || this._resolveColorVar('--px-vis-box-whisker-median-color') || this._defaultAltColor;
-          this.meanColor = config.meanColor
-            || this._resolveColorVar('--px-vis-box-whisker-mean-color') || this._defaultAltColor;
-          this.outlierColor = config.outlierColor
-            || this._resolveColorVar('--px-vis-box-whisker-outlier-color') || this._defaultAltColor;
+          this.meanStrokeColor = config.meanStrokeColor
+            || this._resolveColorVar('--px-vis-box-whisker-mean-color') || this.strokeColor;
+          this.meanFillColor = config.meanFillColor
+            || this._resolveColorVar('--px-vis-box-whisker-mean-fill-color') || this._defaultAltColor;
+          this.outlierStrokeColor = config.outlierStrokeColor
+            || this._resolveColorVar('--px-vis-box-whisker-outlier-color') || this.strokeColor;
+          this.outlierFillColor = config.outlierFillColor
+            || this._resolveColorVar('--px-vis-box-whisker-outlier-fill-color') || this._defaultOutlierFillColor;
         }
       },
 

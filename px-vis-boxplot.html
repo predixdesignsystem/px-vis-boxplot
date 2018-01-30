@@ -3,6 +3,7 @@
 <link rel="import" href="../px-vis/px-vis-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
 <link rel="import" href="../px-vis/px-vis-threshold.html">
+<link rel="import" href="../px-tooltip/px-tooltip.html">
 <link rel="import" href="px-vis-box-whisker.html">
 
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
@@ -86,7 +87,11 @@
         domain-changed="[[domainChanged]]"
         mean-radius="[[boxWhiskerConfig.meanRadius]]"
         outlier-radius="[[boxWhiskerConfig.outlierRadius]]"
-        draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]">
+        draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]"
+        on-box-mouseover="_handleBoxMouseover"
+        on-box-mouseout="_handleBoxMouseout"
+        on-outlier-mouseover="_handleOutlierMouseover"
+        on-outlier-mouseout="_handleOutlierMouseout">
       </px-vis-box-whisker>
     </template>
     <!-- threshold lines -->
@@ -106,7 +111,12 @@
       show-threshold-box="[[showThresholdBox]]"
       language="[[language]]">
     </px-vis-threshold>
-
+    <!-- tooltip -->
+    <px-tooltip
+      id="tooltip"
+      ignore-target-events>
+      <div id="tooltipContent"></div>
+    </px-tooltip>
   </template>
   <script>
     Polymer({
@@ -268,6 +278,7 @@
 
       ready: function() {
         this.set('numberOfLayers', 5);
+        this.tooltipContent = this.$.tooltip.querySelector('#tooltipContent');
       },
 
       _chartDataChanged: function(chartData) {
@@ -419,6 +430,46 @@
           this._boxWidth = scaleFunc.bandwidth();
           this._edgeWidth = this._boxWidth / 3;
         }
+      },
+
+      _handleBoxMouseover: function(event, details) {
+        console.info('box whisker mouseover');
+        this._showTooltip(details.svgEl, this._createTooltipMessage(details.details));
+      },
+
+      _handleBoxMouseout: function(event, details) {
+        console.info('box whisker mouseout');
+        this._closeTooltip();
+      },
+
+      _handleOutlierMouseover: function(event, details) {
+        console.info('outlier mouseover');
+      },
+
+      _handleOutlierMouseout: function(event, details) {
+        console.info('outlier mouseout');
+      },
+
+      _showTooltip: function(el, msg) {
+        // this.$.tooltip.for = el;
+        this.tooltipContent.innerHTML = msg;
+        this.$.tooltip.opened = true;
+      },
+
+      _closeTooltip: function() {
+        this.$.tooltip.opened = false;
+      },
+
+      _createTooltipMessage: function(item) {
+        let msg = '<h1 style="text-weight:bold;font-size:125%;">';
+        msg += this.completeSeriesConfig[item.seriesKey].name;
+        msg += '</h1>';
+        msg += 'Maximum: ' + Number.parseFloat(item.data.max) + '<br>';
+        msg += 'Upper quartile: ' + Number.parseFloat(item.data.q3) + '<br>';
+        msg += 'Median: ' + Number.parseFloat(item.data.median) + '<br>';
+        msg += 'Lower quartile: ' + Number.parseFloat(item.data.q1) + '<br>';
+        msg += 'Minimum: ' + Number.parseFloat(item.data.min) + '<br>';
+        return msg;
       }
 
     });

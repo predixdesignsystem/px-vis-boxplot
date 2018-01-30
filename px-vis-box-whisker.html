@@ -455,14 +455,22 @@
 
       _handleBoxMouseover: function(d, i, svgEl) {
         this.fire('box-mouseover', {
-          data: this.data,
+          details: {
+            seriesKey: this.seriesKey,
+            data: this.data,
+            position: this.position
+          },
           svgEl: svgEl
         });
       },
 
       _handleBoxMouseout: function(d, i, svgEl) {
         this.fire('box-mouseout', {
-          data: this.data,
+          details: {
+            seriesKey: this.seriesKey,
+            data: this.data,
+            position: this.position
+          },
           svgEl: svgEl
         });
       },
@@ -470,7 +478,11 @@
       _handleOutlierMouseover: function(d, i, svgEl) {
         this.fire('outlier-mouseover', {
           // TODO: need to get the correct outlier data
-          data: this.data,
+          details: {
+            seriesKey: this.seriesKey,
+            data: this.data,
+            position: this.position
+          },
           svgEl: svgEl
         });
       },
@@ -478,7 +490,11 @@
       _handleOutlierMouseout: function(d, i, svgEl) {
         this.fire('outlier-mouseout', {
           // TODO: need to get the correct outlier data
-          data: this.data,
+          details: {
+            seriesKey: this.seriesKey,
+            data: this.data,
+            position: this.position
+          },
           svgEl: svgEl
         });
       },

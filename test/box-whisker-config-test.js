@@ -14,19 +14,41 @@ document.addEventListener('WebComponentsReady', () => {
       });
     });
 
-    it('Set whisker box confid', (done) => {
+    it('Set whisker box config', (done) => {
       chart.chartData = generateChartData(3); // eslint-disable-line
       chart.boxWhiskerConfig = {
-        'boxWidth': 30,
-        'edgeWidth': 15,
-        'meanRadius': 4,
-        'outlierRadius': 4,
-        'fillColor': 'green',
-        'strokeColor': '#060',
-        'medianStrokeColor': '#060',
-        'meanFillColor': '#8F8',
-        'outlierFillColor': '8F8',
-        'drawDebounceTime': 50
+        meanRadius: 20,
+        outlierRadius: 20,
+        drawDebounceTime: 10
+      };
+
+      waitDrawUpdate(() => {
+        done();
+      });
+    });
+
+
+    it('Set whisker box look and feel', (done) => {
+      chart.chartData = generateChartData(3); // eslint-disable-line
+      chart.seriesConfig = {
+        'series1': {
+          'name': 'Series 1',
+          'x': 'position',
+          'y': 'data',
+          'color': 'red'
+        },
+        'series2': {
+          'name': 'Series 2',
+          'x': 'position',
+          'y': 'data',
+          'color': 'green'
+        },
+        'series3': {
+          'name': 'Series 3',
+          'x': 'position',
+          'y': 'data',
+          'color': 'blue'
+        }
       };
 
       waitDrawUpdate(() => {

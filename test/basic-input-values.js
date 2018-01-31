@@ -30,6 +30,15 @@ document.addEventListener('WebComponentsReady', () => {
       });
     });
 
+    it('Without gridlines', (done) => {
+      chart.chartData = generateChartData(2); // eslint-disable-line
+      chart.hideGridLines = true;
+
+      waitDrawUpdate(() => {
+        done();
+      });
+    });
+
     it('Negative values', (done) => {
       var chartData = generateChartData(2); // eslint-disable-line
       chartData[0].series1.data.min = -1;

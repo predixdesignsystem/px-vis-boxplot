@@ -46,5 +46,36 @@ document.addEventListener('WebComponentsReady', () => {
         done();
       });
     });
+
+    it('Set whisker box look and feel', (done) => {
+      expect(chart.orientation).to.be.eq('vertical');
+      chart.orientation = 'horizontal';
+      chart.chartData = generateChartData(3); // eslint-disable-line
+      chart.seriesConfig = {
+        'series1': {
+          'name': 'Series 1',
+          'x': 'position',
+          'y': 'data',
+          'color': 'red'
+        },
+        'series2': {
+          'name': 'Series 2',
+          'x': 'position',
+          'y': 'data',
+          'color': 'green'
+        },
+        'series3': {
+          'name': 'Series 3',
+          'x': 'position',
+          'y': 'data',
+          'color': 'blue'
+        }
+      };
+
+      waitDrawUpdate(() => {
+        expect(chart.orientation).to.be.eq('horizontal');
+        done();
+      });
+    });
   });
 });

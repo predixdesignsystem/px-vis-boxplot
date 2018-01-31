@@ -3,6 +3,7 @@
 <link rel="import" href="../px-vis/px-vis-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
 <link rel="import" href="../px-vis/px-vis-threshold.html">
+<link rel="import" href="../px-vis/px-vis-gridlines.html">
 <link rel="import" href="../px-tooltip/px-tooltip.html">
 <link rel="import" href="px-vis-box-whisker.html">
 
@@ -72,6 +73,27 @@
       muted-series=[[mutedSeries]]
       domain-changed="[[domainChanged]]">
     </px-vis-axis>
+    <!-- gridlines -->
+    <template is="dom-if" if="[[_showGridlines(hideGridLines, orientation, 'horizontal')]]" restamp>
+      <px-vis-gridlines
+        svg="[[layer.0]]"
+        axis="[[x]]"
+        margin="[[margin]]"
+        length="[[height]]"
+        orientation="bottom"
+        domain-changed="[[domainChanged]]">
+      </px-vis-gridlines>
+    </template>
+    <template is="dom-if" if="[[_showGridlines(hideGridLines, orientation, 'vertical')]]" restamp>
+      <px-vis-gridlines
+        svg="[[layer.0]]"
+        axis="[[y]]"
+        margin="[[margin]]"
+        length="[[width]]"
+        orientation="left"
+        domain-changed="[[domainChanged]]">
+      </px-vis-gridlines>
+    </template>
     <!-- box and whisker components -->
     <template is="dom-repeat" items="[[chartData]]" restamp>
       <px-vis-box-whisker
@@ -245,6 +267,14 @@
         },
 
         /**
+         * If true the grid lines will be hidden.
+         */
+        hideGridLines: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
          * Sets the orientation of the threshold line. Applicable values:
          *
          * `x`: Threshold line will be vertical. Aligning with a value on the x-axis.
@@ -367,6 +397,10 @@
        */
       _getBoxWhiskerPosition: function(item) {
         return item[Object.keys(item)[0]].position;
+      },
+
+      _showGridlines: function(hideGridLines, orientation, direction) {
+        return !hideGridLines && orientation === direction;
       },
 
       _boxWhiskerConfigChanged: function(conf) {

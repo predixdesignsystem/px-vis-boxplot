@@ -53,6 +53,7 @@
           scale-padding="[[props.scalePadding.value]]"
           padding-outer="[[props.paddingOuter.value]]"
           orientation="[[props.orientation.value]]"
+          hide-grid-lines="[[props.hideGridLines.value]]"
           x-axis-config="[[props.xAxisConfig.value]]"
           y-axis-config="[[props.yAxisConfig.value]]"
           threshold-data="[[props.thresholdData.value]]"
@@ -192,6 +193,12 @@
         inputType: 'dropdown',
         defaultValue: 'vertical',
         inputChoices: ['vertical', 'horizontal']
+      },
+
+      hideGridLines: {
+        type: Boolean,
+        inputType: 'toggle',
+        defaultValue: false
       },
 
       seriesConfig: {

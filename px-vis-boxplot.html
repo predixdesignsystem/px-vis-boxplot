@@ -108,8 +108,6 @@
         box-width="[[_boxWidth]]"
         edge-width="[[_edgeWidth]]"
         domain-changed="[[domainChanged]]"
-        mean-radius="[[boxWhiskerConfig.meanRadius]]"
-        outlier-radius="[[boxWhiskerConfig.outlierRadius]]"
         draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]"
         on-box-mouseover="_handleBoxMouseover"
         on-box-mouseout="_handleBoxMouseout"
@@ -489,7 +487,7 @@
       },
 
       _handleOutlierMouseover: function(event, details) {
-        this._showTooltip(details.svgEl[0], this._createTooltipMessageOutlier(details.details));
+        this._showTooltip(details.svgEl, this._createTooltipMessageOutlier(details.details));
       },
 
       _handleOutlierMouseout: function(event, details) {
@@ -521,13 +519,11 @@
 
       _createTooltipMessageOutlier: function(item) {
         let msg = '<h1 style="text-weight:bold;font-size:125%;">';
-        msg += this.completeSeriesConfig[item.seriesKey].name + ' Outlier';
+        msg += this.completeSeriesConfig[item.seriesKey].name;
         msg += '</h1>';
-        if (item.data.outliers) {
-          item.data.outliers.forEach((outlier) => {
-            // use parseFloat to be safe of XSS
-            msg += 'Outlier: ' + Number.parseFloat(outlier) + '<br>';
-          });
+        if (item.data) {
+          // use parseFloat to be safe of XSS
+          msg += 'Outlier: ' + Number.parseFloat(item.data) + '<br>';
         }
         return msg;
       }

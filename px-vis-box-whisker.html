@@ -23,7 +23,8 @@
         PxVisBehavior.commonMethods,
         PxVisBehavior.svgDefinition,
         PxVisBehaviorD3.axes,
-        PxVisBehaviorD3.domainUpdate
+        PxVisBehaviorD3.domainUpdate,
+        PxVisBehaviorD3.scatterMarkers
       ],
 
       properties: {
@@ -81,65 +82,121 @@
         },
 
         /**
-         * Radius of outlier circles.
-         */
-        outlierRadius: {
-          type: Number,
-          value: 2
+        * The symbol used for the outlier. This value is ready from the
+        * completeSeriesConfig. Supported symbols:
+        * - 'circle'
+        * - 'cross'
+        * - 'diamond'
+        * - 'square'
+        * - 'triangle-up'
+        * - 'star'
+        * - 'wye'
+        * more info at https://github.com/d3/d3-shape/blob/master/README.md#symbols
+        *
+        * Some additional "custom" types are also available:
+        * - 'bar'
+        * - 'thin-bar'
+        * - 'thick-bar'
+        * - 'x'
+        */
+        outlierSymbol: {
+          type: String
         },
 
         /**
-         * Radius of mean circle.
+         * Size of the outlier symbol. This value is ready from the completeSeriesConfig.
          */
-        meanRadius: {
-          type: Number,
-          value: 2
+        outlierSize: {
+          type: Number
         },
 
         /**
-         * Fill color.
+         * Scale of the outlier symbol. This value is ready from the completeSeriesConfig.
+         */
+        outlierScale: {
+          type: Number
+        },
+
+        /**
+        * The symbol used for the mean. This value is ready from the
+        * completeSeriesConfig. Supported symbols:
+        * - 'circle'
+        * - 'cross'
+        * - 'diamond'
+        * - 'square'
+        * - 'triangle-up'
+        * - 'star'
+        * - 'wye'
+        * more info at https://github.com/d3/d3-shape/blob/master/README.md#symbols
+        *
+        * Some additional "custom" types are also available:
+        * - 'bar'
+        * - 'thin-bar'
+        * - 'thick-bar'
+        * - 'x'
+        */
+        meanSymbol: {
+          type: String
+        },
+
+        /**
+         * Size of the mean symbol. This value is ready from the completeSeriesConfig.
+         */
+        meanSize: {
+          type: Number
+        },
+
+        /**
+         * Size of the mean scale. This value is ready from the completeSeriesConfig.
+         */
+        meanScale: {
+          type: Number
+        },
+
+        /**
+         * Fill color of the box. This value is ready from the completeSeriesConfig.
          */
         fillColor: {
           type: String
         },
 
         /**
-         * Stroke color.
+         * Stroke color of the box. This value is ready from the completeSeriesConfig.
          */
         strokeColor: {
           type: String
         },
 
         /**
-         * Stroke color for the median line.
+         * Stroke color for the median line. This value is ready from the completeSeriesConfig.
          */
         medianColor: {
           type: String
         },
 
         /**
-         * Stroke color for mean circle.
+         * Stroke color for mean circle. This value is ready from the completeSeriesConfig.
          */
         meanStrokeColor: {
           type: String
         },
 
         /**
-         * Fill color for mean circle.
+         * Fill color for mean circle. This value is ready from the completeSeriesConfig.
          */
         meanFillColor: {
           type: String
         },
 
         /**
-         * Stroke color for outlier circles.
+         * Stroke color for outlier circles. This value is ready from the completeSeriesConfig.
          */
         outlierStrokeColor: {
           type: String
         },
 
         /**
-         * Fill color for outlier circles.
+         * Fill color for outlier circles. This value is ready from the completeSeriesConfig.
          */
         outlierFillColor: {
           type: String
@@ -176,13 +233,28 @@
         _defaultOutlierFillColor: {
           type: String,
           value: 'transparent'
+        },
+
+        _defaultOutlierMeanSymbol: {
+          type: String,
+          value: 'circle'
+        },
+
+        _defaultOutlierMeanSize: {
+          type: Number,
+          value: 10
+        },
+
+        _defaultOutlierMeanScale: {
+          type: Number,
+          value: 1
         }
 
       },
 
       observers: [
-        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, outlierRadius, meanRadius, seriesKey, completeSeriesConfig)',
-        '_updateColors(fillColor, strokeColor, medianColor, meanStrokeColor, outlierStrokeColor, outlierFillColor)'
+        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, seriesKey, completeSeriesConfig)',
+        '_updateColors(fillColor, strokeColor, medianColor, meanStrokeColor, meanFillColor, outlierStrokeColor, outlierFillColor)'
       ],
 
       ready: function() {
@@ -242,12 +314,15 @@
         }
         // make sure colors are current
         this._resolveColors();
+        // make sure all options are up to date
+        this._resolveOptions();
         // init svg group
         this._svgGroup = this.svg.append('g');
         // group together box + whisker parts
         const boxWhisker = this._svgGroup.append('g');
 
-        // draw each piece
+        // draw all lines and rectangles
+        // TODO: replace basic append methods with D3 way of doing it, such as for mean and outliers
         this._appendLine(boxWhisker, drawingData.max, this.strokeColor);
         this._appendLine(boxWhisker, drawingData.q3Whisker, this.strokeColor);
         this._appendRectangle(boxWhisker, drawingData.q3Box, this.strokeColor, this.fillColor);
@@ -255,15 +330,44 @@
         this._appendLine(boxWhisker, drawingData.q1Whisker, this.strokeColor);
         this._appendLine(boxWhisker, drawingData.min, this.strokeColor);
         this._appendLine(boxWhisker, drawingData.median, this.medianColor);
-        this._appendCircle(boxWhisker, drawingData.mean, this.meanRadius,
-          this.meanStrokeColor, this.meanFillColor);
-        // draw outliers and attach event handlers to each individually
-        drawingData.outliers.forEach((outlier) => {
-          this._appendCircle(this._svgGroup, outlier, this.outlierRadius,
-            this.outlierStrokeColor, this.outlierFillColor)
+
+        // draw mean with D3 for symbol/customization support
+        const meanBuilder = boxWhisker.selectAll('path.mean')
+          .data([this.data.mean]);
+        meanBuilder.exit().remove();
+        meanBuilder.enter()
+          .append('path')
+          .attr('class', 'mean')
+          // run whenever data array gets updated
+          .merge(meanBuilder)
+          .attr('d', Px.d3.symbol().type(this.markerMapping[this.meanSymbol]).size(this.meanSize))
+          .attr('fill', this.meanFillColor)
+          .attr('stroke', this.meanStrokeColor)
+          .attr('transform', function(value) {
+            return this._getSvgTransform(value, this.position, this.meanScale, this.orientation);
+          }.bind(this));
+
+        // draw mean with D3 for symbol/customization support,
+        // this way each outlier svg retains original value for mouseover events
+        if (this.data.outliers) {
+          const outlierBuilder = this._svgGroup.selectAll('path.outlier')
+            .data(this.data.outliers);
+          outlierBuilder.exit().remove();
+          outlierBuilder.enter()
+            .append('path')
+            .attr('class', 'outlier')
             .on('mouseover', this._handleOutlierMouseover.bind(this))
-            .on('mouseout', this._handleOutlierMouseout.bind(this));
-        });
+            .on('mouseout', this._handleOutlierMouseout.bind(this))
+            // run whenever data array gets updated
+            .merge(outlierBuilder)
+            .attr('d', Px.d3.symbol().type(this.markerMapping[this.outlierSymbol]).size(this.outlierSize))
+            .attr('fill', this.outlierFillColor)
+            .attr('stroke', this.outlierStrokeColor)
+            .attr('transform', function(value) {
+              return this._getSvgTransform(value, this.position, this.outlierScale, this.orientation);
+            }.bind(this));
+        }
+
         // attach box + whisker event handlers
         boxWhisker.on('mouseover', this._handleBoxMouseover.bind(this))
           .on('mouseout', this._handleBoxMouseout.bind(this));
@@ -293,28 +397,6 @@
           .attr('x2', data.x2)
           .attr('y2', data.y2)
           .attr('stroke', strokeColor);
-      },
-
-      /**
-       * Draw a circle to an existing svg element.
-       */
-      _appendCircle: function(svg, data, radius, strokeColor, fillColor) {
-        return svg.append('circle')
-          .attr('cx', data.x)
-          .attr('cy', data.y)
-          .attr('r', radius)
-          .attr('stroke', strokeColor)
-          .attr('fill', fillColor);
-      },
-
-      /**
-       * Draw custom path to existing svg element.
-       */
-      _appendPath: function(svg, d, strokeColor, fillColor) {
-        return svg.append('path')
-          .attr('d', d)
-          .attr('stroke', strokeColor)
-          .attr('fill', fillColor);
       },
 
       /**
@@ -363,13 +445,6 @@
         drawingData.median = {
           x1: boxLeft, y1: points.median, x2: boxRight, y2: points.median
         };
-        drawingData.mean = {
-          x: points.middle, y: points.mean
-        };
-        drawingData.outliers = [];
-        points.outliers.forEach((outlier) => {
-          drawingData.outliers.push({x: points.middle, y: outlier});
-        });
         return drawingData;
       },
 
@@ -408,13 +483,6 @@
         drawingData.median = {
           y1: boxLeft, x1: points.median, y2: boxRight, x2: points.median
         };
-        drawingData.mean = {
-          y: points.middle, x: points.mean
-        };
-        drawingData.outliers = [];
-        points.outliers.forEach((outlier) => {
-          drawingData.outliers.push({y: points.middle, x: outlier});
-        });
         return drawingData;
       },
 
@@ -453,6 +521,39 @@
         return formatted;
       },
 
+      /**
+       * Gets transform string used to position an outlier value or mean value.
+       */
+      _getSvgTransform: function(value, position, scale, orientation) {
+        const transform = this._pointToSvgPoint(value, position, orientation);
+        // build translate string
+        let str = 'translate(' + transform.x + ',' + transform.y + ')';
+        if (scale !== undefined) {
+          str += ' scale(' + scale + ')';
+        }
+        return str;
+      },
+
+      /**
+       * Converts a chart data point to an svg position (x,y pair).
+       * In vertical mode, the 'value' param is the y value and the
+       * 'position' value is the x value. In horizontal mode these are
+       * flipped.
+       */
+      _pointToSvgPoint: function(value, position, orientation) {
+        if (orientation === 'horizontal') {
+          return {
+            x: this.x(value),
+            y: this.y(position) + this.y.bandwidth() / 2
+          };
+        } else {
+          return {
+            x: this.x(position) + this.x.bandwidth() / 2,
+            y: this.y(value)
+          };
+        }
+      },
+
       _handleBoxMouseover: function(d, i, svgEl) {
         this.fire('box-mouseover', {
           details: {
@@ -475,27 +576,25 @@
         });
       },
 
-      _handleOutlierMouseover: function(d, i, svgEl) {
+      _handleOutlierMouseover: function(outlierValue, i, svgEl) {
         this.fire('outlier-mouseover', {
-          // TODO: need to get the correct outlier data
           details: {
             seriesKey: this.seriesKey,
-            data: this.data,
+            data: outlierValue,
             position: this.position
           },
-          svgEl: svgEl
+          svgEl: svgEl[i]
         });
       },
 
-      _handleOutlierMouseout: function(d, i, svgEl) {
+      _handleOutlierMouseout: function(outlierValue, i, svgEl) {
         this.fire('outlier-mouseout', {
-          // TODO: need to get the correct outlier data
           details: {
             seriesKey: this.seriesKey,
-            data: this.data,
+            data: outlierValue,
             position: this.position
           },
-          svgEl: svgEl
+          svgEl: svgEl[i]
         });
       },
 
@@ -524,6 +623,28 @@
           || this._resolveColorVar('--px-vis-box-whisker-outlier-color') || this.strokeColor;
         this.outlierFillColor = config.outlierFillColor
           || this._resolveColorVar('--px-vis-box-whisker-outlier-fill-color') || this._defaultOutlierFillColor;
+      },
+
+      _resolveOptions: function() {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
+        const seriesConfig = this.completeSeriesConfig || {};
+        const config = seriesConfig[this.seriesKey] || {};
+        // outlier options
+        this.outlierSymbol = config.outlierSymbol
+          || this._defaultOutlierMeanSymbol;
+        this.outlierSize = config.outlierSize
+          || this._defaultOutlierMeanSize;
+        this.outlierScale = config.outlierScale
+          || this._defaultOutlierMeanScale;
+        // mean options
+        this.meanSymbol = config.meanSymbol
+          || this._defaultOutlierMeanSymbol;
+        this.meanSize = config.meanSize
+          || this._defaultOutlierMeanSize;
+        this.meanScale = config.meanScale
+          || this._defaultOutlierMeanScale;
       },
 
       _resolveColorVar: function(varName) {

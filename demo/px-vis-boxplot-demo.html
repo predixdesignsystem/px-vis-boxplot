@@ -336,18 +336,30 @@
     _add: function() {
       const chart = this.shadowRoot.querySelector('px-vis-boxplot');
       const newSeries = {};
-      newSeries['series' + (chart.chartData.length + 1)] = {
+      const newSeriesKey = 'series' + (chart.chartData.length + 1);
+      // add data
+      newSeries[newSeriesKey] = {
         position: chart.chartData.length + 1,
         data: this._generateRandomData()
       };
       chart.push('chartData', newSeries);
+      // create new series config entry
+      chart.seriesConfig[newSeriesKey] = {
+        'name': 'Series ' + chart.chartData.length,
+        'x': 'position',
+        'y': 'data'
+      };
     },
 
     _remove: function() {
       const chart = this.shadowRoot.querySelector('px-vis-boxplot');
-      if (chart.chartData.length > 0) {
-        chart.splice('chartData', chart.chartData.length - 1, 1);
+      const length = chart.chartData.length;
+      // remove data
+      if (length > 0) {
+        chart.splice('chartData', length - 1, 1);
       }
+      // remove entry from series config
+      delete chart.seriesConfig['series' + length];
     },
 
     _update: function() {
@@ -360,13 +372,15 @@
 
     _generateRandomData: function(rawData) {
       return {
-        max: 90 + Math.random() * 10,
-        q3: 70 + Math.random() * 10,
-        mean: 50 + Math.random() * 10,
-        median: 50 + Math.random() * 10,
-        q1: 30 + Math.random() * 10,
-        min: 10 + Math.random() * 10,
-        outliers: [0 + Math.random() * 5, 5 + Math.random() * 5]
+        max: 90 + Math.round(Math.random() * 10),
+        q3: 70 + Math.round(Math.random() * 10),
+        mean: 50 + Math.round(Math.random() * 10),
+        median: 50 + Math.round(Math.random() * 10),
+        q1: 30 + Math.round(Math.random() * 10),
+        min: 10 + Math.round(Math.random() * 10),
+        outliers: [
+          0 + Math.round(Math.random() * 5),
+          100 + Math.round(Math.random() * 5)]
       };
     },
 

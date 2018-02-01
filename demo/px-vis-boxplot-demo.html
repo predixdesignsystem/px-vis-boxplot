@@ -57,13 +57,20 @@
           x-axis-config="[[props.xAxisConfig.value]]"
           y-axis-config="[[props.yAxisConfig.value]]"
           threshold-data="[[props.thresholdData.value]]"
-          threshold-config="[[props.thresholdConfig.value]]">
+          threshold-config="[[props.thresholdConfig.value]]"
+          on-box-click="_handleBoxClick"
+          on-box-mouseover="_handleBoxMouseover"
+          on-box-mouseout="_handleBoxMouseout"
+          on-outlier-click="_handleOutlierClick"
+          on-outlier-mouseover="_handleOutlierMouseover"
+          on-outlier-mouseout="_handleOutlierMouseout">
         </px-vis-boxplot>
         <div>
           <button on-click="_add">Add</button>
           <button on-click="_remove">Remove</button>
           <button on-click="_update">Update</button>
         </div>
+        <div id="eventMessages">Event: [[eventMessage]]</div>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
 
@@ -108,6 +115,10 @@
           }];
         }
       }
+    },
+
+    eventMessage: {
+      type: String
     },
 
     /**
@@ -296,6 +307,30 @@
         }
       }
 
+    },
+
+    _handleBoxClick: function(event, details) {
+      this.eventMessage = 'Box click - ' + details.seriesKey;
+    },
+
+    _handleBoxMouseover: function(event, details) {
+      this.eventMessage = 'Box mouseover - ' + details.seriesKey;
+    },
+
+    _handleBoxMouseout: function(event, details) {
+      this.eventMessage = 'Box mouseout - ' + details.seriesKey;
+    },
+
+    _handleOutlierClick: function(event, details) {
+      this.eventMessage = 'Outlier click (' + details.data + ') - ' + details.seriesKey;
+    },
+
+    _handleOutlierMouseover: function(event, details) {
+      this.eventMessage = 'Outlier mouseover (' + details.data + ') - ' + details.seriesKey;
+    },
+
+    _handleOutlierMouseout: function(event, details) {
+      this.eventMessage = 'Outlier mouseout (' + details.data + ') - ' + details.seriesKey;
     },
 
     _add: function() {

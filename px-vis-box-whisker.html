@@ -358,6 +358,7 @@
             .attr('class', 'outlier')
             .on('mouseover', this._handleOutlierMouseover.bind(this))
             .on('mouseout', this._handleOutlierMouseout.bind(this))
+            .on('click', this._handleOutlierClick.bind(this))
             // run whenever data array gets updated
             .merge(outlierBuilder)
             .attr('d', Px.d3.symbol().type(this.markerMapping[this.outlierSymbol]).size(this.outlierSize))
@@ -370,7 +371,8 @@
 
         // attach box + whisker event handlers
         boxWhisker.on('mouseover', this._handleBoxMouseover.bind(this))
-          .on('mouseout', this._handleBoxMouseout.bind(this));
+          .on('mouseout', this._handleBoxMouseout.bind(this))
+          .on('click', this._handleBoxClick.bind(this));
       },
 
       /**
@@ -576,6 +578,17 @@
         });
       },
 
+      _handleBoxClick: function(d, i, svgEl) {
+        this.fire('box-click', {
+          details: {
+            seriesKey: this.seriesKey,
+            data: this.data,
+            position: this.position
+          },
+          svgEl: svgEl
+        });
+      },
+
       _handleOutlierMouseover: function(outlierValue, i, svgEl) {
         this.fire('outlier-mouseover', {
           details: {
@@ -589,6 +602,17 @@
 
       _handleOutlierMouseout: function(outlierValue, i, svgEl) {
         this.fire('outlier-mouseout', {
+          details: {
+            seriesKey: this.seriesKey,
+            data: outlierValue,
+            position: this.position
+          },
+          svgEl: svgEl[i]
+        });
+      },
+
+      _handleOutlierClick: function(outlierValue, i, svgEl) {
+        this.fire('outlier-click', {
           details: {
             seriesKey: this.seriesKey,
             data: outlierValue,

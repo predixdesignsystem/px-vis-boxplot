@@ -57,7 +57,9 @@
           x-axis-config="[[props.xAxisConfig.value]]"
           y-axis-config="[[props.yAxisConfig.value]]"
           threshold-data="[[props.thresholdData.value]]"
-          threshold-config="[[props.thresholdConfig.value]]">
+          threshold-config="[[props.thresholdConfig.value]]"
+          on-box-click="_handleBoxClick"
+          on-outlier-click="_handleOutlierClick">
         </px-vis-boxplot>
         <div>
           <button on-click="_add">Add</button>
@@ -296,6 +298,16 @@
         }
       }
 
+    },
+
+    _handleBoxClick: function(event, data) {
+      console.log(event);
+      console.log(data);
+    },
+
+    _handleOutlierClick: function(event, data) {
+      console.log(event);
+      console.log(data);
     },
 
     _add: function() {

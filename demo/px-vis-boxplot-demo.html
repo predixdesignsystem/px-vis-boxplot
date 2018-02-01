@@ -63,7 +63,7 @@
           on-box-mouseout="_handleBoxMouseout"
           on-outlier-click="_handleOutlierClick"
           on-outlier-mouseover="_handleOutlierMouseover"
-          on-outlier-mouseout="_handleOutlierMouseover">
+          on-outlier-mouseout="_handleOutlierMouseout">
         </px-vis-boxplot>
         <div>
           <button on-click="_add">Add</button>
@@ -309,28 +309,28 @@
 
     },
 
-    _handleBoxClick: function(event, data) {
-      this.eventMessage = 'Box click - ' + data.details.seriesKey;
+    _handleBoxClick: function(event, details) {
+      this.eventMessage = 'Box click - ' + details.seriesKey;
     },
 
-    _handleBoxMouseover: function(event, data) {
-      this.eventMessage = 'Box mouseover - ' + data.details.seriesKey;
+    _handleBoxMouseover: function(event, details) {
+      this.eventMessage = 'Box mouseover - ' + details.seriesKey;
     },
 
-    _handleBoxMouseout: function(event, data) {
-      this.eventMessage = 'Box mouseout - ' + data.details.seriesKey;
+    _handleBoxMouseout: function(event, details) {
+      this.eventMessage = 'Box mouseout - ' + details.seriesKey;
     },
 
-    _handleOutlierClick: function(event, data) {
-      this.eventMessage = 'Outlier click (' + data.details.data + ') - ' + data.details.seriesKey;
+    _handleOutlierClick: function(event, details) {
+      this.eventMessage = 'Outlier click (' + details.data + ') - ' + details.seriesKey;
     },
 
-    _handleOutlierMouseover: function(event, data) {
-      this.eventMessage = 'Outlier mouseover (' + data.details.data + ') - ' + data.details.seriesKey;
+    _handleOutlierMouseover: function(event, details) {
+      this.eventMessage = 'Outlier mouseover (' + details.data + ') - ' + details.seriesKey;
     },
 
-    _handleOutlierMouseout: function(event, data) {
-      this.eventMessage = 'Outlier mouseout (' + data.details.data + ') - ' + data.details.seriesKey;
+    _handleOutlierMouseout: function(event, details) {
+      this.eventMessage = 'Outlier mouseout (' + details.data + ') - ' + details.seriesKey;
     },
 
     _add: function() {

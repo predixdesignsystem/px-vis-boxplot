@@ -479,7 +479,7 @@
       },
 
       _handleBoxMouseover: function(event, details) {
-        this._showTooltip(details.svgEl[0], this._createTooltipMessageBox(details.details));
+        this._showTooltip(details.svgEl, this._createTooltipMessageBox(details));
       },
 
       _handleBoxMouseout: function(event, details) {
@@ -487,7 +487,7 @@
       },
 
       _handleOutlierMouseover: function(event, details) {
-        this._showTooltip(details.svgEl, this._createTooltipMessageOutlier(details.details));
+        this._showTooltip(details.svgEl, this._createTooltipMessageOutlier(details));
       },
 
       _handleOutlierMouseout: function(event, details) {

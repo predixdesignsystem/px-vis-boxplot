@@ -558,66 +558,54 @@
 
       _handleBoxMouseover: function(d, i, svgEl) {
         this.fire('box-mouseover', {
-          details: {
-            seriesKey: this.seriesKey,
-            data: this.data,
-            position: this.position
-          },
-          svgEl: svgEl
+          seriesKey: this.seriesKey,
+          data: this.data,
+          position: this.position,
+          svgEl: svgEl[i]
         });
       },
 
       _handleBoxMouseout: function(d, i, svgEl) {
         this.fire('box-mouseout', {
-          details: {
-            seriesKey: this.seriesKey,
-            data: this.data,
-            position: this.position
-          },
-          svgEl: svgEl
+          seriesKey: this.seriesKey,
+          data: this.data,
+          position: this.position,
+          svgEl: svgEl[i]
         });
       },
 
       _handleBoxClick: function(d, i, svgEl) {
         this.fire('box-click', {
-          details: {
-            seriesKey: this.seriesKey,
-            data: this.data,
-            position: this.position
-          },
-          svgEl: svgEl
+          seriesKey: this.seriesKey,
+          data: this.data,
+          position: this.position,
+          svgEl: svgEl[i]
         });
       },
 
       _handleOutlierMouseover: function(outlierValue, i, svgEl) {
         this.fire('outlier-mouseover', {
-          details: {
-            seriesKey: this.seriesKey,
-            data: outlierValue,
-            position: this.position
-          },
+          seriesKey: this.seriesKey,
+          data: outlierValue,
+          position: this.position,
           svgEl: svgEl[i]
         });
       },
 
       _handleOutlierMouseout: function(outlierValue, i, svgEl) {
         this.fire('outlier-mouseout', {
-          details: {
-            seriesKey: this.seriesKey,
-            data: outlierValue,
-            position: this.position
-          },
+          seriesKey: this.seriesKey,
+          data: outlierValue,
+          position: this.position,
           svgEl: svgEl[i]
         });
       },
 
       _handleOutlierClick: function(outlierValue, i, svgEl) {
         this.fire('outlier-click', {
-          details: {
-            seriesKey: this.seriesKey,
-            data: outlierValue,
-            position: this.position
-          },
+          seriesKey: this.seriesKey,
+          data: outlierValue,
+          position: this.position,
           svgEl: svgEl[i]
         });
       },

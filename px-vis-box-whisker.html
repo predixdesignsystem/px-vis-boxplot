@@ -278,6 +278,29 @@
       },
 
       /**
+       * Returns SVG group element (<g>) that contains all of the box and whisker
+       * elements except for the outliers.
+       */
+      getSvgBoxElement: function() {
+        const boxEls = this._svgGroup.selectAll('.box');
+        if (boxEls && boxEls._groups && boxEls._groups[0]) {
+          return boxEls._groups[0][0];
+        }
+        return [];
+      },
+
+      /**
+       * Returns NodeList of outlier SVG path elements.
+       */
+      getSvgOutlierElements: function() {
+        const outlierEls = this._svgGroup.selectAll('.outlier');
+        if (outlierEls && outlierEls._groups) {
+          return outlierEls._groups[0];
+        }
+        return [];
+      },
+
+      /**
        * Draw or update the box and whisker component to the svg component.
        */
       draw: function() {
@@ -319,7 +342,7 @@
         // init svg group
         this._svgGroup = this.svg.append('g');
         // group together box + whisker parts
-        const boxWhisker = this._svgGroup.append('g');
+        const boxWhisker = this._svgGroup.append('g').attr('class', 'box');
 
         // draw all lines and rectangles
         // TODO: replace basic append methods with D3 way of doing it, such as for mean and outliers

@@ -273,6 +273,15 @@
         },
 
         /**
+         * When hovered over a box whisker or outlier, this is the opacity
+         * that gets sets to the other, non-hovered items.
+         */
+        hoverOpacity: {
+          type: Number,
+          value: 0.3
+        },
+
+        /**
          * Sets the orientation of the threshold line. Applicable values:
          *
          * `x`: Threshold line will be vertical. Aligning with a value on the x-axis.
@@ -480,18 +489,47 @@
 
       _handleBoxMouseover: function(event, details) {
         this._showTooltip(details.svgEl, this._createTooltipMessageBox(details));
+        this._setHoveredEl(details.svgEl, 1, this.hoverOpacity, this.$.tooltip.delay);
       },
 
       _handleBoxMouseout: function(event, details) {
         this._closeTooltip();
+        this._setHoveredEl(details.svgEl, 1, 1);
       },
 
       _handleOutlierMouseover: function(event, details) {
         this._showTooltip(details.svgEl, this._createTooltipMessageOutlier(details));
+        this._setHoveredEl(details.svgEl, 1, this.hoverOpacity, this.$.tooltip.delay);
       },
 
       _handleOutlierMouseout: function(event, details) {
         this._closeTooltip();
+        this._setHoveredEl(details.svgEl, 1, 1);
+      },
+
+      _setHoveredEl: function(hoveredEl, hoveredOpacity, nonHoveredOpacity, delay) {
+        const boxWhiskers = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+        // lower opacity for all non-hovered elements
+        this.debounce('opacityTimeout', () => {
+          boxWhiskers.forEach((boxWhisker) => {
+            const boxEl = boxWhisker.getSvgBoxElement();
+            const outlierEls = boxWhisker.getSvgOutlierElements();
+            // box whiskers
+            if (boxEl === hoveredEl) {
+              boxEl.setAttribute('opacity', hoveredOpacity);
+            } else {
+              boxEl.setAttribute('opacity', nonHoveredOpacity);
+            }
+            // outliers
+            outlierEls.forEach((outlierEl) => {
+              if (outlierEl === hoveredEl) {
+                outlierEl.setAttribute('opacity', hoveredOpacity);
+              } else {
+                outlierEl.setAttribute('opacity', nonHoveredOpacity);
+              }
+            });
+          });
+        }, delay);
       },
 
       _showTooltip: function(el, msg) {

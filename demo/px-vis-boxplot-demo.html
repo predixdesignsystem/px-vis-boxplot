@@ -53,6 +53,7 @@
           scale-padding="[[props.scalePadding.value]]"
           padding-outer="[[props.paddingOuter.value]]"
           orientation="[[props.orientation.value]]"
+          hover-opacity="[[props.hoverOpacity.value]]"
           hide-grid-lines="[[props.hideGridLines.value]]"
           x-axis-config="[[props.xAxisConfig.value]]"
           y-axis-config="[[props.yAxisConfig.value]]"
@@ -126,30 +127,6 @@
      */
     demoProps: {
 
-      width: {
-        type: Number,
-        inputType: 'number',
-        defaultValue: 500
-      },
-
-      height: {
-        type: Number,
-        inputType: 'number',
-        defaultValue: 300
-      },
-
-      scalePadding: {
-        type: Number,
-        inputType: 'number',
-        defaultValue: 0.5
-      },
-
-      paddingOuter: {
-        type: Number,
-        inputType: 'number',
-        defaultValue: 0.5
-      },
-
       chartData: {
         input: Array,
         inputType: 'code:JSON',
@@ -199,17 +176,47 @@
         ]
       },
 
+      hideGridLines: {
+        type: Boolean,
+        inputType: 'toggle',
+        defaultValue: false
+      },
+
+      width: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 500
+      },
+
+      height: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 300
+      },
+
+      scalePadding: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 0.5
+      },
+
+      paddingOuter: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 0.5
+      },
+
+      hoverOpacity: {
+        type: Number,
+        inputType: 'number',
+        defaultValue: 0.3
+      },
+
       orientation: {
         type: String,
         inputType: 'dropdown',
         defaultValue: 'vertical',
         inputChoices: ['vertical', 'horizontal']
-      },
-
-      hideGridLines: {
-        type: Boolean,
-        inputType: 'toggle',
-        defaultValue: false
       },
 
       seriesConfig: {

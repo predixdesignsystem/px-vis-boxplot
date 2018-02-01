@@ -59,13 +59,18 @@
           threshold-data="[[props.thresholdData.value]]"
           threshold-config="[[props.thresholdConfig.value]]"
           on-box-click="_handleBoxClick"
-          on-outlier-click="_handleOutlierClick">
+          on-box-mouseover="_handleBoxMouseover"
+          on-box-mouseout="_handleBoxMouseout"
+          on-outlier-click="_handleOutlierClick"
+          on-outlier-mouseover="_handleOutlierMouseover"
+          on-outlier-mouseout="_handleOutlierMouseover">
         </px-vis-boxplot>
         <div>
           <button on-click="_add">Add</button>
           <button on-click="_remove">Remove</button>
           <button on-click="_update">Update</button>
         </div>
+        <div id="eventMessages">Event: [[eventMessage]]</div>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
 
@@ -110,6 +115,10 @@
           }];
         }
       }
+    },
+
+    eventMessage: {
+      type: String
     },
 
     /**
@@ -301,13 +310,27 @@
     },
 
     _handleBoxClick: function(event, data) {
-      console.log(event);
-      console.log(data);
+      this.eventMessage = 'Box click - ' + data.details.seriesKey;
+    },
+
+    _handleBoxMouseover: function(event, data) {
+      this.eventMessage = 'Box mouseover - ' + data.details.seriesKey;
+    },
+
+    _handleBoxMouseout: function(event, data) {
+      this.eventMessage = 'Box mouseout - ' + data.details.seriesKey;
     },
 
     _handleOutlierClick: function(event, data) {
-      console.log(event);
-      console.log(data);
+      this.eventMessage = 'Outlier click (' + data.details.data + ') - ' + data.details.seriesKey;
+    },
+
+    _handleOutlierMouseover: function(event, data) {
+      this.eventMessage = 'Outlier mouseover (' + data.details.data + ') - ' + data.details.seriesKey;
+    },
+
+    _handleOutlierMouseout: function(event, data) {
+      this.eventMessage = 'Outlier mouseout (' + data.details.data + ') - ' + data.details.seriesKey;
     },
 
     _add: function() {

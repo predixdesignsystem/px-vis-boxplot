@@ -20,6 +20,7 @@
 
 <!-- Imports for this component -->
 <link rel="import" href="../px-vis-boxplot.html" />
+<link rel="import" href="../../px-modal/px-modal.html" />
 <!-- Demo DOM module -->
 <dom-module id="px-vis-boxplot-demo">
   <template>
@@ -66,12 +67,24 @@
           on-outlier-mouseover="_handleOutlierMouseover"
           on-outlier-mouseout="_handleOutlierMouseout">
         </px-vis-boxplot>
+        <!-- add, remove, update chartData -->
         <div>
           <button on-click="_add">Add</button>
           <button on-click="_remove">Remove</button>
           <button on-click="_update">Update</button>
+          <button on-click="_export">Export as Image</button>
         </div>
+        <!-- show mouse events -->
         <div id="eventMessages">Event: [[eventMessage]]</div>
+        <!-- used to show exported image -->
+        <px-modal>
+          <div slot="header">Exported Image</div>
+          <div slot="body" id="exportedImageContainer">
+            <!-- <img src="[[exportedImg]]" /> -->
+          </div>
+          <button slot="reject-trigger">Close</button>
+          <button slot="accept-trigger">Close</button>
+        </px-modal>
       </px-demo-component>
       <!-- END Component ------------------------------------------------------>
 
@@ -119,6 +132,10 @@
     },
 
     eventMessage: {
+      type: String
+    },
+
+    exportedImg: {
       type: String
     },
 
@@ -390,6 +407,20 @@
           100 + Math.round(Math.random() * 5)]
       };
     },
+
+    _export: function() {
+      const chart = this.shadowRoot.querySelector('px-vis-boxplot');
+      const modal = this.shadowRoot.querySelector('px-modal');
+      chart.getImage((data) => {
+        if (this._img) {
+          this.$.exportedImageContainer.removeChild(this._img);
+        }
+        this._img = document.createElement('img');
+        this._img.src = data.image;
+        this.$.exportedImageContainer.append(this._img);
+        modal.opened = true;
+      });
+    }
 
   });
 

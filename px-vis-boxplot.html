@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../px-vis/px-vis-scale.html">
 <link rel="import" href="../px-vis/px-vis-svg.html">
+<link rel="import" href="../px-vis/px-vis-svg-canvas.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
 <link rel="import" href="../px-vis/px-vis-threshold.html">
 <link rel="import" href="../px-vis/px-vis-gridlines.html">
@@ -10,6 +11,7 @@
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
 <link rel="import" href="../px-vis/px-vis-behavior-chart.html">
+<link rel="import" href="../px-vis/px-vis-behavior-d3.html">
 
 <link rel="import" href="css/px-vis-boxplot-styles.html">
 
@@ -18,12 +20,24 @@
   <template>
     <style include="px-vis-boxplot-styles"></style>
 
-    <px-vis-svg
+    <!-- TODO: change back to px-vis-svg once svg export works -->
+    <!-- <px-vis-svg
       width="[[width]]"
       height="[[height]]"
       margin="[[margin]]"
       svg="{{svg}}">
-    </px-vis-svg>
+    </px-vis-svg> -->
+    <px-vis-svg-canvas
+      id="svg"
+      class="inline--flex flex__item--msfix pointer-events"
+      width="[[width]]"
+      height="[[height]]"
+      margin="[[margin]]"
+      svg="{{svg}}"
+      px-svg-elem="{{pxSvgElem}}"
+      canvas-context="{{canvasContext}}"
+      canvas-layers="{{canvasLayers}}">
+    </px-vis-svg-canvas>
     <px-vis-scale
       x-axis-type="[[xAxisType]]"
       y-axis-type="[[yAxisType]]"
@@ -163,8 +177,10 @@
         PxVisBehaviorD3.domainUpdate,
         PxVisBehaviorChart.axisConfigs,
         PxVisBehaviorChart.layers,
+        PxVisBehaviorChart.saveImage,
         PxVisBehaviorChart.subConfiguration,
-        PxVisBehaviorChart.thresholdConfig
+        PxVisBehaviorChart.thresholdConfig,
+        PxVisBehaviorD3.canvasContext
       ],
 
       properties: {
@@ -326,6 +342,10 @@
       ready: function() {
         this.set('numberOfLayers', 5);
         this.tooltipContent = this.$.tooltip.querySelector('#tooltipContent');
+        // TODO: remove this hack when export with svg works
+        // hack to remove the pointer-events: none set by the svg-canvas element
+        const svgStyleSheet = this.$.svg.shadowRoot.styleSheets[0];
+        svgStyleSheet.insertRule('.noPointer { pointer-events: all; }', svgStyleSheet.cssRules.length);
       },
 
       _chartDataChanged: function(chartData) {

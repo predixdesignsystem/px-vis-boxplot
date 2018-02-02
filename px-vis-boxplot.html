@@ -15,7 +15,52 @@
 
 <link rel="import" href="css/px-vis-boxplot-styles.html">
 
+<!--
+Creates an interactive box plot chart with both vertical and horizontal orientation.
 
+### Usage
+
+    <px-vis-boxplot
+      chart-data=[[chartData]]
+      width="500"
+      height="300">
+    </px-vis-boxplot>
+
+### Styling
+The following custom properties are available for styling:
+
+Custom property | Description
+:----------------|:-------------
+  `--px-vis-axis-color` | The color for the axis lines, axis ticks, and axis tick labels
+  `--px-vis-axis-title-color` | The color for the axis title
+  |
+  |
+  |
+  `--px-vis-gridlines-color` | The color for the gridlines
+  |
+  |
+  |
+  `--px-vis-threshold-color` | The default color for a threshold
+  |
+  |
+  |
+  `--px-tooltip-background-color` | The color of the tooltip
+  `--px-tooltip-text-color` | The color of the tooltip text
+  `--px-tooltip-light-background-color` | The color of the light version tooltip
+  `--px-tooltip-light-text-color` | The color of the light version tooltip text
+  `--px-tooltip-light-border-color`| The color of the light version tooltip border
+  |
+  |
+  |
+  `--px-vis-font-family` | The font family for all labels and text
+
+
+
+@element px-vis-boxplot
+@blurb Creates an interactive box plot chart
+@homepage index.html
+@demo index.html
+-->
 <dom-module id="px-vis-boxplot">
   <template>
     <style include="px-vis-boxplot-styles"></style>

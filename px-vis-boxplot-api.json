@@ -14,11 +14,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1981,
+              "line": 1986,
               "column": 4
             },
             "end": {
-              "line": 1983,
+              "line": 1988,
               "column": 5
             }
           },
@@ -119,17 +119,166 @@
           "inheritedFrom": "PxVisBehaviorD3.domainUpdate"
         },
         {
+          "name": "markerMapping",
+          "type": "Object",
+          "description": "Maps dev input marker string to d3 symbols.\n\nTo add additional, custom icons, provide a draw function wrapped in an object and draw your shape using canvas drawing methods. See 'bar' or 'x' as examples",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1745,
+              "column": 4
+            },
+            "end": {
+              "line": 1811,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "readOnly": true
+            }
+          },
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "markerSymbol",
+          "type": "string",
+          "description": "The symbol used for the marker. Supported symbols:\n- 'circle'\n- 'cross'\n- 'diamond'\n- 'square'\n- 'triangle-up'\n- 'star'\n- 'wye'\nmore info at https://github.com/d3/d3-shape/blob/master/README.md#symbols\nThis property will be read from the completeSeriesConfig\n\nSome additional \"custom\" types are also available:\n- 'bar'\n- 'thin-bar'\n- 'thick-bar'\n- 'x'",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1830,
+              "column": 4
+            },
+            "end": {
+              "line": 1832,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "markerScale",
+          "type": "number",
+          "description": "Scales the size of the scatter marker\nThis property will be read from the completeSeriesConfig",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1837,
+              "column": 4
+            },
+            "end": {
+              "line": 1839,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "markerSize",
+          "type": "number",
+          "description": "the size of the markers\nThis property will be read from the completeSeriesConfig",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1844,
+              "column": 4
+            },
+            "end": {
+              "line": 1846,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "markerFillOpacity",
+          "type": "number",
+          "description": "The opacity of the fill (inside) of the marker\nThis property will be read from the completeSeriesConfig",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1851,
+              "column": 4
+            },
+            "end": {
+              "line": 1853,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "markerStrokeOpacity",
+          "type": "number",
+          "description": "The opacity of the stroke (outside) of the marker\nThis property will be read from the completeSeriesConfig",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1858,
+              "column": 4
+            },
+            "end": {
+              "line": 1860,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "mutedOpacity",
+          "type": "number",
+          "description": "the opacity value of the fill to be used when muting a serie (stroke is not drawn on mute)\nThis property will be read from the completeSeriesConfig",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1865,
+              "column": 4
+            },
+            "end": {
+              "line": 1867,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
           "name": "seriesKey",
           "type": "string",
           "description": "",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 30,
+              "line": 31,
               "column": 8
             },
             "end": {
-              "line": 32,
+              "line": 33,
               "column": 9
             }
           },
@@ -144,11 +293,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 34,
+              "line": 35,
               "column": 8
             },
             "end": {
-              "line": 36,
+              "line": 37,
               "column": 9
             }
           },
@@ -163,11 +312,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 42,
+              "line": 43,
               "column": 8
             },
             "end": {
-              "line": 45,
+              "line": 46,
               "column": 9
             }
           },
@@ -183,11 +332,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 51,
+              "line": 52,
               "column": 8
             },
             "end": {
-              "line": 54,
+              "line": 55,
               "column": 9
             }
           },
@@ -203,11 +352,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 60,
+              "line": 61,
               "column": 8
             },
             "end": {
-              "line": 63,
+              "line": 64,
               "column": 9
             }
           },
@@ -223,11 +372,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 68,
+              "line": 69,
               "column": 8
             },
             "end": {
-              "line": 71,
+              "line": 72,
               "column": 9
             }
           },
@@ -243,11 +392,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 77,
+              "line": 78,
               "column": 8
             },
             "end": {
-              "line": 80,
+              "line": 81,
               "column": 9
             }
           },
@@ -257,49 +406,9 @@
           "defaultValue": "15"
         },
         {
-          "name": "outlierRadius",
-          "type": "number",
-          "description": "Radius of outlier circles.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 85,
-              "column": 8
-            },
-            "end": {
-              "line": 88,
-              "column": 9
-            }
-          },
-          "metadata": {
-            "polymer": {}
-          },
-          "defaultValue": "2"
-        },
-        {
-          "name": "meanRadius",
-          "type": "number",
-          "description": "Radius of mean circle.",
-          "privacy": "public",
-          "sourceRange": {
-            "start": {
-              "line": 93,
-              "column": 8
-            },
-            "end": {
-              "line": 96,
-              "column": 9
-            }
-          },
-          "metadata": {
-            "polymer": {}
-          },
-          "defaultValue": "2"
-        },
-        {
-          "name": "fillColor",
+          "name": "outlierSymbol",
           "type": "string",
-          "description": "Fill color.",
+          "description": "The symbol used for the outlier. This value is ready from the\ncompleteSeriesConfig. Supported symbols:\n- 'circle'\n- 'cross'\n- 'diamond'\n- 'square'\n- 'triangle-up'\n- 'star'\n- 'wye'\nmore info at https://github.com/d3/d3-shape/blob/master/README.md#symbols\n\nSome additional \"custom\" types are also available:\n- 'bar'\n- 'thin-bar'\n- 'thick-bar'\n- 'x'",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -316,9 +425,9 @@
           }
         },
         {
-          "name": "strokeColor",
-          "type": "string",
-          "description": "Stroke color.",
+          "name": "outlierSize",
+          "type": "number",
+          "description": "Size of the outlier symbol. This value is ready from the completeSeriesConfig.",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -335,9 +444,9 @@
           }
         },
         {
-          "name": "medianColor",
-          "type": "string",
-          "description": "Stroke color for the median line.",
+          "name": "outlierScale",
+          "type": "number",
+          "description": "Scale of the outlier symbol. This value is ready from the completeSeriesConfig.",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -354,17 +463,131 @@
           }
         },
         {
-          "name": "meanStrokeColor",
+          "name": "meanSymbol",
           "type": "string",
-          "description": "Stroke color for mean circle.",
+          "description": "The symbol used for the mean. This value is ready from the\ncompleteSeriesConfig. Supported symbols:\n- 'circle'\n- 'cross'\n- 'diamond'\n- 'square'\n- 'triangle-up'\n- 'star'\n- 'wye'\nmore info at https://github.com/d3/d3-shape/blob/master/README.md#symbols\n\nSome additional \"custom\" types are also available:\n- 'bar'\n- 'thin-bar'\n- 'thick-bar'\n- 'x'",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 122,
+              "line": 137,
               "column": 8
             },
             "end": {
-              "line": 124,
+              "line": 139,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "meanSize",
+          "type": "number",
+          "description": "Size of the mean symbol. This value is ready from the completeSeriesConfig.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 144,
+              "column": 8
+            },
+            "end": {
+              "line": 146,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "meanScale",
+          "type": "number",
+          "description": "Size of the mean scale. This value is ready from the completeSeriesConfig.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 151,
+              "column": 8
+            },
+            "end": {
+              "line": 153,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "fillColor",
+          "type": "string",
+          "description": "Fill color of the box. This value is ready from the completeSeriesConfig.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 158,
+              "column": 8
+            },
+            "end": {
+              "line": 160,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "strokeColor",
+          "type": "string",
+          "description": "Stroke color of the box. This value is ready from the completeSeriesConfig.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 165,
+              "column": 8
+            },
+            "end": {
+              "line": 167,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "medianColor",
+          "type": "string",
+          "description": "Stroke color for the median line. This value is ready from the completeSeriesConfig.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 172,
+              "column": 8
+            },
+            "end": {
+              "line": 174,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          }
+        },
+        {
+          "name": "meanStrokeColor",
+          "type": "string",
+          "description": "Stroke color for mean circle. This value is ready from the completeSeriesConfig.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 179,
+              "column": 8
+            },
+            "end": {
+              "line": 181,
               "column": 9
             }
           },
@@ -375,15 +598,15 @@
         {
           "name": "meanFillColor",
           "type": "string",
-          "description": "Fill color for mean circle.",
+          "description": "Fill color for mean circle. This value is ready from the completeSeriesConfig.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 129,
+              "line": 186,
               "column": 8
             },
             "end": {
-              "line": 131,
+              "line": 188,
               "column": 9
             }
           },
@@ -394,15 +617,15 @@
         {
           "name": "outlierStrokeColor",
           "type": "string",
-          "description": "Stroke color for outlier circles.",
+          "description": "Stroke color for outlier circles. This value is ready from the completeSeriesConfig.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 136,
+              "line": 193,
               "column": 8
             },
             "end": {
-              "line": 138,
+              "line": 195,
               "column": 9
             }
           },
@@ -413,15 +636,15 @@
         {
           "name": "outlierFillColor",
           "type": "string",
-          "description": "Fill color for outlier circles.",
+          "description": "Fill color for outlier circles. This value is ready from the completeSeriesConfig.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 143,
+              "line": 200,
               "column": 8
             },
             "end": {
-              "line": 145,
+              "line": 202,
               "column": 9
             }
           },
@@ -436,11 +659,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 152,
+              "line": 209,
               "column": 8
             },
             "end": {
-              "line": 155,
+              "line": 212,
               "column": 9
             }
           },
@@ -456,11 +679,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 161,
+              "line": 218,
               "column": 8
             },
             "end": {
-              "line": 163,
+              "line": 220,
               "column": 9
             }
           },
@@ -475,11 +698,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 165,
+              "line": 222,
               "column": 8
             },
             "end": {
-              "line": 168,
+              "line": 225,
               "column": 9
             }
           },
@@ -495,11 +718,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 170,
+              "line": 227,
               "column": 8
             },
             "end": {
-              "line": 173,
+              "line": 230,
               "column": 9
             }
           },
@@ -515,11 +738,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 175,
+              "line": 232,
               "column": 8
             },
             "end": {
-              "line": 178,
+              "line": 235,
               "column": 9
             }
           },
@@ -527,9 +750,115 @@
             "polymer": {}
           },
           "defaultValue": "\"transparent\""
+        },
+        {
+          "name": "_defaultOutlierMeanSymbol",
+          "type": "string",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 237,
+              "column": 8
+            },
+            "end": {
+              "line": 240,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "\"circle\""
+        },
+        {
+          "name": "_defaultOutlierMeanSize",
+          "type": "number",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 242,
+              "column": 8
+            },
+            "end": {
+              "line": 245,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "10"
+        },
+        {
+          "name": "_defaultOutlierMeanScale",
+          "type": "number",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 247,
+              "column": 8
+            },
+            "end": {
+              "line": 250,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "1"
         }
       ],
       "methods": [
+        {
+          "name": "_isValidData",
+          "description": "returns true if the data is valid: non NaN, null or undefined",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 339,
+              "column": 4
+            },
+            "end": {
+              "line": 342,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "d"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.dataChecks"
+        },
+        {
+          "name": "_isDataNotNull",
+          "description": "returns true if the data is not null",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 347,
+              "column": 2
+            },
+            "end": {
+              "line": 350,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "d"
+            }
+          ],
+          "inheritedFrom": "PxVisBehavior.dataChecks"
+        },
         {
           "name": "_isObjEmpty",
           "description": "Checks to see if an object is empty",
@@ -537,11 +866,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 807,
+              "line": 819,
               "column": 2
             },
             "end": {
-              "line": 815,
+              "line": 827,
               "column": 3
             }
           },
@@ -563,11 +892,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 823,
+              "line": 835,
               "column": 2
             },
             "end": {
-              "line": 828,
+              "line": 840,
               "column": 3
             }
           },
@@ -589,11 +918,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 836,
+              "line": 848,
               "column": 2
             },
             "end": {
-              "line": 841,
+              "line": 853,
               "column": 3
             }
           },
@@ -615,11 +944,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 849,
+              "line": 861,
               "column": 2
             },
             "end": {
-              "line": 858,
+              "line": 870,
               "column": 3
             }
           },
@@ -641,11 +970,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 860,
+              "line": 872,
               "column": 2
             },
             "end": {
-              "line": 872,
+              "line": 884,
               "column": 3
             }
           },
@@ -659,32 +988,6 @@
         },
         {
           "name": "_isVarDefined",
-          "description": "Checks to see if an object is defined",
-          "privacy": "protected",
-          "sourceRange": {
-            "file": "bower_components/px-vis/px-vis-behavior-common.html",
-            "start": {
-              "line": 880,
-              "column": 2
-            },
-            "end": {
-              "line": 885,
-              "column": 3
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "obj"
-            }
-          ],
-          "return": {
-            "type": "bool"
-          },
-          "inheritedFrom": "PxVisBehavior.commonMethods"
-        },
-        {
-          "name": "_isVarUndefined",
           "description": "Checks to see if an object is defined",
           "privacy": "protected",
           "sourceRange": {
@@ -710,17 +1013,43 @@
           "inheritedFrom": "PxVisBehavior.commonMethods"
         },
         {
+          "name": "_isVarUndefined",
+          "description": "Checks to see if an object is defined",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 904,
+              "column": 2
+            },
+            "end": {
+              "line": 909,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "bool"
+          },
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
           "name": "_escapeCssSelector",
           "description": "escapes '.' in css selectors so that we can appropriately select stuff with dots in thei ids",
           "privacy": "protected",
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 902,
+              "line": 914,
               "column": 2
             },
             "end": {
-              "line": 904,
+              "line": 916,
               "column": 3
             }
           },
@@ -739,11 +1068,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 909,
+              "line": 921,
               "column": 2
             },
             "end": {
-              "line": 926,
+              "line": 938,
               "column": 3
             }
           },
@@ -765,11 +1094,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 931,
+              "line": 943,
               "column": 2
             },
             "end": {
-              "line": 936,
+              "line": 948,
               "column": 3
             }
           },
@@ -788,11 +1117,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 941,
+              "line": 953,
               "column": 2
             },
             "end": {
-              "line": 952,
+              "line": 964,
               "column": 3
             }
           },
@@ -811,11 +1140,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 957,
+              "line": 969,
               "column": 2
             },
             "end": {
-              "line": 974,
+              "line": 986,
               "column": 3
             }
           },
@@ -846,11 +1175,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 979,
+              "line": 991,
               "column": 2
             },
             "end": {
-              "line": 996,
+              "line": 1008,
               "column": 3
             }
           },
@@ -884,11 +1213,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 998,
+              "line": 1010,
               "column": 2
             },
             "end": {
-              "line": 1028,
+              "line": 1040,
               "column": 3
             }
           },
@@ -925,11 +1254,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1033,
+              "line": 1045,
               "column": 2
             },
             "end": {
-              "line": 1046,
+              "line": 1058,
               "column": 3
             }
           },
@@ -951,11 +1280,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1048,
+              "line": 1060,
               "column": 2
             },
             "end": {
-              "line": 1050,
+              "line": 1062,
               "column": 3
             }
           },
@@ -1038,11 +1367,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 187,
+              "line": 259,
               "column": 6
             },
             "end": {
-              "line": 190,
+              "line": 262,
               "column": 7
             }
           },
@@ -1055,11 +1384,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 192,
+              "line": 264,
               "column": 6
             },
             "end": {
-              "line": 197,
+              "line": 269,
               "column": 7
             }
           },
@@ -1072,11 +1401,45 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 199,
+              "line": 271,
               "column": 6
             },
             "end": {
-              "line": 205,
+              "line": 277,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "getSvgBoxElement",
+          "description": "Returns SVG group element (<g>) that contains all of the box and whisker\nelements except for the outliers.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 283,
+              "column": 6
+            },
+            "end": {
+              "line": 289,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "getSvgOutlierElements",
+          "description": "Returns NodeList of outlier SVG path elements.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 294,
+              "column": 6
+            },
+            "end": {
+              "line": 300,
               "column": 7
             }
           },
@@ -1089,11 +1452,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 210,
+              "line": 305,
               "column": 6
             },
             "end": {
-              "line": 214,
+              "line": 309,
               "column": 7
             }
           },
@@ -1106,11 +1469,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 219,
+              "line": 314,
               "column": 6
             },
             "end": {
-              "line": 269,
+              "line": 398,
               "column": 7
             }
           },
@@ -1123,11 +1486,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 275,
+              "line": 404,
               "column": 6
             },
             "end": {
-              "line": 283,
+              "line": 412,
               "column": 7
             }
           },
@@ -1153,11 +1516,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 288,
+              "line": 417,
               "column": 6
             },
             "end": {
-              "line": 295,
+              "line": 424,
               "column": 7
             }
           },
@@ -1171,69 +1534,6 @@
             },
             {
               "name": "strokeColor"
-            }
-          ]
-        },
-        {
-          "name": "_appendCircle",
-          "description": "Draw a circle to an existing svg element.",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 300,
-              "column": 6
-            },
-            "end": {
-              "line": 307,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "svg"
-            },
-            {
-              "name": "data"
-            },
-            {
-              "name": "radius"
-            },
-            {
-              "name": "strokeColor"
-            },
-            {
-              "name": "fillColor"
-            }
-          ]
-        },
-        {
-          "name": "_appendPath",
-          "description": "Draw custom path to existing svg element.",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 312,
-              "column": 6
-            },
-            "end": {
-              "line": 317,
-              "column": 7
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "svg"
-            },
-            {
-              "name": "d"
-            },
-            {
-              "name": "strokeColor"
-            },
-            {
-              "name": "fillColor"
             }
           ]
         },
@@ -1243,11 +1543,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 324,
+              "line": 431,
               "column": 6
             },
             "end": {
-              "line": 328,
+              "line": 435,
               "column": 7
             }
           },
@@ -1276,11 +1576,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 333,
+              "line": 440,
               "column": 6
             },
             "end": {
-              "line": 373,
+              "line": 473,
               "column": 7
             }
           },
@@ -1306,11 +1606,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 378,
+              "line": 478,
               "column": 6
             },
             "end": {
-              "line": 418,
+              "line": 511,
               "column": 7
             }
           },
@@ -1336,11 +1636,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 426,
+              "line": 519,
               "column": 6
             },
             "end": {
-              "line": 453,
+              "line": 546,
               "column": 7
             }
           },
@@ -1361,16 +1661,73 @@
           ]
         },
         {
+          "name": "_getSvgTransform",
+          "description": "Gets transform string used to position an outlier value or mean value.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 551,
+              "column": 6
+            },
+            "end": {
+              "line": 559,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "value"
+            },
+            {
+              "name": "position"
+            },
+            {
+              "name": "scale"
+            },
+            {
+              "name": "orientation"
+            }
+          ]
+        },
+        {
+          "name": "_pointToSvgPoint",
+          "description": "Converts a chart data point to an svg position (x,y pair).\nIn vertical mode, the 'value' param is the y value and the\n'position' value is the x value. In horizontal mode these are\nflipped.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 567,
+              "column": 6
+            },
+            "end": {
+              "line": 579,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "value"
+            },
+            {
+              "name": "position"
+            },
+            {
+              "name": "orientation"
+            }
+          ]
+        },
+        {
           "name": "_handleBoxMouseover",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 455,
+              "line": 581,
               "column": 6
             },
             "end": {
-              "line": 464,
+              "line": 588,
               "column": 7
             }
           },
@@ -1393,11 +1750,38 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 466,
+              "line": 590,
               "column": 6
             },
             "end": {
-              "line": 475,
+              "line": 597,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "d"
+            },
+            {
+              "name": "i"
+            },
+            {
+              "name": "svgEl"
+            }
+          ]
+        },
+        {
+          "name": "_handleBoxClick",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 599,
+              "column": 6
+            },
+            "end": {
+              "line": 606,
               "column": 7
             }
           },
@@ -1420,18 +1804,18 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 477,
+              "line": 608,
               "column": 6
             },
             "end": {
-              "line": 487,
+              "line": 615,
               "column": 7
             }
           },
           "metadata": {},
           "params": [
             {
-              "name": "d"
+              "name": "outlierValue"
             },
             {
               "name": "i"
@@ -1447,18 +1831,45 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 489,
+              "line": 617,
               "column": 6
             },
             "end": {
-              "line": 499,
+              "line": 624,
               "column": 7
             }
           },
           "metadata": {},
           "params": [
             {
-              "name": "d"
+              "name": "outlierValue"
+            },
+            {
+              "name": "i"
+            },
+            {
+              "name": "svgEl"
+            }
+          ]
+        },
+        {
+          "name": "_handleOutlierClick",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 626,
+              "column": 6
+            },
+            "end": {
+              "line": 633,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "outlierValue"
             },
             {
               "name": "i"
@@ -1474,11 +1885,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 501,
+              "line": 635,
               "column": 6
             },
             "end": {
-              "line": 504,
+              "line": 638,
               "column": 7
             }
           },
@@ -1491,11 +1902,28 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 506,
+              "line": 640,
               "column": 6
             },
             "end": {
-              "line": 526,
+              "line": 660,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": []
+        },
+        {
+          "name": "_resolveOptions",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 662,
+              "column": 6
+            },
+            "end": {
+              "line": 682,
               "column": 7
             }
           },
@@ -1508,11 +1936,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 528,
+              "line": 684,
               "column": 6
             },
             "end": {
-              "line": 544,
+              "line": 700,
               "column": 7
             }
           },
@@ -1533,7 +1961,7 @@
           "column": 12
         },
         "end": {
-          "line": 546,
+          "line": 702,
           "column": 5
         }
       },
@@ -1546,11 +1974,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1981,
+              "line": 1986,
               "column": 4
             },
             "end": {
-              "line": 1983,
+              "line": 1988,
               "column": 5
             }
           },
@@ -1631,15 +2059,141 @@
           "inheritedFrom": "PxVisBehaviorD3.domainUpdate"
         },
         {
+          "name": "marker-mapping",
+          "description": "Maps dev input marker string to d3 symbols.\n\nTo add additional, custom icons, provide a draw function wrapped in an object and draw your shape using canvas drawing methods. See 'bar' or 'x' as examples",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1745,
+              "column": 4
+            },
+            "end": {
+              "line": 1811,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "marker-symbol",
+          "description": "The symbol used for the marker. Supported symbols:\n- 'circle'\n- 'cross'\n- 'diamond'\n- 'square'\n- 'triangle-up'\n- 'star'\n- 'wye'\nmore info at https://github.com/d3/d3-shape/blob/master/README.md#symbols\nThis property will be read from the completeSeriesConfig\n\nSome additional \"custom\" types are also available:\n- 'bar'\n- 'thin-bar'\n- 'thick-bar'\n- 'x'",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1830,
+              "column": 4
+            },
+            "end": {
+              "line": 1832,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "string",
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "marker-scale",
+          "description": "Scales the size of the scatter marker\nThis property will be read from the completeSeriesConfig",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1837,
+              "column": 4
+            },
+            "end": {
+              "line": 1839,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "number",
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "marker-size",
+          "description": "the size of the markers\nThis property will be read from the completeSeriesConfig",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1844,
+              "column": 4
+            },
+            "end": {
+              "line": 1846,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "number",
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "marker-fill-opacity",
+          "description": "The opacity of the fill (inside) of the marker\nThis property will be read from the completeSeriesConfig",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1851,
+              "column": 4
+            },
+            "end": {
+              "line": 1853,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "number",
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "marker-stroke-opacity",
+          "description": "The opacity of the stroke (outside) of the marker\nThis property will be read from the completeSeriesConfig",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1858,
+              "column": 4
+            },
+            "end": {
+              "line": 1860,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "number",
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
+          "name": "muted-opacity",
+          "description": "the opacity value of the fill to be used when muting a serie (stroke is not drawn on mute)\nThis property will be read from the completeSeriesConfig",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 1865,
+              "column": 4
+            },
+            "end": {
+              "line": 1867,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "number",
+          "inheritedFrom": "PxVisBehaviorD3.scatterMarkers"
+        },
+        {
           "name": "series-key",
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 30,
+              "line": 31,
               "column": 8
             },
             "end": {
-              "line": 32,
+              "line": 33,
               "column": 9
             }
           },
@@ -1651,11 +2205,11 @@
           "description": "",
           "sourceRange": {
             "start": {
-              "line": 34,
+              "line": 35,
               "column": 8
             },
             "end": {
-              "line": 36,
+              "line": 37,
               "column": 9
             }
           },
@@ -1667,11 +2221,11 @@
           "description": "Data used to draw the box and whisker component.",
           "sourceRange": {
             "start": {
-              "line": 42,
+              "line": 43,
               "column": 8
             },
             "end": {
-              "line": 45,
+              "line": 46,
               "column": 9
             }
           },
@@ -1683,11 +2237,11 @@
           "description": "The position on the X axis. This can be a numeric value\nor a String value that exists on the axis.",
           "sourceRange": {
             "start": {
-              "line": 51,
+              "line": 52,
               "column": 8
             },
             "end": {
-              "line": 54,
+              "line": 55,
               "column": 9
             }
           },
@@ -1699,11 +2253,11 @@
           "description": "The direction of the box and whisker component.  Can be 'vertical'\nor 'horizontal'.  Defaults to vertical.",
           "sourceRange": {
             "start": {
-              "line": 60,
+              "line": 61,
               "column": 8
             },
             "end": {
-              "line": 63,
+              "line": 64,
               "column": 9
             }
           },
@@ -1715,11 +2269,11 @@
           "description": "Width of the box.",
           "sourceRange": {
             "start": {
-              "line": 68,
+              "line": 69,
               "column": 8
             },
             "end": {
-              "line": 71,
+              "line": 72,
               "column": 9
             }
           },
@@ -1731,11 +2285,11 @@
           "description": "Width of the line that goes on top of the Q3 whisker\nand the line on the bottom of the Q1 whisker.",
           "sourceRange": {
             "start": {
-              "line": 77,
+              "line": 78,
               "column": 8
             },
             "end": {
-              "line": 80,
+              "line": 81,
               "column": 9
             }
           },
@@ -1743,40 +2297,8 @@
           "type": "number"
         },
         {
-          "name": "outlier-radius",
-          "description": "Radius of outlier circles.",
-          "sourceRange": {
-            "start": {
-              "line": 85,
-              "column": 8
-            },
-            "end": {
-              "line": 88,
-              "column": 9
-            }
-          },
-          "metadata": {},
-          "type": "number"
-        },
-        {
-          "name": "mean-radius",
-          "description": "Radius of mean circle.",
-          "sourceRange": {
-            "start": {
-              "line": 93,
-              "column": 8
-            },
-            "end": {
-              "line": 96,
-              "column": 9
-            }
-          },
-          "metadata": {},
-          "type": "number"
-        },
-        {
-          "name": "fill-color",
-          "description": "Fill color.",
+          "name": "outlier-symbol",
+          "description": "The symbol used for the outlier. This value is ready from the\ncompleteSeriesConfig. Supported symbols:\n- 'circle'\n- 'cross'\n- 'diamond'\n- 'square'\n- 'triangle-up'\n- 'star'\n- 'wye'\nmore info at https://github.com/d3/d3-shape/blob/master/README.md#symbols\n\nSome additional \"custom\" types are also available:\n- 'bar'\n- 'thin-bar'\n- 'thick-bar'\n- 'x'",
           "sourceRange": {
             "start": {
               "line": 101,
@@ -1791,8 +2313,8 @@
           "type": "string"
         },
         {
-          "name": "stroke-color",
-          "description": "Stroke color.",
+          "name": "outlier-size",
+          "description": "Size of the outlier symbol. This value is ready from the completeSeriesConfig.",
           "sourceRange": {
             "start": {
               "line": 108,
@@ -1804,11 +2326,11 @@
             }
           },
           "metadata": {},
-          "type": "string"
+          "type": "number"
         },
         {
-          "name": "median-color",
-          "description": "Stroke color for the median line.",
+          "name": "outlier-scale",
+          "description": "Scale of the outlier symbol. This value is ready from the completeSeriesConfig.",
           "sourceRange": {
             "start": {
               "line": 115,
@@ -1820,18 +2342,114 @@
             }
           },
           "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "mean-symbol",
+          "description": "The symbol used for the mean. This value is ready from the\ncompleteSeriesConfig. Supported symbols:\n- 'circle'\n- 'cross'\n- 'diamond'\n- 'square'\n- 'triangle-up'\n- 'star'\n- 'wye'\nmore info at https://github.com/d3/d3-shape/blob/master/README.md#symbols\n\nSome additional \"custom\" types are also available:\n- 'bar'\n- 'thin-bar'\n- 'thick-bar'\n- 'x'",
+          "sourceRange": {
+            "start": {
+              "line": 137,
+              "column": 8
+            },
+            "end": {
+              "line": 139,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "mean-size",
+          "description": "Size of the mean symbol. This value is ready from the completeSeriesConfig.",
+          "sourceRange": {
+            "start": {
+              "line": 144,
+              "column": 8
+            },
+            "end": {
+              "line": 146,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "mean-scale",
+          "description": "Size of the mean scale. This value is ready from the completeSeriesConfig.",
+          "sourceRange": {
+            "start": {
+              "line": 151,
+              "column": 8
+            },
+            "end": {
+              "line": 153,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
+          "name": "fill-color",
+          "description": "Fill color of the box. This value is ready from the completeSeriesConfig.",
+          "sourceRange": {
+            "start": {
+              "line": 158,
+              "column": 8
+            },
+            "end": {
+              "line": 160,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "stroke-color",
+          "description": "Stroke color of the box. This value is ready from the completeSeriesConfig.",
+          "sourceRange": {
+            "start": {
+              "line": 165,
+              "column": 8
+            },
+            "end": {
+              "line": 167,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "string"
+        },
+        {
+          "name": "median-color",
+          "description": "Stroke color for the median line. This value is ready from the completeSeriesConfig.",
+          "sourceRange": {
+            "start": {
+              "line": 172,
+              "column": 8
+            },
+            "end": {
+              "line": 174,
+              "column": 9
+            }
+          },
+          "metadata": {},
           "type": "string"
         },
         {
           "name": "mean-stroke-color",
-          "description": "Stroke color for mean circle.",
+          "description": "Stroke color for mean circle. This value is ready from the completeSeriesConfig.",
           "sourceRange": {
             "start": {
-              "line": 122,
+              "line": 179,
               "column": 8
             },
             "end": {
-              "line": 124,
+              "line": 181,
               "column": 9
             }
           },
@@ -1840,14 +2458,14 @@
         },
         {
           "name": "mean-fill-color",
-          "description": "Fill color for mean circle.",
+          "description": "Fill color for mean circle. This value is ready from the completeSeriesConfig.",
           "sourceRange": {
             "start": {
-              "line": 129,
+              "line": 186,
               "column": 8
             },
             "end": {
-              "line": 131,
+              "line": 188,
               "column": 9
             }
           },
@@ -1856,14 +2474,14 @@
         },
         {
           "name": "outlier-stroke-color",
-          "description": "Stroke color for outlier circles.",
+          "description": "Stroke color for outlier circles. This value is ready from the completeSeriesConfig.",
           "sourceRange": {
             "start": {
-              "line": 136,
+              "line": 193,
               "column": 8
             },
             "end": {
-              "line": 138,
+              "line": 195,
               "column": 9
             }
           },
@@ -1872,14 +2490,14 @@
         },
         {
           "name": "outlier-fill-color",
-          "description": "Fill color for outlier circles.",
+          "description": "Fill color for outlier circles. This value is ready from the completeSeriesConfig.",
           "sourceRange": {
             "start": {
-              "line": 143,
+              "line": 200,
               "column": 8
             },
             "end": {
-              "line": 145,
+              "line": 202,
               "column": 9
             }
           },
@@ -1891,11 +2509,11 @@
           "description": "A delay time used for drawing/updating the box and whisker\nsvg.  This helps ensure the draw function is not called too\nmany times when not needed.",
           "sourceRange": {
             "start": {
-              "line": 152,
+              "line": 209,
               "column": 8
             },
             "end": {
-              "line": 155,
+              "line": 212,
               "column": 9
             }
           },
@@ -1927,7 +2545,7 @@
       "tagname": "px-vis-box-whisker"
     },
     {
-      "description": "",
+      "description": "Creates an interactive box plot chart with both vertical and horizontal orientation.\n\n### Usage\n\n    <px-vis-boxplot\n      chart-data=[[chartData]]\n      width=\"500\"\n      height=\"300\">\n    </px-vis-boxplot>\n\n### Styling\nThe following custom properties are available for styling:\n\nCustom property | Description\n:----------------|:-------------\n  `--px-vis-axis-color` | The color for the axis lines, axis ticks, and axis tick labels\n  `--px-vis-axis-title-color` | The color for the axis title\n  |\n  |\n  |\n  `--px-vis-gridlines-color` | The color for the gridlines\n  |\n  |\n  |\n  `--px-vis-threshold-color` | The default color for a threshold\n  |\n  |\n  |\n  `--px-tooltip-background-color` | The color of the tooltip\n  `--px-tooltip-text-color` | The color of the tooltip text\n  `--px-tooltip-light-background-color` | The color of the light version tooltip\n  `--px-tooltip-light-text-color` | The color of the light version tooltip text\n  `--px-tooltip-light-border-color`| The color of the light version tooltip border\n  |\n  |\n  |\n  `--px-vis-font-family` | The font family for all labels and text",
       "summary": "",
       "path": "px-vis-boxplot.html",
       "properties": [
@@ -1961,11 +2579,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1078,
+              "line": 1090,
               "column": 4
             },
             "end": {
-              "line": 1081,
+              "line": 1093,
               "column": 5
             }
           },
@@ -1983,11 +2601,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1090,
+              "line": 1102,
               "column": 4
             },
             "end": {
-              "line": 1093,
+              "line": 1105,
               "column": 5
             }
           },
@@ -2051,11 +2669,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1168,
+              "line": 1180,
               "column": 4
             },
             "end": {
-              "line": 1171,
+              "line": 1183,
               "column": 5
             }
           },
@@ -2074,11 +2692,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 384,
+              "line": 399,
               "column": 7
             },
             "end": {
-              "line": 387,
+              "line": 402,
               "column": 8
             }
           },
@@ -2096,11 +2714,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 184,
+              "line": 265,
               "column": 8
             },
             "end": {
-              "line": 188,
+              "line": 269,
               "column": 9
             }
           },
@@ -2119,11 +2737,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1204,
+              "line": 1216,
               "column": 4
             },
             "end": {
-              "line": 1207,
+              "line": 1219,
               "column": 5
             }
           },
@@ -2162,11 +2780,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 200,
+              "line": 281,
               "column": 8
             },
             "end": {
-              "line": 210,
+              "line": 291,
               "column": 9
             }
           },
@@ -2183,11 +2801,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1799,
+              "line": 1804,
               "column": 4
             },
             "end": {
-              "line": 1801,
+              "line": 1806,
               "column": 5
             }
           },
@@ -2204,11 +2822,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 2738,
+              "line": 2854,
               "column": 4
             },
             "end": {
-              "line": 2740,
+              "line": 2856,
               "column": 5
             }
           },
@@ -2225,11 +2843,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1582,
+              "line": 1593,
               "column": 4
             },
             "end": {
-              "line": 1590,
+              "line": 1601,
               "column": 5
             }
           },
@@ -2247,11 +2865,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1603,
+              "line": 1614,
               "column": 4
             },
             "end": {
-              "line": 1605,
+              "line": 1616,
               "column": 5
             }
           },
@@ -2268,11 +2886,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 3232,
+              "line": 3240,
               "column": 4
             },
             "end": {
-              "line": 3234,
+              "line": 3242,
               "column": 5
             }
           },
@@ -2289,11 +2907,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 3235,
+              "line": 3243,
               "column": 4
             },
             "end": {
-              "line": 3238,
+              "line": 3246,
               "column": 5
             }
           },
@@ -2333,11 +2951,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1186,
+              "line": 1196,
               "column": 4
             },
             "end": {
-              "line": 1188,
+              "line": 1198,
               "column": 5
             }
           },
@@ -2354,11 +2972,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1194,
+              "line": 1204,
               "column": 4
             },
             "end": {
-              "line": 1196,
+              "line": 1206,
               "column": 5
             }
           },
@@ -2398,11 +3016,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 2238,
+              "line": 2243,
               "column": 5
             },
             "end": {
-              "line": 2243,
+              "line": 2248,
               "column": 6
             }
           },
@@ -2443,11 +3061,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1424,
+              "line": 1434,
               "column": 4
             },
             "end": {
-              "line": 1427,
+              "line": 1437,
               "column": 5
             }
           },
@@ -2466,11 +3084,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1428,
+              "line": 1438,
               "column": 4
             },
             "end": {
-              "line": 1430,
+              "line": 1440,
               "column": 5
             }
           },
@@ -2487,11 +3105,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1431,
+              "line": 1441,
               "column": 4
             },
             "end": {
-              "line": 1434,
+              "line": 1444,
               "column": 5
             }
           },
@@ -2502,17 +3120,86 @@
           "inheritedFrom": "PxVisBehaviorChart.layers"
         },
         {
+          "name": "canvasLayersConfig",
+          "type": "Object",
+          "description": "",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 2791,
+              "column": 4
+            },
+            "end": {
+              "line": 2794,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "{}",
+          "inheritedFrom": "PxVisBehavior.canvasLayersConfig"
+        },
+        {
+          "name": "canvasContext",
+          "type": "Object",
+          "description": "canvasContext is a holder for the instantiated canvas context to draw to.\nMust be set in ready and passed to all components so they know whom to draw to.",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 303,
+              "column": 4
+            },
+            "end": {
+              "line": 306,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          },
+          "inheritedFrom": "PxVisBehaviorD3.canvasContext"
+        },
+        {
+          "name": "canvasLayers",
+          "type": "Object",
+          "description": "An array of the generated layers",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 312,
+              "column": 4
+            },
+            "end": {
+              "line": 316,
+              "column": 5
+            }
+          },
+          "metadata": {
+            "polymer": {
+              "notify": true
+            }
+          },
+          "defaultValue": "{}",
+          "inheritedFrom": "PxVisBehaviorD3.canvasContext"
+        },
+        {
           "name": "seriesConfig",
           "type": "Object",
           "description": "TODO: import behavior PxVisBehaviorChart.chartCommon",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 191,
+              "line": 272,
               "column": 8
             },
             "end": {
-              "line": 193,
+              "line": 274,
               "column": 9
             }
           },
@@ -2527,11 +3214,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 217,
+              "line": 298,
               "column": 8
             },
             "end": {
-              "line": 219,
+              "line": 300,
               "column": 9
             }
           },
@@ -2546,11 +3233,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 224,
+              "line": 305,
               "column": 8
             },
             "end": {
-              "line": 227,
+              "line": 308,
               "column": 9
             }
           },
@@ -2566,11 +3253,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 313,
               "column": 8
             },
             "end": {
-              "line": 235,
+              "line": 316,
               "column": 9
             }
           },
@@ -2586,11 +3273,11 @@
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 241,
+              "line": 322,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 325,
               "column": 9
             }
           },
@@ -2600,17 +3287,57 @@
           "defaultValue": "\"vertical\""
         },
         {
+          "name": "hideGridLines",
+          "type": "boolean",
+          "description": "If true the grid lines will be hidden.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 330,
+              "column": 8
+            },
+            "end": {
+              "line": 333,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "false"
+        },
+        {
+          "name": "hoverOpacity",
+          "type": "number",
+          "description": "When hovered over a box whisker or outlier, this is the opacity\nthat gets sets to the other, non-hovered items.",
+          "privacy": "public",
+          "sourceRange": {
+            "start": {
+              "line": 339,
+              "column": 8
+            },
+            "end": {
+              "line": 342,
+              "column": 9
+            }
+          },
+          "metadata": {
+            "polymer": {}
+          },
+          "defaultValue": "0.3"
+        },
+        {
           "name": "thresholdType",
           "type": "string",
           "description": "Sets the orientation of the threshold line. Applicable values:\n\n`x`: Threshold line will be vertical. Aligning with a value on the x-axis.\n`y`: Threshold line will be horizontal. Aligning with a value on the y-axis.",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 252,
+              "line": 350,
               "column": 8
             },
             "end": {
-              "line": 255,
+              "line": 353,
               "column": 9
             }
           },
@@ -2626,11 +3353,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 257,
+              "line": 355,
               "column": 8
             },
             "end": {
-              "line": 260,
+              "line": 358,
               "column": 9
             }
           },
@@ -2646,11 +3373,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 262,
+              "line": 360,
               "column": 8
             },
             "end": {
-              "line": 264,
+              "line": 362,
               "column": 9
             }
           },
@@ -2665,11 +3392,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 266,
+              "line": 364,
               "column": 8
             },
             "end": {
-              "line": 268,
+              "line": 366,
               "column": 9
             }
           },
@@ -2685,11 +3412,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 288,
+              "line": 386,
               "column": 6
             },
             "end": {
-              "line": 291,
+              "line": 393,
               "column": 7
             }
           },
@@ -2861,12 +3588,12 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 352,
+              "line": 339,
               "column": 4
             },
             "end": {
-              "line": 355,
-              "column": 5
+              "line": 342,
+              "column": 3
             }
           },
           "metadata": {},
@@ -2875,7 +3602,7 @@
               "name": "d"
             }
           ],
-          "inheritedFrom": "PxVisBehavior.dataset"
+          "inheritedFrom": "PxVisBehavior.dataChecks"
         },
         {
           "name": "_isDataNotNull",
@@ -2884,12 +3611,12 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 360,
-              "column": 4
+              "line": 347,
+              "column": 2
             },
             "end": {
-              "line": 363,
-              "column": 5
+              "line": 350,
+              "column": 3
             }
           },
           "metadata": {},
@@ -2898,7 +3625,7 @@
               "name": "d"
             }
           ],
-          "inheritedFrom": "PxVisBehavior.dataset"
+          "inheritedFrom": "PxVisBehavior.dataChecks"
         },
         {
           "name": "hasUndefinedArguments",
@@ -2930,11 +3657,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 3241,
+              "line": 3249,
               "column": 2
             },
             "end": {
-              "line": 3255,
+              "line": 3270,
               "column": 3
             }
           },
@@ -2949,11 +3676,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 2245,
+              "line": 2250,
               "column": 2
             },
             "end": {
-              "line": 2252,
+              "line": 2257,
               "column": 3
             }
           },
@@ -3151,11 +3878,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 807,
+              "line": 819,
               "column": 2
             },
             "end": {
-              "line": 815,
+              "line": 827,
               "column": 3
             }
           },
@@ -3177,11 +3904,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 823,
+              "line": 835,
               "column": 2
             },
             "end": {
-              "line": 828,
+              "line": 840,
               "column": 3
             }
           },
@@ -3203,11 +3930,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 836,
+              "line": 848,
               "column": 2
             },
             "end": {
-              "line": 841,
+              "line": 853,
               "column": 3
             }
           },
@@ -3229,11 +3956,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 849,
+              "line": 861,
               "column": 2
             },
             "end": {
-              "line": 858,
+              "line": 870,
               "column": 3
             }
           },
@@ -3255,11 +3982,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 860,
+              "line": 872,
               "column": 2
             },
             "end": {
-              "line": 872,
+              "line": 884,
               "column": 3
             }
           },
@@ -3273,32 +4000,6 @@
         },
         {
           "name": "_isVarDefined",
-          "description": "Checks to see if an object is defined",
-          "privacy": "protected",
-          "sourceRange": {
-            "file": "bower_components/px-vis/px-vis-behavior-common.html",
-            "start": {
-              "line": 880,
-              "column": 2
-            },
-            "end": {
-              "line": 885,
-              "column": 3
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "obj"
-            }
-          ],
-          "return": {
-            "type": "bool"
-          },
-          "inheritedFrom": "PxVisBehavior.commonMethods"
-        },
-        {
-          "name": "_isVarUndefined",
           "description": "Checks to see if an object is defined",
           "privacy": "protected",
           "sourceRange": {
@@ -3324,17 +4025,43 @@
           "inheritedFrom": "PxVisBehavior.commonMethods"
         },
         {
+          "name": "_isVarUndefined",
+          "description": "Checks to see if an object is defined",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 904,
+              "column": 2
+            },
+            "end": {
+              "line": 909,
+              "column": 3
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "obj"
+            }
+          ],
+          "return": {
+            "type": "bool"
+          },
+          "inheritedFrom": "PxVisBehavior.commonMethods"
+        },
+        {
           "name": "_escapeCssSelector",
           "description": "escapes '.' in css selectors so that we can appropriately select stuff with dots in thei ids",
           "privacy": "protected",
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 902,
+              "line": 914,
               "column": 2
             },
             "end": {
-              "line": 904,
+              "line": 916,
               "column": 3
             }
           },
@@ -3353,11 +4080,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 909,
+              "line": 921,
               "column": 2
             },
             "end": {
-              "line": 926,
+              "line": 938,
               "column": 3
             }
           },
@@ -3379,11 +4106,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 931,
+              "line": 943,
               "column": 2
             },
             "end": {
-              "line": 936,
+              "line": 948,
               "column": 3
             }
           },
@@ -3402,11 +4129,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 941,
+              "line": 953,
               "column": 2
             },
             "end": {
-              "line": 952,
+              "line": 964,
               "column": 3
             }
           },
@@ -3425,11 +4152,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 957,
+              "line": 969,
               "column": 2
             },
             "end": {
-              "line": 974,
+              "line": 986,
               "column": 3
             }
           },
@@ -3460,11 +4187,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 979,
+              "line": 991,
               "column": 2
             },
             "end": {
-              "line": 996,
+              "line": 1008,
               "column": 3
             }
           },
@@ -3498,11 +4225,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 998,
+              "line": 1010,
               "column": 2
             },
             "end": {
-              "line": 1028,
+              "line": 1040,
               "column": 3
             }
           },
@@ -3539,11 +4266,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1033,
+              "line": 1045,
               "column": 2
             },
             "end": {
-              "line": 1046,
+              "line": 1058,
               "column": 3
             }
           },
@@ -3565,11 +4292,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1048,
+              "line": 1060,
               "column": 2
             },
             "end": {
-              "line": 1050,
+              "line": 1062,
               "column": 3
             }
           },
@@ -3588,11 +4315,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1444,
+              "line": 1454,
               "column": 2
             },
             "end": {
-              "line": 1467,
+              "line": 1477,
               "column": 3
             }
           },
@@ -3617,11 +4344,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1468,
+              "line": 1478,
               "column": 2
             },
             "end": {
-              "line": 1479,
+              "line": 1489,
               "column": 3
             }
           },
@@ -3643,17 +4370,133 @@
           "inheritedFrom": "PxVisBehaviorChart.layers"
         },
         {
+          "name": "getImage",
+          "description": "Takes a graphic \"snapshot\" of the component and pass results through a callback:\n- a canvas containing the graphical snapshot\n- a png base 64 data uri\n\ncallback object:\n{\n canvas: theCanvasObject\n image: \"data:image/png;base64;iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACN...\"\n}\n\nthe data uri can be used to save the image and the canvas object to do\nfurther processing, such as combining different elements snapshot into one image",
+          "privacy": "public",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-chart.html",
+            "start": {
+              "line": 608,
+              "column": 4
+            },
+            "end": {
+              "line": 679,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "callback"
+            },
+            {
+              "name": "renderLegend"
+            }
+          ],
+          "inheritedFrom": "PxVisBehaviorChart.saveImage"
+        },
+        {
+          "name": "_finishGetImage",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-chart.html",
+            "start": {
+              "line": 680,
+              "column": 4
+            },
+            "end": {
+              "line": 685,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "callback"
+            },
+            {
+              "name": "canvas"
+            },
+            {
+              "name": "renderLegend"
+            },
+            {
+              "name": "drawingWidth"
+            },
+            {
+              "name": "drawingHeight"
+            }
+          ],
+          "inheritedFrom": "PxVisBehaviorChart.saveImage"
+        },
+        {
+          "name": "_getRegisterWidth",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-chart.html",
+            "start": {
+              "line": 686,
+              "column": 4
+            },
+            "end": {
+              "line": 720,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "drawingWidth"
+            },
+            {
+              "name": "drawingHeight"
+            }
+          ],
+          "inheritedFrom": "PxVisBehaviorChart.saveImage"
+        },
+        {
+          "name": "_drawRegister",
+          "description": "Draws a fake representation of the registers",
+          "privacy": "protected",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-chart.html",
+            "start": {
+              "line": 724,
+              "column": 4
+            },
+            "end": {
+              "line": 752,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "context"
+            },
+            {
+              "name": "startWidth"
+            },
+            {
+              "name": "drawingHeight"
+            }
+          ],
+          "inheritedFrom": "PxVisBehaviorChart.saveImage"
+        },
+        {
           "name": "_applyConfigToElement",
           "description": "Applies the config object to the element. Each key in the config object\nis the name of the property to be applied",
           "privacy": "protected",
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 874,
+              "line": 884,
               "column": 4
             },
             "end": {
-              "line": 892,
+              "line": 902,
               "column": 5
             }
           },
@@ -3674,11 +4517,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 293,
+              "line": 395,
               "column": 6
             },
             "end": {
-              "line": 298,
+              "line": 400,
               "column": 7
             }
           },
@@ -3695,11 +4538,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 300,
+              "line": 402,
               "column": 6
             },
             "end": {
-              "line": 313,
+              "line": 415,
               "column": 7
             }
           },
@@ -3716,11 +4559,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 315,
+              "line": 417,
               "column": 6
             },
             "end": {
-              "line": 345,
+              "line": 447,
               "column": 7
             }
           },
@@ -3737,11 +4580,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 351,
+              "line": 453,
               "column": 6
             },
             "end": {
-              "line": 353,
+              "line": 455,
               "column": 7
             }
           },
@@ -3758,11 +4601,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 359,
+              "line": 461,
               "column": 6
             },
             "end": {
-              "line": 361,
+              "line": 463,
               "column": 7
             }
           },
@@ -3779,11 +4622,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 367,
+              "line": 469,
               "column": 6
             },
             "end": {
-              "line": 369,
+              "line": 471,
               "column": 7
             }
           },
@@ -3795,16 +4638,43 @@
           ]
         },
         {
+          "name": "_showGridlines",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 473,
+              "column": 6
+            },
+            "end": {
+              "line": 475,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "hideGridLines"
+            },
+            {
+              "name": "orientation"
+            },
+            {
+              "name": "direction"
+            }
+          ]
+        },
+        {
           "name": "_boxWhiskerConfigChanged",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 371,
+              "line": 477,
               "column": 6
             },
             "end": {
-              "line": 381,
+              "line": 487,
               "column": 7
             }
           },
@@ -3821,11 +4691,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 383,
+              "line": 489,
               "column": 6
             },
             "end": {
-              "line": 388,
+              "line": 494,
               "column": 7
             }
           },
@@ -3842,11 +4712,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 390,
+              "line": 496,
               "column": 6
             },
             "end": {
-              "line": 395,
+              "line": 501,
               "column": 7
             }
           },
@@ -3863,11 +4733,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 397,
+              "line": 503,
               "column": 6
             },
             "end": {
-              "line": 404,
+              "line": 510,
               "column": 7
             }
           },
@@ -3884,11 +4754,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 406,
+              "line": 512,
               "column": 6
             },
             "end": {
-              "line": 411,
+              "line": 517,
               "column": 7
             }
           },
@@ -3901,11 +4771,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 417,
+              "line": 523,
               "column": 6
             },
             "end": {
-              "line": 428,
+              "line": 534,
               "column": 7
             }
           },
@@ -3922,11 +4792,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 430,
+              "line": 536,
               "column": 6
             },
             "end": {
-              "line": 432,
+              "line": 538,
               "column": 7
             }
           },
@@ -3943,11 +4813,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 434,
+              "line": 540,
               "column": 6
             },
             "end": {
-              "line": 446,
+              "line": 552,
               "column": 7
             }
           },
@@ -3960,11 +4830,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 448,
+              "line": 554,
               "column": 6
             },
             "end": {
-              "line": 450,
+              "line": 557,
               "column": 7
             }
           },
@@ -3984,11 +4854,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 452,
+              "line": 559,
               "column": 6
             },
             "end": {
-              "line": 454,
+              "line": 562,
               "column": 7
             }
           },
@@ -4008,11 +4878,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 456,
+              "line": 564,
               "column": 6
             },
             "end": {
-              "line": 458,
+              "line": 567,
               "column": 7
             }
           },
@@ -4032,11 +4902,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 460,
+              "line": 569,
               "column": 6
             },
             "end": {
-              "line": 462,
+              "line": 572,
               "column": 7
             }
           },
@@ -4051,16 +4921,46 @@
           ]
         },
         {
+          "name": "_setHoveredEl",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 574,
+              "column": 6
+            },
+            "end": {
+              "line": 597,
+              "column": 7
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "hoveredEl"
+            },
+            {
+              "name": "hoveredOpacity"
+            },
+            {
+              "name": "nonHoveredOpacity"
+            },
+            {
+              "name": "delay"
+            }
+          ]
+        },
+        {
           "name": "_showTooltip",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 464,
+              "line": 599,
               "column": 6
             },
             "end": {
-              "line": 468,
+              "line": 603,
               "column": 7
             }
           },
@@ -4080,11 +4980,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 470,
+              "line": 605,
               "column": 6
             },
             "end": {
-              "line": 472,
+              "line": 607,
               "column": 7
             }
           },
@@ -4097,11 +4997,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 474,
+              "line": 609,
               "column": 6
             },
             "end": {
-              "line": 485,
+              "line": 620,
               "column": 7
             }
           },
@@ -4118,11 +5018,11 @@
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 487,
+              "line": 622,
               "column": 6
             },
             "end": {
-              "line": 498,
+              "line": 631,
               "column": 7
             }
           },
@@ -4135,15 +5035,20 @@
         }
       ],
       "staticMethods": [],
-      "demos": [],
+      "demos": [
+        {
+          "url": "index.html",
+          "description": ""
+        }
+      ],
       "metadata": {},
       "sourceRange": {
         "start": {
-          "line": 123,
+          "line": 202,
           "column": 12
         },
         "end": {
-          "line": 500,
+          "line": 633,
           "column": 5
         }
       },
@@ -4174,11 +5079,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1078,
+              "line": 1090,
               "column": 4
             },
             "end": {
-              "line": 1081,
+              "line": 1093,
               "column": 5
             }
           },
@@ -4192,11 +5097,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1090,
+              "line": 1102,
               "column": 4
             },
             "end": {
-              "line": 1093,
+              "line": 1105,
               "column": 5
             }
           },
@@ -4246,11 +5151,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1168,
+              "line": 1180,
               "column": 4
             },
             "end": {
-              "line": 1171,
+              "line": 1183,
               "column": 5
             }
           },
@@ -4264,11 +5169,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 384,
+              "line": 399,
               "column": 7
             },
             "end": {
-              "line": 387,
+              "line": 402,
               "column": 8
             }
           },
@@ -4281,11 +5186,11 @@
           "description": "An array of objects that contain data for each box and whisker\ncomponent on the box plot chart.\n\n```\n[{\n  series1: {\n    position: 1,\n    data: {\n      max: 90,\n      q3: 70,\n      mean: 50,\n      median: 50,\n      q1: 30,\n      min: 10,\n      outliers: [5, 2]\n    }\n  },\n  series2: {\n    position: 1,\n    data: {\n      max: 90,\n      q3: 70,\n      mean: 50,\n      median: 50,\n      q1: 30,\n      min: 10,\n      outliers: [5, 2]\n    }\n  }\n}]\n```",
           "sourceRange": {
             "start": {
-              "line": 184,
+              "line": 265,
               "column": 8
             },
             "end": {
-              "line": 188,
+              "line": 269,
               "column": 9
             }
           },
@@ -4298,11 +5203,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1204,
+              "line": 1216,
               "column": 4
             },
             "end": {
-              "line": 1207,
+              "line": 1219,
               "column": 5
             }
           },
@@ -4315,11 +5220,11 @@
           "description": "Defines the base margin for the chart. Calcs are run to add to the margin\nto accommodate axes and other elements which exist within the SVG frame,\nbut outside the chart frame.",
           "sourceRange": {
             "start": {
-              "line": 200,
+              "line": 281,
               "column": 8
             },
             "end": {
-              "line": 210,
+              "line": 291,
               "column": 9
             }
           },
@@ -4332,11 +5237,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1799,
+              "line": 1804,
               "column": 4
             },
             "end": {
-              "line": 1801,
+              "line": 1806,
               "column": 5
             }
           },
@@ -4350,11 +5255,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 2738,
+              "line": 2854,
               "column": 4
             },
             "end": {
-              "line": 2740,
+              "line": 2856,
               "column": 5
             }
           },
@@ -4368,11 +5273,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-common.html",
             "start": {
-              "line": 1603,
+              "line": 1614,
               "column": 4
             },
             "end": {
-              "line": 1605,
+              "line": 1616,
               "column": 5
             }
           },
@@ -4404,11 +5309,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1186,
+              "line": 1196,
               "column": 4
             },
             "end": {
-              "line": 1188,
+              "line": 1198,
               "column": 5
             }
           },
@@ -4422,11 +5327,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1194,
+              "line": 1204,
               "column": 4
             },
             "end": {
-              "line": 1196,
+              "line": 1206,
               "column": 5
             }
           },
@@ -4476,11 +5381,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1424,
+              "line": 1434,
               "column": 4
             },
             "end": {
-              "line": 1427,
+              "line": 1437,
               "column": 5
             }
           },
@@ -4494,11 +5399,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1428,
+              "line": 1438,
               "column": 4
             },
             "end": {
-              "line": 1430,
+              "line": 1440,
               "column": 5
             }
           },
@@ -4512,11 +5417,11 @@
           "sourceRange": {
             "file": "bower_components/px-vis/px-vis-behavior-chart.html",
             "start": {
-              "line": 1431,
+              "line": 1441,
               "column": 4
             },
             "end": {
-              "line": 1434,
+              "line": 1444,
               "column": 5
             }
           },
@@ -4525,15 +5430,69 @@
           "inheritedFrom": "PxVisBehaviorChart.layers"
         },
         {
+          "name": "canvas-layers-config",
+          "description": "",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-common.html",
+            "start": {
+              "line": 2791,
+              "column": 4
+            },
+            "end": {
+              "line": 2794,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "PxVisBehavior.canvasLayersConfig"
+        },
+        {
+          "name": "canvas-context",
+          "description": "canvasContext is a holder for the instantiated canvas context to draw to.\nMust be set in ready and passed to all components so they know whom to draw to.",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 303,
+              "column": 4
+            },
+            "end": {
+              "line": 306,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "PxVisBehaviorD3.canvasContext"
+        },
+        {
+          "name": "canvas-layers",
+          "description": "An array of the generated layers",
+          "sourceRange": {
+            "file": "bower_components/px-vis/px-vis-behavior-d3.html",
+            "start": {
+              "line": 312,
+              "column": 4
+            },
+            "end": {
+              "line": 316,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "type": "Object",
+          "inheritedFrom": "PxVisBehaviorD3.canvasContext"
+        },
+        {
           "name": "series-config",
           "description": "TODO: import behavior PxVisBehaviorChart.chartCommon",
           "sourceRange": {
             "start": {
-              "line": 191,
+              "line": 272,
               "column": 8
             },
             "end": {
-              "line": 193,
+              "line": 274,
               "column": 9
             }
           },
@@ -4545,11 +5504,11 @@
           "description": "Configuration object used to configure the box and whisker\ncomponents.  Refer to px-vis-box-whisker.html for a list\nof valid properties.",
           "sourceRange": {
             "start": {
-              "line": 217,
+              "line": 298,
               "column": 8
             },
             "end": {
-              "line": 219,
+              "line": 300,
               "column": 9
             }
           },
@@ -4561,11 +5520,11 @@
           "description": "Padding between boxes.",
           "sourceRange": {
             "start": {
-              "line": 224,
+              "line": 305,
               "column": 8
             },
             "end": {
-              "line": 227,
+              "line": 308,
               "column": 9
             }
           },
@@ -4577,11 +5536,11 @@
           "description": "Padding seperating the axis and the box and whisker drawings.",
           "sourceRange": {
             "start": {
-              "line": 232,
+              "line": 313,
               "column": 8
             },
             "end": {
-              "line": 235,
+              "line": 316,
               "column": 9
             }
           },
@@ -4593,11 +5552,11 @@
           "description": "Direction of the box plot chart.  The values can be\n'vertical' or 'horizontal'.",
           "sourceRange": {
             "start": {
-              "line": 241,
+              "line": 322,
               "column": 8
             },
             "end": {
-              "line": 244,
+              "line": 325,
               "column": 9
             }
           },
@@ -4605,15 +5564,47 @@
           "type": "string"
         },
         {
+          "name": "hide-grid-lines",
+          "description": "If true the grid lines will be hidden.",
+          "sourceRange": {
+            "start": {
+              "line": 330,
+              "column": 8
+            },
+            "end": {
+              "line": 333,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "boolean"
+        },
+        {
+          "name": "hover-opacity",
+          "description": "When hovered over a box whisker or outlier, this is the opacity\nthat gets sets to the other, non-hovered items.",
+          "sourceRange": {
+            "start": {
+              "line": 339,
+              "column": 8
+            },
+            "end": {
+              "line": 342,
+              "column": 9
+            }
+          },
+          "metadata": {},
+          "type": "number"
+        },
+        {
           "name": "threshold-type",
           "description": "Sets the orientation of the threshold line. Applicable values:\n\n`x`: Threshold line will be vertical. Aligning with a value on the x-axis.\n`y`: Threshold line will be horizontal. Aligning with a value on the y-axis.",
           "sourceRange": {
             "start": {
-              "line": 252,
+              "line": 350,
               "column": 8
             },
             "end": {
-              "line": 255,
+              "line": 353,
               "column": 9
             }
           },
@@ -4677,6 +5668,20 @@
           "description": "Fired when the `layer` property changes.",
           "metadata": {},
           "inheritedFrom": "PxVisBehaviorChart.layers"
+        },
+        {
+          "type": "CustomEvent",
+          "name": "canvas-context-changed",
+          "description": "Fired when the `canvasContext` property changes.",
+          "metadata": {},
+          "inheritedFrom": "PxVisBehaviorD3.canvasContext"
+        },
+        {
+          "type": "CustomEvent",
+          "name": "canvas-layers-changed",
+          "description": "Fired when the `canvasLayers` property changes.",
+          "metadata": {},
+          "inheritedFrom": "PxVisBehaviorD3.canvasContext"
         },
         {
           "type": "CustomEvent",

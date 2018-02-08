@@ -476,6 +476,7 @@ Custom property | Description
           return;
         }
         this._applyConfigToElement(xAxisConfig, this.$.xAxis);
+        this.$.xAxis.drawElement();
       },
 
       _yAxisConfigChanged: function(yAxisConfig) {
@@ -483,6 +484,7 @@ Custom property | Description
           return;
         }
         this._applyConfigToElement(yAxisConfig, this.$.yAxis);
+        this.$.yAxis.drawElement();
       },
 
       _thresholdConfigChanged: function(thresholdConfig) {

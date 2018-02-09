@@ -67,11 +67,12 @@ Custom property | Description
     <px-vis-svg
       width="[[width]]"
       height="[[height]]"
-      margin="[[margin]]"
+      margin="[[_internalMargin]]"
       svg="{{svg}}"
       px-svg-elem="{{pxSvgElem}}">
     </px-vis-svg>
     <px-vis-scale
+      id="scale"
       x-axis-type="[[xAxisType]]"
       y-axis-type="[[yAxisType]]"
       complete-series-config="[[completeSeriesConfig]]"
@@ -79,7 +80,7 @@ Custom property | Description
       data-extents="[[dataExtents]]"
       width="[[width]]"
       height="[[height]]"
-      margin="[[margin]]"
+      margin="[[_internalMargin]]"
       chart-data="[[chartData]]"
       x="{{x}}"
       y="{{y}}"
@@ -92,7 +93,7 @@ Custom property | Description
       svg="[[layer.1]]"
       axis="[[y]]"
       axis-type="[[yAxisType]]"
-      margin="[[margin]]"
+      margin="[[_internalMargin]]"
       width="[[width]]"
       height="[[height]]"
       title="Y Axis"
@@ -109,7 +110,7 @@ Custom property | Description
       svg="[[layer.1]]"
       axis="[[x]]"
       axis-type="[[xAxisType]]"
-      margin="[[margin]]"
+      margin="[[_internalMargin]]"
       width="[[width]]"
       height="[[height]]"
       title="X Axis"
@@ -125,7 +126,7 @@ Custom property | Description
       <px-vis-gridlines
         svg="[[layer.0]]"
         axis="[[x]]"
-        margin="[[margin]]"
+        margin="[[_internalMargin]]"
         length="[[height]]"
         orientation="bottom"
         domain-changed="[[domainChanged]]">
@@ -135,7 +136,7 @@ Custom property | Description
       <px-vis-gridlines
         svg="[[layer.0]]"
         axis="[[y]]"
-        margin="[[margin]]"
+        margin="[[_internalMargin]]"
         length="[[width]]"
         orientation="left"
         domain-changed="[[domainChanged]]">
@@ -171,7 +172,7 @@ Custom property | Description
       threshold-config="[[thresholdConfig]]"
       width="[[width]]"
       height="[[height]]"
-      margin="[[margin]]"
+      margin="[[_internalMargin]]"
       x="[[x]]"
       y="[[y]]"
       type="[[thresholdType]]"
@@ -268,15 +269,7 @@ Custom property | Description
         * but outside the chart frame.
         */
         margin: {
-          type: Object,
-          value: function() {
-            return {
-              'top': 10,
-              'right': 10,
-              'bottom': 50,
-              'left': 50
-            };
-          }
+          type: Object
         },
 
         /**
@@ -341,6 +334,20 @@ Custom property | Description
           value: 'y'
         },
 
+        _internalMargin: {
+          type: Object
+        },
+
+        _defaultMargin: {
+          type: Object,
+          value: {
+            'top': 10,
+            'right': 10,
+            'bottom': 50,
+            'left': 50
+          }
+        },
+
         _defaultColor: {
           type: String,
           value: '#000'
@@ -365,7 +372,8 @@ Custom property | Description
         '_thresholdConfigChanged(thresholdConfig)',
         '_updateStyles(_stylesUpdated)',
         '_updateSeriesConfig(seriesConfig)',
-        '_setScalePadding(domainChanged, x, y)'
+        '_setScalePadding(domainChanged, x, y)',
+        '_updateMargin(margin, orientation, xAxisConfig.*, yAxisConfig.*)'
       ],
 
       listeners: {
@@ -536,6 +544,20 @@ Custom property | Description
           this._boxWidth = scaleFunc.bandwidth();
           this._edgeWidth = this._boxWidth / 3;
         }
+      },
+
+      _updateMargin: function() {
+        let margin = this.margin;
+        // if margin isn't set, use the default
+        if (!margin) {
+          margin = {
+            top: this.$.xAxis.orientation === 'bottom' ? this._defaultMargin.top : this._defaultMargin.bottom,
+            bottom: this.$.xAxis.orientation === 'bottom' ? this._defaultMargin.bottom : this._defaultMargin.top,
+            left: this.$.yAxis.orientation === 'left' ? this._defaultMargin.left : this._defaultMargin.right,
+            right: this.$.yAxis.orientation === 'left' ? this._defaultMargin.right : this._defaultMargin.left
+          };
+        }
+        this.set('_internalMargin', margin);
       },
 
       _handleBoxMouseover: function(event, details) {

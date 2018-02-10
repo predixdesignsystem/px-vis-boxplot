@@ -54,7 +54,7 @@ document.addEventListener('WebComponentsReady', () => {
         }
       };
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         chart.getImage((data) => {
           const hasImageData = data.image !== undefined && data.image !== '';
           expect(hasImageData).to.be.eq(true);

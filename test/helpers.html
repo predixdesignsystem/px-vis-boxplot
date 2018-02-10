@@ -13,15 +13,21 @@
    * Will wait until chart is updated
    * Will break if breakAfterTest has been set to true
    */
-  function waitDrawUpdate(callback) {
-    window._testDebouncer = Polymer.Debouncer.debounce(
-      window._testDebouncer, // initially undefined
-      Polymer.Async.timeOut.after(1000),
-      () => {
+  function waitDrawUpdate(instance, callback) {
+    if (Polymer.Debouncer) {
+      window._testDebouncer = Polymer.Debouncer.debounce(
+        window._testDebouncer, // initially undefined
+        Polymer.Async.timeOut.after(1000),
+        () => {
+          checkBreak();
+          callback();
+        });
+    } else {
+      instance.debounce('_testDebouncer', () => {
         checkBreak();
         callback();
-      }
-    );
+      }, 1000);
+    }
   }
 
   function generateChartData(count) {

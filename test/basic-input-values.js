@@ -17,7 +17,7 @@ document.addEventListener('WebComponentsReady', () => {
     it('One whisker box with outliers', (done) => {
       chart.chartData = generateChartData(1); // eslint-disable-line
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         done();
       });
     });
@@ -25,7 +25,7 @@ document.addEventListener('WebComponentsReady', () => {
     it('Two whisker box with outliers', (done) => {
       chart.chartData = generateChartData(2); // eslint-disable-line
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         done();
       });
     });
@@ -34,7 +34,7 @@ document.addEventListener('WebComponentsReady', () => {
       chart.chartData = generateChartData(2); // eslint-disable-line
       chart.hideGridLines = true;
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         done();
       });
     });
@@ -45,7 +45,7 @@ document.addEventListener('WebComponentsReady', () => {
       chartData[1].series2.data.min = -2;
       chart.chartData = chartData;
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         done();
       });
     });

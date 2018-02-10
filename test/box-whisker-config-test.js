@@ -22,7 +22,7 @@ document.addEventListener('WebComponentsReady', () => {
         drawDebounceTime: 10
       };
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         done();
       });
     });
@@ -51,7 +51,7 @@ document.addEventListener('WebComponentsReady', () => {
         }
       };
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         done();
       });
     });

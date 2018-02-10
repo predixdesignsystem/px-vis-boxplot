@@ -370,7 +370,6 @@ Custom property | Description
         '_xAxisConfigChanged(xAxisConfig)',
         '_yAxisConfigChanged(yAxisConfig)',
         '_thresholdConfigChanged(thresholdConfig)',
-        '_updateStyles(_stylesUpdated)',
         '_updateSeriesConfig(seriesConfig)',
         '_setScalePadding(domainChanged, x, y)',
         '_updateMargin(margin, orientation, xAxisConfig.*, yAxisConfig.*)'
@@ -471,7 +470,14 @@ Custom property | Description
         if (this.hasUndefinedArguments(arguments)) {
           return;
         }
-        const comps = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+
+        let comps;
+        if (this.shadowRoot) {
+          comps = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+        } else {
+          comps = Polymer.dom(this.root).querySelectorAll('px-vis-box-whisker');
+        }
+
         if (comps) {
           comps.forEach(function(comp) {
             this._applyConfigToElement(this.boxWhiskerConfig, comp);
@@ -528,10 +534,6 @@ Custom property | Description
         return seriesConfig;
       },
 
-      _updateStyles: function(_stylesUpdated) {
-        console.info('updated styles');
-      },
-
       _setScalePadding: function() {
         if (this.hasUndefinedArguments(arguments)) {
           return;
@@ -581,7 +583,13 @@ Custom property | Description
       },
 
       _setHoveredEl: function(hoveredEl, hoveredOpacity, nonHoveredOpacity, delay) {
-        const boxWhiskers = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+        let boxWhiskers;
+        if (this.shadowRoot) {
+          boxWhiskers = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+        } else {
+          boxWhiskers = Polymer.dom(this.root).querySelectorAll('px-vis-box-whisker');
+        }
+
         // lower opacity for all non-hovered elements
         this.debounce('opacityTimeout', () => {
           boxWhiskers.forEach((boxWhisker) => {

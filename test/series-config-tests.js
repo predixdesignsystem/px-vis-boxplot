@@ -34,7 +34,7 @@ document.addEventListener('WebComponentsReady', () => {
         }
       };
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         done();
       });
     });
@@ -79,7 +79,7 @@ document.addEventListener('WebComponentsReady', () => {
         }
       };
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         done();
       });
     });

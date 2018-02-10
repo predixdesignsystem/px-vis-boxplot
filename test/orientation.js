@@ -19,7 +19,7 @@ document.addEventListener('WebComponentsReady', () => {
       chart.orientation = 'horizontal';
       chart.chartData = generateChartData(2); // eslint-disable-line
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         expect(chart.orientation).to.be.eq('horizontal');
         done();
       });
@@ -41,7 +41,7 @@ document.addEventListener('WebComponentsReady', () => {
         }
       ];
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         expect(chart.orientation).to.be.eq('horizontal');
         done();
       });
@@ -72,7 +72,7 @@ document.addEventListener('WebComponentsReady', () => {
         }
       };
 
-      waitDrawUpdate(() => {
+      waitDrawUpdate(chart, () => {
         expect(chart.orientation).to.be.eq('horizontal');
         done();
       });

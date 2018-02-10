@@ -87,7 +87,10 @@
       const toggleThemeBtn = document.createElement('button');
       toggleThemeBtn.innerHTML = 'Light Theme';
       toggleThemeBtn.onclick = toggleTheme;
-      document.body.prepend(toggleThemeBtn);
+      // TODO fix properly, now to allow IE11 to work
+      if (document.body.prepend) {
+        document.body.prepend(toggleThemeBtn);
+      }
       // toggle theme func
       function toggleTheme(e) {
         if (e) {

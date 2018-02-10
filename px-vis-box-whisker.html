@@ -319,7 +319,7 @@
         }
         // if data is empty, leave drawing empty
         if (!this.data) {
-          console.info('Skipping draw, no data');
+          console.warn('Skipping draw, no data');
           return;
         }
         if (!this.x || !this.y) {
@@ -335,6 +335,7 @@
           console.info('Skipping draw, invalid draw data (likely due to out of date x or y function)');
           return;
         }
+
         // make sure colors are current
         this._resolveColors();
         // make sure all options are up to date
@@ -524,16 +525,20 @@
             formatted[key] = new Array(data[key].length);
             // outliers will be in an array
             for (const i in data[key]) {
-              formatted[key][i] = y(data[key][i]);
-              if (isNaN(formatted[key][i])) {
-                throw String('Value ' + data[key][i] + ' converted to NaN');
+              if (typeof data[key][i] === 'number') {
+                formatted[key][i] = y(data[key][i]);
+                if (isNaN(formatted[key][i])) {
+                  throw String('Value ' + data[key][i] + ' converted to NaN');
+                }
               }
             }
-          } else {
+          } else if (typeof data[key] === 'number') {
             formatted[key] = y(data[key]);
             if (isNaN(formatted[key])) {
               throw String('Value ' + data[key] + ' converted to NaN');
             }
+          } else {
+            console.warn('unknown property');
           }
         }
         // add special key for the mid point

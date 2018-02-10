@@ -388,7 +388,10 @@ Custom property | Description
         if (!chartData || chartData.length < 1) {
           return;
         }
-        this.dataExtents = this._calcDataExtents(chartData);
+        const newDataExtends = this._calcDataExtents(this.chartData);
+        if (newDataExtends) {
+          this.dataExtents = newDataExtends;
+        }
       },
 
       _orientationChanged(orientation) {
@@ -403,39 +406,47 @@ Custom property | Description
           this.thresholdType = 'y';
         }
         // update extents
-        this.dataExtents = this._calcDataExtents(this.chartData);
+        const newDataExtends = this._calcDataExtents(this.chartData);
+        if (newDataExtends) {
+          this.dataExtents = newDataExtends;
+        }
       },
 
       _calcDataExtents: function(chartData) {
         if (!chartData) {
           console.warn('Cannot update data extents as chartData is null');
-          return;
+          return undefined;
         }
         const exts = {};
         // set x axis to match the data items
         exts.x = [];
         chartData.forEach((item) => exts.x.push(this._getBoxWhiskerPosition(item)));
-        exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
+        exts.y = [Infinity, -Infinity];
         // to find the min/max y values, we need to check each set of data
         for (const i in chartData) {
           if (typeof chartData[i] !== 'object') {
             continue;
           }
           const data = this._getBoxWhiskerData(chartData[i]);
-          if (data !== undefined && data.outliers) {
-            const outliersMin = Math.min.apply(Math, data.outliers);
-            const outliersMax = Math.max.apply(Math, data.outliers);
-            // compare current min/max, current series min/max, and the min/max of outliers
-            exts.y = [
-              Math.min(exts.y[0], data.min, outliersMin),
-              Math.max(exts.y[1], data.max, outliersMax)
-            ];
-          } else {
-            console.warn(chartData);
+          let outliersMin = Infinity;
+          let outliersMax = -Infinity;
+          if (data.outliers) {
+            outliersMin = Math.min.apply(Math, data.outliers);
+            outliersMax = Math.max.apply(Math, data.outliers);
           }
+
+          // compare current min/max, current series min/max, and the min/max of outliers
+          exts.y = [
+            Math.min(exts.y[0], data.min, outliersMin),
+            Math.max(exts.y[1], data.max, outliersMax)
+          ];
         }
         // pad the y axis by 1/10 of the total range
-        exts.y[1] += (exts.y[1] - exts.y[0]) / 10;
+        if (exts.y[0] !== Infinity && exts.y[1] !== -Infinity) {
+          exts.y[1] += (exts.y[1] - exts.y[0]) / 10;
+        } else {
+          exts.y = [0, 100];
+        }
         // if the orientation is horizontal, we actually need to swap our extents
         if (this.orientation === 'horizontal') {
           const y = exts.y;

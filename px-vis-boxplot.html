@@ -418,14 +418,21 @@ Custom property | Description
         exts.y = [Number.MAX_SAFE_INTEGER, Number.MIN_SAFE_INTEGER];
         // to find the min/max y values, we need to check each set of data
         for (const i in chartData) {
+          if (typeof chartData[i] !== 'object') {
+            continue;
+          }
           const data = this._getBoxWhiskerData(chartData[i]);
-          const outliersMin = Math.min.apply(Math, data.outliers);
-          const outliersMax = Math.max.apply(Math, data.outliers);
-          // compare current min/max, current series min/max, and the min/max of outliers
-          exts.y = [
-            Math.min(exts.y[0], data.min, outliersMin),
-            Math.max(exts.y[1], data.max, outliersMax)
-          ];
+          if (data !== undefined && data.outliers) {
+            const outliersMin = Math.min.apply(Math, data.outliers);
+            const outliersMax = Math.max.apply(Math, data.outliers);
+            // compare current min/max, current series min/max, and the min/max of outliers
+            exts.y = [
+              Math.min(exts.y[0], data.min, outliersMin),
+              Math.max(exts.y[1], data.max, outliersMax)
+            ];
+          } else {
+            console.warn(chartData);
+          }
         }
         // pad the y axis by 1/10 of the total range
         exts.y[1] += (exts.y[1] - exts.y[0]) / 10;
@@ -438,12 +445,30 @@ Custom property | Description
         return exts;
       },
 
+      _resolveFirstKey(obj) {
+        for (var prop in obj) {
+          if (typeof obj[prop] === 'object') {
+            return prop;
+          }
+        }
+        return undefined;
+      },
+
+      _resolveFirstValue(obj) {
+        for (var prop in obj) {
+          if (typeof obj[prop] === 'object') {
+            return obj[prop];
+          }
+        }
+        return undefined;
+      },
+
       /**
        * Returns name of the series for an object from the
        * chartData array. Used mainly by template.
        */
       _getBoxWhiskerSeriesKey: function(item) {
-        return Object.keys(item)[0];
+        return this._resolveFirstKey(item);
       },
 
       /**
@@ -451,7 +476,13 @@ Custom property | Description
        * chartData array. Used mainly by template.
        */
       _getBoxWhiskerData: function(item) {
-        return item[Object.keys(item)[0]].data;
+        const value = this._resolveFirstValue(item);
+        if (value === undefined) {
+          console.warn('Failed to find first value of ' + item);
+          return undefined;
+        } else {
+          return value.data;
+        }
       },
 
       /**
@@ -459,7 +490,7 @@ Custom property | Description
        * chartData array. Used mainly by template.
        */
       _getBoxWhiskerPosition: function(item) {
-        return item[Object.keys(item)[0]].position;
+        return this._resolveFirstValue(item).position;
       },
 
       _showGridlines: function(hideGridLines, orientation, direction) {

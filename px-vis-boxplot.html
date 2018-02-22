@@ -269,7 +269,8 @@ Custom property | Description
         * but outside the chart frame.
         */
         margin: {
-          type: Object
+          type: Object,
+          value: []
         },
 
         /**
@@ -593,7 +594,7 @@ Custom property | Description
       _updateMargin: function() {
         let margin = this.margin;
         // if margin isn't set, use the default
-        if (!margin) {
+        if (!margin || margin.length == 0) {
           margin = {
             top: this.$.xAxis.orientation === 'bottom' ? this._defaultMargin.top : this._defaultMargin.bottom,
             bottom: this.$.xAxis.orientation === 'bottom' ? this._defaultMargin.bottom : this._defaultMargin.top,

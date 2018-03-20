@@ -202,32 +202,32 @@
 
       width: {
         type: Number,
-        inputType: 'number',
-        defaultValue: 500
+        inputType: 'text',
+        defaultValue: '500'
       },
 
       height: {
         type: Number,
-        inputType: 'number',
-        defaultValue: 300
+        inputType: 'text',
+        defaultValue: '300'
       },
 
       scalePadding: {
         type: Number,
-        inputType: 'number',
-        defaultValue: 0.5
+        inputType: 'text',
+        defaultValue: '0.5'
       },
 
       paddingOuter: {
         type: Number,
-        inputType: 'number',
-        defaultValue: 0.5
+        inputType: 'text',
+        defaultValue: '0.5'
       },
 
       hoverOpacity: {
         type: Number,
-        inputType: 'number',
-        defaultValue: 0.3
+        inputType: 'text',
+        defaultValue: '0.3'
       },
 
       orientation: {
@@ -358,8 +358,16 @@
       this.eventMessage = 'Outlier mouseout (' + details.data + ') - ' + details.seriesKey;
     },
 
+    _getChart: function() {
+      if (this.shadowRoot) {
+        return this.shadowRoot.querySelector('px-vis-boxplot');
+      } else {
+        return Polymer.dom(this.root).querySelector('px-vis-boxplot');
+      }
+    },
+
     _add: function() {
-      const chart = this.shadowRoot.querySelector('px-vis-boxplot');
+      const chart = this._getChart();
       const newSeries = {};
       const newSeriesKey = 'series' + (chart.chartData.length + 1);
       // add data
@@ -377,7 +385,7 @@
     },
 
     _remove: function() {
-      const chart = this.shadowRoot.querySelector('px-vis-boxplot');
+      const chart = this._getChart();
       const length = chart.chartData.length;
       // remove data
       if (length > 0) {
@@ -388,8 +396,13 @@
     },
 
     _update: function() {
-      const chart = this.shadowRoot.querySelector('px-vis-boxplot');
-      const boxWhiskers = chart.shadowRoot.querySelectorAll('px-vis-box-whisker');
+      const chart = this._getChart();
+      let boxWhiskers;
+      if (chart.shadowRoot) {
+        boxWhiskers = chart.shadowRoot.querySelectorAll('px-vis-box-whisker');
+      } else {
+        boxWhiskers = Polymer.dom(chart.root).querySelectorAll('px-vis-box-whisker');
+      }
       boxWhiskers.forEach((drawing) => {
         drawing.data = this._generateRandomData();
       });
@@ -409,9 +422,18 @@
       };
     },
 
+    _getModal() {
+      if (this.shadowRoot) {
+        return this.shadowRoot.querySelector('px-modal');
+      } else {
+        return Polymer.dom(this.root).querySelector('px-modal');
+      }
+    },
+
     _export: function() {
-      const chart = this.shadowRoot.querySelector('px-vis-boxplot');
-      const modal = this.shadowRoot.querySelector('px-modal');
+      const chart = this._chart();
+      const modal = this._getModal();
+
       chart.getImage((data) => {
         if (this._img) {
           this.$.exportedImageContainer.removeChild(this._img);

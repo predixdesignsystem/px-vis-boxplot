@@ -340,6 +340,7 @@
           .attr('d', Px.d3.symbol().type(this.markerMapping[this.meanSymbol]).size(this.meanSize))
           .attr('fill', this.meanFillColor)
           .attr('stroke', this.meanStrokeColor)
+          .attr('pointer-events', 'none')
           .attr('transform', function(value) {
             return this._getSvgTransform(value, this.position, this.meanScale, this.orientation);
           }.bind(this));
@@ -366,7 +367,17 @@
             }.bind(this));
         }
 
-        // attach box + whisker event handlers
+        // in order to avoid repeating mouseover and mouseout events for each svg
+        // in the boxWhisker group, we will make a transparent rectange to handle
+        // pointer events
+        const mouseoverBox = {
+          x: drawingData.q3Box.x,
+          y: drawingData.q3Box.y,
+          height: drawingData.q3Box.height + drawingData.q1Box.height,
+          width: drawingData.q3Box.width
+        };
+        const mouseoverSvg = this._appendRectangle(boxWhisker, mouseoverBox, 'transparent', 'transparent');
+        mouseoverSvg.attr('pointer-events', 'all');
         boxWhisker.on('mouseover', this._handleBoxMouseover.bind(this))
           .on('mouseout', this._handleBoxMouseout.bind(this))
           .on('click', this._handleBoxClick.bind(this));
@@ -383,7 +394,8 @@
           .attr('width', data.width)
           .attr('height', data.height)
           .attr('stroke', strokeColor)
-          .attr('fill', fillColor);
+          .attr('fill', fillColor)
+          .attr('pointer-events', 'none');
       },
 
       /**
@@ -396,7 +408,8 @@
           .attr('x2', data.x2)
           .attr('y2', data.y2)
           .attr('stroke', strokeColor)
-          .attr('stroke-width', strokeWidth);
+          .attr('stroke-width', strokeWidth)
+          .attr('pointer-events', 'none');
       },
 
       /**

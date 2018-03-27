@@ -177,6 +177,13 @@
         },
 
         /**
+         * Stroke width for the median line. This value is ready from the completeSeriesConfig.
+         */
+        medianWidth: {
+          type: String
+        },
+
+        /**
          * Stroke color for mean circle. This value is ready from the completeSeriesConfig.
          */
         meanStrokeColor: {
@@ -220,36 +227,6 @@
          */
         _svgGroup: {
           type: Object
-        },
-
-        _defaultColor: {
-          type: String,
-          value: '#000'
-        },
-
-        _defaultAltColor: {
-          type: String,
-          value: '#FFF'
-        },
-
-        _defaultOutlierFillColor: {
-          type: String,
-          value: 'transparent'
-        },
-
-        _defaultOutlierMeanSymbol: {
-          type: String,
-          value: 'circle'
-        },
-
-        _defaultOutlierMeanSize: {
-          type: Number,
-          value: 10
-        },
-
-        _defaultOutlierMeanScale: {
-          type: Number,
-          value: 1
         },
 
         /**
@@ -336,8 +313,6 @@
           return;
         }
 
-        // make sure all options are up to date
-        this._resolveOptions();
         // init svg group
         this._svgGroup = this.svg.append('g');
         // group together box + whisker parts
@@ -345,13 +320,13 @@
 
         // draw all lines and rectangles
         // TODO: replace basic append methods with D3 way of doing it, such as for mean and outliers
-        this._appendLine(boxWhisker, drawingData.max, this.strokeColor);
-        this._appendLine(boxWhisker, drawingData.q3Whisker, this.strokeColor);
+        this._appendLine(boxWhisker, drawingData.max, this.strokeColor, '1px');
+        this._appendLine(boxWhisker, drawingData.q3Whisker, this.strokeColor, '1px');
         this._appendRectangle(boxWhisker, drawingData.q3Box, this.strokeColor, this.fillColor);
         this._appendRectangle(boxWhisker, drawingData.q1Box, this.strokeColor, this.fillColor);
-        this._appendLine(boxWhisker, drawingData.q1Whisker, this.strokeColor);
-        this._appendLine(boxWhisker, drawingData.min, this.strokeColor);
-        this._appendLine(boxWhisker, drawingData.median, this.medianColor);
+        this._appendLine(boxWhisker, drawingData.q1Whisker, this.strokeColor, '1px');
+        this._appendLine(boxWhisker, drawingData.min, this.strokeColor, '1px');
+        this._appendLine(boxWhisker, drawingData.median, this.medianColor, this.medianWidth);
 
         // draw mean with D3 for symbol/customization support
         const meanBuilder = boxWhisker.selectAll('path.mean')
@@ -414,13 +389,14 @@
       /**
        * Draw a single straight line to an existing svg element.
        */
-      _appendLine: function(svg, data, strokeColor) {
+      _appendLine: function(svg, data, strokeColor, strokeWidth) {
         return svg.append('line')
           .attr('x1', data.x1)
           .attr('y1', data.y1)
           .attr('x2', data.x2)
           .attr('y2', data.y2)
-          .attr('stroke', strokeColor);
+          .attr('stroke', strokeColor)
+          .attr('stroke-width', strokeWidth);
       },
 
       /**
@@ -643,20 +619,32 @@
         this.debounce('resolve-css-vars', function() {
           const seriesConfig = this.completeSeriesConfig || {};
           const config = seriesConfig[this.seriesKey] || {};
+          // check css vars
           this.fillColor = config.color
-            || this._checkThemeVariable('--px-vis-box-whisker-fill-color', this._defaultColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-fill-color', '#000');
           this.strokeColor = config.strokeColor
-            || this._checkThemeVariable('--px-vis-box-whisker-stroke-color', this._defaultColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-stroke-color', '#000');
           this.medianColor = config.medianColor
-            || this._checkThemeVariable('--px-vis-box-whisker-median-color', this._defaultAltColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-median-color', '#FFF');
+          this.medianWidth = config.medianWidth
+            || this._checkThemeVariable('--px-vis-box-whisker-median-width', '1px');
           this.meanStrokeColor = config.meanStrokeColor
             || this._checkThemeVariable('--px-vis-box-whisker-mean-color', this.strokeColor);
           this.meanFillColor = config.meanFillColor
-            || this._checkThemeVariable('--px-vis-box-whisker-mean-fill-color', this._defaultAltColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-mean-fill-color', '#FFF');
+          this.meanSize = this._removePx(config.meanSize
+            || this._checkThemeVariable('--px-vis-box-whisker-mean-size', 10));
           this.outlierStrokeColor = config.outlierStrokeColor
             || this._checkThemeVariable('--px-vis-box-whisker-outlier-color', this.strokeColor);
           this.outlierFillColor = config.outlierFillColor
-            || this._checkThemeVariable('--px-vis-box-whisker-outlier-fill-color', this._defaultOutlierFillColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-outlier-fill-color', 'transparent');
+          this.outlierSize = this._removePx(config.outlierSize
+            || this._checkThemeVariable('--px-vis-box-whisker-outlier-size', 10));
+          // TODO: add css vars
+          this.outlierSymbol = config.outlierSymbol || 'circle';
+          this.outlierScale = config.outlierScale || 1;
+          this.meanSymbol = config.meanSymbol || 'circle';
+          this.meanScale = config.meanScale || 1;
           // notify children
           let comps;
           if (this.shadowRoot) {
@@ -674,26 +662,12 @@
         }.bind(this), 10);
       },
 
-      _resolveOptions: function() {
-        if (this.hasUndefinedArguments(arguments)) {
-          return;
+      _removePx: function(str) {
+        if (str && typeof str === 'string') {
+          return str.replace('px', '');
+        } else {
+          return str;
         }
-        const seriesConfig = this.completeSeriesConfig || {};
-        const config = seriesConfig[this.seriesKey] || {};
-        // outlier options
-        this.outlierSymbol = config.outlierSymbol
-          || this._defaultOutlierMeanSymbol;
-        this.outlierSize = config.outlierSize
-          || this._defaultOutlierMeanSize;
-        this.outlierScale = config.outlierScale
-          || this._defaultOutlierMeanScale;
-        // mean options
-        this.meanSymbol = config.meanSymbol
-          || this._defaultOutlierMeanSymbol;
-        this.meanSize = config.meanSize
-          || this._defaultOutlierMeanSize;
-        this.meanScale = config.meanScale
-          || this._defaultOutlierMeanScale;
       }
 
     });

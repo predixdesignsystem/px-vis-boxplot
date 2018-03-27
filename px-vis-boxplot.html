@@ -304,14 +304,6 @@ Custom property | Description
         },
 
         /**
-         * Padding seperating the axis and the box and whisker drawings.
-         */
-        paddingOuter: {
-          type: Number,
-          value: 0.5
-        },
-
-        /**
          * Direction of the box plot chart.  The values can be
          * 'vertical' or 'horizontal'.
          */
@@ -376,6 +368,14 @@ Custom property | Description
         },
 
         /**
+         * Padding seperating the axis and the box and whisker drawings.
+         */
+        _paddingOuter: {
+          type: Number,
+          value: 0.5
+        },
+
+        /**
          * Observe changes to this in order to know when css vars have changed.
          */
         _stylesResolved: {
@@ -386,7 +386,7 @@ Custom property | Description
       },
 
       observers: [
-        '_chartDataChanged(chartData, chartData.*, scalePadding, paddingOuter)',
+        '_chartDataChanged(chartData, chartData.*, scalePadding, _paddingOuter)',
         '_boxWhiskerConfigChanged(boxWhiskerConfig)',
         '_orientationChanged(orientation)',
         '_xAxisConfigChanged(xAxisConfig)',
@@ -596,7 +596,7 @@ Custom property | Description
         const scaleFunc = this.orientation === 'horizontal' ? this.y : this.x;
         if (scaleFunc.paddingOuter) {
           // update outer padding manually
-          scaleFunc.paddingOuter(this.paddingOuter);
+          scaleFunc.paddingOuter(this._paddingOuter);
           // update box width and edge width, they are dependend on scalePadding and paddingOuter
           this._boxWidth = scaleFunc.bandwidth();
           this._edgeWidth = this._boxWidth / 3;

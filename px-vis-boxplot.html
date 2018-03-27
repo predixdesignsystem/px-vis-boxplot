@@ -2,6 +2,7 @@
 <link rel="import" href="../px-vis/px-vis-scale.html">
 <link rel="import" href="../px-vis/px-vis-svg.html">
 <link rel="import" href="../px-vis/px-vis-axis.html">
+<link rel="import" href="../px-vis/px-vis-clip-path.html">
 <link rel="import" href="../px-vis/px-vis-threshold.html">
 <link rel="import" href="../px-vis/px-vis-gridlines.html">
 <link rel="import" href="../px-tooltip/px-tooltip.html">
@@ -71,6 +72,14 @@ Custom property | Description
       svg="{{svg}}"
       px-svg-elem="{{pxSvgElem}}">
     </px-vis-svg>
+    <px-vis-clip-path
+      clip-path="{{clipPath}}"
+      series-clip-path="{{serieClipPath}}"
+      svg="[[svg]]"
+      width="[[width]]"
+      height="[[height]]"
+      margin="[[_internalMargin]]">
+    </px-vis-clip-path>
     <px-vis-scale
       id="scale"
       x-axis-type="[[xAxisType]]"
@@ -102,7 +111,8 @@ Custom property | Description
       prevent-series-bar
       complete-series-config="[[completeSeriesConfig]]"
       muted-series=[[mutedSeries]]
-      domain-changed="[[domainChanged]]">
+      domain-changed="[[domainChanged]]"
+      clip-path="[[clipPath]]">
     </px-vis-axis>
     <!-- x axis -->
     <px-vis-axis
@@ -119,7 +129,8 @@ Custom property | Description
       prevent-series-bar
       complete-series-config="[[completeSeriesConfig]]"
       muted-series=[[mutedSeries]]
-      domain-changed="[[domainChanged]]">
+      domain-changed="[[domainChanged]]"
+      clip-path="[[clipPath]]">
     </px-vis-axis>
     <!-- gridlines -->
     <template is="dom-if" if="[[_showGridlines(hideGridLines, orientation, 'horizontal')]]" restamp>
@@ -129,7 +140,8 @@ Custom property | Description
         margin="[[_internalMargin]]"
         length="[[height]]"
         orientation="bottom"
-        domain-changed="[[domainChanged]]">
+        domain-changed="[[domainChanged]]"
+        clip-path="[[clipPath]]">
       </px-vis-gridlines>
     </template>
     <template is="dom-if" if="[[_showGridlines(hideGridLines, orientation, 'vertical')]]" restamp>
@@ -139,7 +151,8 @@ Custom property | Description
         margin="[[_internalMargin]]"
         length="[[width]]"
         orientation="left"
-        domain-changed="[[domainChanged]]">
+        domain-changed="[[domainChanged]]"
+        clip-path="[[clipPath]]">
       </px-vis-gridlines>
     </template>
     <!-- box and whisker components -->
@@ -178,13 +191,15 @@ Custom property | Description
       type="[[thresholdType]]"
       domain-changed="[[domainChanged]]"
       show-threshold-box="[[showThresholdBox]]"
-      language="[[language]]">
+      language="[[language]]"
+      clip-path="[[clipPath]]">
     </px-vis-threshold>
     <!-- tooltip -->
     <px-tooltip
       id="tooltip"
       orientation="top"
-      ignore-target-events>
+      ignore-target-events
+      clip-path="[[clipPath]]">
       <div id="tooltipContent"></div>
     </px-tooltip>
   </template>

@@ -177,6 +177,13 @@
         },
 
         /**
+         * Stroke width for the median line. This value is ready from the completeSeriesConfig.
+         */
+        medianWidth: {
+          type: String
+        },
+
+        /**
          * Stroke color for mean circle. This value is ready from the completeSeriesConfig.
          */
         meanStrokeColor: {
@@ -345,13 +352,13 @@
 
         // draw all lines and rectangles
         // TODO: replace basic append methods with D3 way of doing it, such as for mean and outliers
-        this._appendLine(boxWhisker, drawingData.max, this.strokeColor);
-        this._appendLine(boxWhisker, drawingData.q3Whisker, this.strokeColor);
+        this._appendLine(boxWhisker, drawingData.max, this.strokeColor, '1px');
+        this._appendLine(boxWhisker, drawingData.q3Whisker, this.strokeColor, '1px');
         this._appendRectangle(boxWhisker, drawingData.q3Box, this.strokeColor, this.fillColor);
         this._appendRectangle(boxWhisker, drawingData.q1Box, this.strokeColor, this.fillColor);
-        this._appendLine(boxWhisker, drawingData.q1Whisker, this.strokeColor);
-        this._appendLine(boxWhisker, drawingData.min, this.strokeColor);
-        this._appendLine(boxWhisker, drawingData.median, this.medianColor);
+        this._appendLine(boxWhisker, drawingData.q1Whisker, this.strokeColor, '1px');
+        this._appendLine(boxWhisker, drawingData.min, this.strokeColor, '1px');
+        this._appendLine(boxWhisker, drawingData.median, this.medianColor, this.medianWidth);
 
         // draw mean with D3 for symbol/customization support
         const meanBuilder = boxWhisker.selectAll('path.mean')
@@ -414,13 +421,14 @@
       /**
        * Draw a single straight line to an existing svg element.
        */
-      _appendLine: function(svg, data, strokeColor) {
+      _appendLine: function(svg, data, strokeColor, strokeWidth) {
         return svg.append('line')
           .attr('x1', data.x1)
           .attr('y1', data.y1)
           .attr('x2', data.x2)
           .attr('y2', data.y2)
-          .attr('stroke', strokeColor);
+          .attr('stroke', strokeColor)
+          .attr('stroke-width', strokeWidth);
       },
 
       /**
@@ -649,6 +657,8 @@
             || this._checkThemeVariable('--px-vis-box-whisker-stroke-color', this._defaultColor);
           this.medianColor = config.medianColor
             || this._checkThemeVariable('--px-vis-box-whisker-median-color', this._defaultAltColor);
+          this.medianWidth = config.medianWidth
+            || this._checkThemeVariable('--px-vis-box-whisker-median-width', '1px');
           this.meanStrokeColor = config.meanStrokeColor
             || this._checkThemeVariable('--px-vis-box-whisker-mean-color', this.strokeColor);
           this.meanFillColor = config.meanFillColor

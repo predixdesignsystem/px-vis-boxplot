@@ -650,19 +650,19 @@
         const seriesConfig = this.completeSeriesConfig || {};
         const config = seriesConfig[this.seriesKey] || {};
         this.fillColor = config.color
-          || this._resolveColorVar('--px-vis-box-whisker-fill-color') || this._defaultColor;
+          || this._checkThemeVariable('--px-vis-box-whisker-fill-color', this._defaultColor);
         this.strokeColor = config.strokeColor
-          || this._resolveColorVar('--px-vis-box-whisker-stroke-color') || this._defaultColor;
+          || this._checkThemeVariable('--px-vis-box-whisker-stroke-color', this._defaultColor);
         this.medianColor = config.medianColor
-          || this._resolveColorVar('--px-vis-box-whisker-median-color') || this._defaultAltColor;
+          || this._checkThemeVariable('--px-vis-box-whisker-median-color', this._defaultAltColor);
         this.meanStrokeColor = config.meanStrokeColor
-          || this._resolveColorVar('--px-vis-box-whisker-mean-color') || this.strokeColor;
+          || this._checkThemeVariable('--px-vis-box-whisker-mean-color', this.strokeColor);
         this.meanFillColor = config.meanFillColor
-          || this._resolveColorVar('--px-vis-box-whisker-mean-fill-color') || this._defaultAltColor;
+          || this._checkThemeVariable('--px-vis-box-whisker-mean-fill-color', this._defaultAltColor);
         this.outlierStrokeColor = config.outlierStrokeColor
-          || this._resolveColorVar('--px-vis-box-whisker-outlier-color') || this.strokeColor;
+          || this._checkThemeVariable('--px-vis-box-whisker-outlier-color', this.strokeColor);
         this.outlierFillColor = config.outlierFillColor
-          || this._resolveColorVar('--px-vis-box-whisker-outlier-fill-color') || this._defaultOutlierFillColor;
+          || this._checkThemeVariable('--px-vis-box-whisker-outlier-fill-color', this._defaultOutlierFillColor);
       },
 
       _resolveOptions: function() {

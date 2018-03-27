@@ -679,15 +679,17 @@ Custom property | Description
       },
 
       _createTooltipMessageBox: function(item) {
-        let msg = '<h1 style="text-weight:bold;font-size:125%;">';
+        let msg = '<h1 style="font-weight:500;font-size:20px;margin:0 0 15px 0;">';
         msg += this.completeSeriesConfig[item.seriesKey].name;
         msg += '</h1>';
         // use parseFloat to be safe of XSS
+        msg += '<div style="font-size:15px;line-height:20px;">';
         msg += 'Maximum: ' + Number.parseFloat(item.data.max) + '<br>';
         msg += 'Upper quartile: ' + Number.parseFloat(item.data.q3) + '<br>';
         msg += 'Median: ' + Number.parseFloat(item.data.median) + '<br>';
         msg += 'Lower quartile: ' + Number.parseFloat(item.data.q1) + '<br>';
-        msg += 'Minimum: ' + Number.parseFloat(item.data.min) + '<br>';
+        msg += 'Minimum: ' + Number.parseFloat(item.data.min);
+        msg += '</div>';
         return msg;
       },
 

@@ -685,24 +685,6 @@
           || this._defaultOutlierMeanSize;
         this.meanScale = config.meanScale
           || this._defaultOutlierMeanScale;
-      },
-
-      _resolveColorVar: function(varName) {
-        let color;
-        if (Polymer.Element) {
-          // 2.0 code
-          if (window.ShadyCSS) {
-            color = ShadyCSS.getComputedStyleValue(this, varName);
-          } else {
-            color = getComputedStyle(this).getPropertyValue(varName);
-          }
-        } else {
-          // 1.0 code
-          color = this.getComputedStyleValue(varName);
-        }
-        // remove quotes
-        color = color.replace(/\"/g, '').replace(/\'/g, '');
-        return color;
       }
 
     });

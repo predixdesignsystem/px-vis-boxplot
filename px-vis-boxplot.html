@@ -679,15 +679,27 @@ Custom property | Description
       },
 
       _createTooltipMessageBox: function(item) {
-        let msg = '<h1 style="text-weight:bold;font-size:125%;">';
+        let msg = '<h1 style="font-weight:500;font-size:20px;margin:0 0 15px 0;">';
         msg += this.completeSeriesConfig[item.seriesKey].name;
         msg += '</h1>';
+        // create simple two columns using right and left floats
+        msg += '<div style="float:left;margin-right:15px;">'
+          + 'Maximum:<br>'
+          + 'Upper quartile:<br>'
+          + 'Median:<br>'
+          + 'Lower quartile:<br>'
+          + 'Minimum:'
+          + '</div>';
         // use parseFloat to be safe of XSS
-        msg += 'Maximum: ' + Number.parseFloat(item.data.max) + '<br>';
-        msg += 'Upper quartile: ' + Number.parseFloat(item.data.q3) + '<br>';
-        msg += 'Median: ' + Number.parseFloat(item.data.median) + '<br>';
-        msg += 'Lower quartile: ' + Number.parseFloat(item.data.q1) + '<br>';
-        msg += 'Minimum: ' + Number.parseFloat(item.data.min) + '<br>';
+        msg += '<div style="float:right;text-align:right;">'
+          + Number.parseFloat(item.data.max) + '<br>'
+          + Number.parseFloat(item.data.q3) + '<br>'
+          + Number.parseFloat(item.data.median) + '<br>'
+          + Number.parseFloat(item.data.q1) + '<br>'
+          + Number.parseFloat(item.data.min)
+          + '</div>';
+        msg += '<div style="clear:both;"></div>';
+        msg += '</div>';
         return msg;
       },
 

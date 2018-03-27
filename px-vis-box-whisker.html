@@ -21,7 +21,9 @@
 
       behaviors: [
         PxVisBehavior.commonMethods,
+        PxVisBehavior.dynamicConfigProperties,
         PxVisBehavior.svgDefinition,
+        PxVisBehavior.updateStylesOverride,
         PxVisBehaviorD3.axes,
         PxVisBehaviorD3.domainUpdate,
         PxVisBehaviorD3.scatterMarkers
@@ -248,33 +250,28 @@
         _defaultOutlierMeanScale: {
           type: Number,
           value: 1
+        },
+
+        /**
+         * Observe changes to this in order to know when css vars have changed.
+         */
+        _stylesResolved: {
+          type: Boolean,
+          value: false
         }
 
       },
 
       observers: [
-        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, seriesKey, completeSeriesConfig)',
-        '_updateColors(fillColor, strokeColor, medianColor, meanStrokeColor, meanFillColor, outlierStrokeColor, outlierFillColor)'
+        'draw(data, position, svg, x, y, domainChanged, boxWidth, edgeWidth, seriesKey, completeSeriesConfig, _stylesResolved)',
+        '_resolveCssVars(_stylesUpdated, completeSeriesConfig)'
       ],
-
-      ready: function() {
-        // TODO: find another way to watch for style changes?
-        this._resolveColorsTimer();
-      },
-
-      _resolveColorsTimer: function() {
-        this._resolveColorsTimeout = setTimeout(function() {
-          this._resolveColors();
-          this._resolveColorsTimer();
-        }.bind(this), 500);
-      },
 
       detached: function() {
         // remove our data from svg
         if (this._svgGroup) {
           this._svgGroup.remove();
         }
-        clearTimeout(this._resolveColorsTimeout);
       },
 
       /**
@@ -304,6 +301,9 @@
        * Draw or update the box and whisker component to the svg component.
        */
       draw: function() {
+        if (this.hasUndefinedArguments(arguments)) {
+          return;
+        }
         this.debounce('drawDebounce', function() {
           this._drawDebounced();
         }, this.drawDebounceTime);
@@ -336,8 +336,6 @@
           return;
         }
 
-        // make sure colors are current
-        this._resolveColors();
         // make sure all options are up to date
         this._resolveOptions();
         // init svg group
@@ -638,31 +636,42 @@
         });
       },
 
-      _updateColors() {
-        // TODO: change color without re-drawing entirely
-        this.draw(this.data, this.position);
-      },
-
-      _resolveColors: function() {
+      _resolveCssVars: function() {
         if (this.hasUndefinedArguments(arguments)) {
           return;
         }
-        const seriesConfig = this.completeSeriesConfig || {};
-        const config = seriesConfig[this.seriesKey] || {};
-        this.fillColor = config.color
-          || this._checkThemeVariable('--px-vis-box-whisker-fill-color', this._defaultColor);
-        this.strokeColor = config.strokeColor
-          || this._checkThemeVariable('--px-vis-box-whisker-stroke-color', this._defaultColor);
-        this.medianColor = config.medianColor
-          || this._checkThemeVariable('--px-vis-box-whisker-median-color', this._defaultAltColor);
-        this.meanStrokeColor = config.meanStrokeColor
-          || this._checkThemeVariable('--px-vis-box-whisker-mean-color', this.strokeColor);
-        this.meanFillColor = config.meanFillColor
-          || this._checkThemeVariable('--px-vis-box-whisker-mean-fill-color', this._defaultAltColor);
-        this.outlierStrokeColor = config.outlierStrokeColor
-          || this._checkThemeVariable('--px-vis-box-whisker-outlier-color', this.strokeColor);
-        this.outlierFillColor = config.outlierFillColor
-          || this._checkThemeVariable('--px-vis-box-whisker-outlier-fill-color', this._defaultOutlierFillColor);
+        this.debounce('resolve-css-vars', function() {
+          const seriesConfig = this.completeSeriesConfig || {};
+          const config = seriesConfig[this.seriesKey] || {};
+          this.fillColor = config.color
+            || this._checkThemeVariable('--px-vis-box-whisker-fill-color', this._defaultColor);
+          this.strokeColor = config.strokeColor
+            || this._checkThemeVariable('--px-vis-box-whisker-stroke-color', this._defaultColor);
+          this.medianColor = config.medianColor
+            || this._checkThemeVariable('--px-vis-box-whisker-median-color', this._defaultAltColor);
+          this.meanStrokeColor = config.meanStrokeColor
+            || this._checkThemeVariable('--px-vis-box-whisker-mean-color', this.strokeColor);
+          this.meanFillColor = config.meanFillColor
+            || this._checkThemeVariable('--px-vis-box-whisker-mean-fill-color', this._defaultAltColor);
+          this.outlierStrokeColor = config.outlierStrokeColor
+            || this._checkThemeVariable('--px-vis-box-whisker-outlier-color', this.strokeColor);
+          this.outlierFillColor = config.outlierFillColor
+            || this._checkThemeVariable('--px-vis-box-whisker-outlier-fill-color', this._defaultOutlierFillColor);
+          // notify children
+          let comps;
+          if (this.shadowRoot) {
+            comps = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+          } else {
+            comps = Polymer.dom(this.root).querySelectorAll('px-vis-box-whisker');
+          }
+          if (comps) {
+            comps.forEach(function(comp) {
+              comp.updateStyles();
+            });
+          }
+          // notify that style vars have changed
+          this.set('_stylesResolved', !this._stylesResolved);
+        }.bind(this), 10);
       },
 
       _resolveOptions: function() {

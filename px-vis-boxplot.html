@@ -408,13 +408,7 @@ Custom property | Description
       },
 
       _chartDataChanged: function(chartData) {
-        if (!chartData || chartData.length < 1) {
-          return;
-        }
-        const newDataExtends = this._calcDataExtents(this.chartData);
-        if (newDataExtends) {
-          this.dataExtents = newDataExtends;
-        }
+        this.dataExtents = this._calcDataExtents(this.chartData);
       },
 
       _orientationChanged(orientation) {

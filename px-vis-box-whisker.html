@@ -229,36 +229,6 @@
           type: Object
         },
 
-        _defaultColor: {
-          type: String,
-          value: '#000'
-        },
-
-        _defaultAltColor: {
-          type: String,
-          value: '#FFF'
-        },
-
-        _defaultOutlierFillColor: {
-          type: String,
-          value: 'transparent'
-        },
-
-        _defaultOutlierMeanSymbol: {
-          type: String,
-          value: 'circle'
-        },
-
-        _defaultOutlierMeanSize: {
-          type: Number,
-          value: 10
-        },
-
-        _defaultOutlierMeanScale: {
-          type: Number,
-          value: 1
-        },
-
         /**
          * Observe changes to this in order to know when css vars have changed.
          */
@@ -652,21 +622,21 @@
           const seriesConfig = this.completeSeriesConfig || {};
           const config = seriesConfig[this.seriesKey] || {};
           this.fillColor = config.color
-            || this._checkThemeVariable('--px-vis-box-whisker-fill-color', this._defaultColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-fill-color', '#000');
           this.strokeColor = config.strokeColor
-            || this._checkThemeVariable('--px-vis-box-whisker-stroke-color', this._defaultColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-stroke-color', '#000');
           this.medianColor = config.medianColor
-            || this._checkThemeVariable('--px-vis-box-whisker-median-color', this._defaultAltColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-median-color', '#FFF');
           this.medianWidth = config.medianWidth
             || this._checkThemeVariable('--px-vis-box-whisker-median-width', '1px');
           this.meanStrokeColor = config.meanStrokeColor
             || this._checkThemeVariable('--px-vis-box-whisker-mean-color', this.strokeColor);
           this.meanFillColor = config.meanFillColor
-            || this._checkThemeVariable('--px-vis-box-whisker-mean-fill-color', this._defaultAltColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-mean-fill-color', '#FFF');
           this.outlierStrokeColor = config.outlierStrokeColor
             || this._checkThemeVariable('--px-vis-box-whisker-outlier-color', this.strokeColor);
           this.outlierFillColor = config.outlierFillColor
-            || this._checkThemeVariable('--px-vis-box-whisker-outlier-fill-color', this._defaultOutlierFillColor);
+            || this._checkThemeVariable('--px-vis-box-whisker-outlier-fill-color', 'transparent');
           // notify children
           let comps;
           if (this.shadowRoot) {
@@ -691,19 +661,13 @@
         const seriesConfig = this.completeSeriesConfig || {};
         const config = seriesConfig[this.seriesKey] || {};
         // outlier options
-        this.outlierSymbol = config.outlierSymbol
-          || this._defaultOutlierMeanSymbol;
-        this.outlierSize = config.outlierSize
-          || this._defaultOutlierMeanSize;
-        this.outlierScale = config.outlierScale
-          || this._defaultOutlierMeanScale;
+        this.outlierSymbol = config.outlierSymbol || 'circle';
+        this.outlierSize = config.outlierSize || 10;
+        this.outlierScale = config.outlierScale || 1;
         // mean options
-        this.meanSymbol = config.meanSymbol
-          || this._defaultOutlierMeanSymbol;
-        this.meanSize = config.meanSize
-          || this._defaultOutlierMeanSize;
-        this.meanScale = config.meanScale
-          || this._defaultOutlierMeanScale;
+        this.meanSymbol = config.meanSymbol || 'circle';
+        this.meanSize = config.meanSize || 10;
+        this.meanScale = config.meanScale || 1;
       }
 
     });

@@ -107,6 +107,13 @@
         darkStyle = document.createElement('custom-style');
         darkStyle.innerHTML = dark ? `<style include="px-dark-demo-theme-styles" is="custom-style"></style>` : null;
         document.head.append(darkStyle);
+        // notify component of style changes
+        const demo = document.querySelector('px-vis-boxplot-demo');
+        if (demo && demo.shadowRoot) {
+          demo.shadowRoot.querySelector('px-vis-boxplot').updateStyles();
+        } else if (demo) {
+          Polymer.dom(demo.root).querySelector('px-vis-boxplot').updateStyles();
+        }
       }
 
     </script>

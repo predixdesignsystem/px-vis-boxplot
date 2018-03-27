@@ -375,6 +375,14 @@ Custom property | Description
 
         _edgeWidth: {
           type: Number
+        },
+
+        /**
+         * Observe changes to this in order to know when css vars have changed.
+         */
+        _stylesResolved: {
+          type: Boolean,
+          value: false
         }
 
       },
@@ -388,7 +396,8 @@ Custom property | Description
         '_thresholdConfigChanged(thresholdConfig)',
         '_updateSeriesConfig(seriesConfig)',
         '_setScalePadding(domainChanged, x, y)',
-        '_updateMargin(margin, orientation, xAxisConfig.*, yAxisConfig.*)'
+        '_updateMargin(margin, orientation, xAxisConfig.*, yAxisConfig.*)',
+        '_resolveCssVars(_stylesUpdated, completeSeriesConfig)'
       ],
 
       listeners: {
@@ -703,6 +712,41 @@ Custom property | Description
           msg += 'Outlier: ' + Number.parseFloat(item.data) + '<br>';
         }
         return msg;
+      },
+
+      _resolveCssVars: function() {
+        this.debounce('resolve-css-vars', function() {
+          // notify children
+          let comps;
+          if (this.shadowRoot) {
+            comps = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
+          } else {
+            comps = Polymer.dom(this.root).querySelectorAll('px-vis-box-whisker');
+          }
+          if (comps) {
+            comps.forEach(function(comp) {
+              comp.updateStyles();
+            });
+          }
+          this.$.yAxis.updateStyles();
+          this.$.xAxis.updateStyles();
+          this.$.threshold.updateStyles();
+          this.$.tooltip.updateStyles();
+          const gridlines = this._getGridlines();
+          if (gridlines) {
+            gridlines.updateStyles();
+          }
+          // notify that style vars have changed
+          this.set('_stylesResolved', !this._stylesResolved);
+        }.bind(this), 10);
+      },
+
+      _getGridlines: function() {
+        if (this.shadowRoot) {
+          return this.shadowRoot.querySelector('px-vis-gridlines');
+        } else {
+          return Polymer.dom(this.root).querySelector('px-vis-gridlines');
+        }
       }
 
     });

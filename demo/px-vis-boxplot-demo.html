@@ -50,7 +50,6 @@
           width="[[props.width.value]]"
           height="[[props.height.value]]"
           series-config="[[props.seriesConfig.value]]"
-          box-whisker-config="[[props.boxWhiskerConfig.value]]"
           scale-padding="[[props.scalePadding.value]]"
           padding-outer="[[props.paddingOuter.value]]"
           orientation="[[props.orientation.value]]"
@@ -269,16 +268,6 @@
             'meanSize': 15,
             'meanScale': 2.5
           }
-        }
-      },
-
-      boxWhiskerConfig: {
-        type: Object,
-        inputType: 'code:JSON',
-        defaultValue: {
-          meanRadius: 2,
-          outlierRadius: 2,
-          drawDebounceTime: 50
         }
       },
 

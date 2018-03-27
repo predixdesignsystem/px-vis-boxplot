@@ -313,8 +313,6 @@
           return;
         }
 
-        // make sure all options are up to date
-        this._resolveOptions();
         // init svg group
         this._svgGroup = this.svg.append('g');
         // group together box + whisker parts
@@ -621,6 +619,7 @@
         this.debounce('resolve-css-vars', function() {
           const seriesConfig = this.completeSeriesConfig || {};
           const config = seriesConfig[this.seriesKey] || {};
+          // check css vars
           this.fillColor = config.color
             || this._checkThemeVariable('--px-vis-box-whisker-fill-color', '#000');
           this.strokeColor = config.strokeColor
@@ -633,10 +632,19 @@
             || this._checkThemeVariable('--px-vis-box-whisker-mean-color', this.strokeColor);
           this.meanFillColor = config.meanFillColor
             || this._checkThemeVariable('--px-vis-box-whisker-mean-fill-color', '#FFF');
+          this.meanSize = this._removePx(config.meanSize
+            || this._checkThemeVariable('--px-vis-box-whisker-mean-size', 10));
           this.outlierStrokeColor = config.outlierStrokeColor
             || this._checkThemeVariable('--px-vis-box-whisker-outlier-color', this.strokeColor);
           this.outlierFillColor = config.outlierFillColor
             || this._checkThemeVariable('--px-vis-box-whisker-outlier-fill-color', 'transparent');
+          this.outlierSize = this._removePx(config.outlierSize
+            || this._checkThemeVariable('--px-vis-box-whisker-outlier-size', 10));
+          // TODO: add css vars
+          this.outlierSymbol = config.outlierSymbol || 'circle';
+          this.outlierScale = config.outlierScale || 1;
+          this.meanSymbol = config.meanSymbol || 'circle';
+          this.meanScale = config.meanScale || 1;
           // notify children
           let comps;
           if (this.shadowRoot) {
@@ -654,20 +662,12 @@
         }.bind(this), 10);
       },
 
-      _resolveOptions: function() {
-        if (this.hasUndefinedArguments(arguments)) {
-          return;
+      _removePx: function(str) {
+        if (str && typeof str === 'string') {
+          return str.replace('px', '');
+        } else {
+          return str;
         }
-        const seriesConfig = this.completeSeriesConfig || {};
-        const config = seriesConfig[this.seriesKey] || {};
-        // outlier options
-        this.outlierSymbol = config.outlierSymbol || 'circle';
-        this.outlierSize = config.outlierSize || 10;
-        this.outlierScale = config.outlierScale || 1;
-        // mean options
-        this.meanSymbol = config.meanSymbol || 'circle';
-        this.meanSize = config.meanSize || 10;
-        this.meanScale = config.meanScale || 1;
       }
 
     });

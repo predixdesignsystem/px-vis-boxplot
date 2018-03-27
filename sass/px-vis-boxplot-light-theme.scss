@@ -13,8 +13,10 @@ html {
   --px-vis-box-whisker-median-width: 2px;
   --px-vis-box-whisker-mean-color: $pink7;
   --px-vis-box-whisker-mean-fill-color: $white;
+  --px-vis-box-whisker-mean-size: 20px;
   --px-vis-box-whisker-outlier-color: $pink7;
   --px-vis-box-whisker-outlier-fill-color: transparent;
+  --px-vis-box-whisker-outlier-size: 15px;
 
   // threshold
   --px-vis-threshold-color: $yellow-green6;

@@ -197,7 +197,8 @@ Custom property | Description
       id="tooltip"
       orientation="top"
       ignore-target-events
-      clip-path="[[clipPath]]">
+      clip-path="[[clipPath]]"
+      delay="[[tooltipDelay]]">
       <div id="tooltipContent"></div>
     </px-tooltip>
   </template>
@@ -321,12 +322,11 @@ Custom property | Description
         },
 
         /**
-         * When hovered over a box whisker or outlier, this is the opacity
-         * that gets sets to the other, non-hovered items.
+         * Delay in miliseconds before tooltip appears.
          */
-        hoverOpacity: {
+        tooltipDelay: {
           type: Number,
-          value: 0.3
+          value: 0
         },
 
         /**
@@ -619,25 +619,25 @@ Custom property | Description
 
       _handleBoxMouseover: function(event, details) {
         this._showTooltip(details.svgEl, this._createTooltipMessageBox(details));
-        this._setHoveredEl(details.svgEl, 1, this.hoverOpacity, this.$.tooltip.delay);
+        this._setHoveredEl(details.svgEl, this.tooltipDelay);
       },
 
       _handleBoxMouseout: function(event, details) {
         this._closeTooltip();
-        this._setHoveredEl(details.svgEl, 1, 1);
+        this._setHoveredEl(undefined, 0);
       },
 
       _handleOutlierMouseover: function(event, details) {
         this._showTooltip(details.svgEl, this._createTooltipMessageOutlier(details));
-        this._setHoveredEl(details.svgEl, 1, this.hoverOpacity, this.$.tooltip.delay);
+        this._setHoveredEl(details.svgEl, this.tooltipDelay);
       },
 
       _handleOutlierMouseout: function(event, details) {
         this._closeTooltip();
-        this._setHoveredEl(details.svgEl, 1, 1);
+        this._setHoveredEl(undefined, 0);
       },
 
-      _setHoveredEl: function(hoveredEl, hoveredOpacity, nonHoveredOpacity, delay) {
+      _setHoveredEl: function(hoveredEl, delay) {
         let boxWhiskers;
         if (this.shadowRoot) {
           boxWhiskers = this.shadowRoot.querySelectorAll('px-vis-box-whisker');
@@ -651,17 +651,17 @@ Custom property | Description
             const boxEl = boxWhisker.getSvgBoxElement();
             const outlierEls = boxWhisker.getSvgOutlierElements();
             // box whiskers
-            if (boxEl === hoveredEl) {
-              boxEl.setAttribute('opacity', hoveredOpacity);
+            if (!hoveredEl || boxEl === hoveredEl) {
+              boxEl.classList.remove('primaryDataMask');
             } else {
-              boxEl.setAttribute('opacity', nonHoveredOpacity);
+              boxEl.classList.add('primaryDataMask');
             }
             // outliers
             outlierEls.forEach((outlierEl) => {
-              if (outlierEl === hoveredEl) {
-                outlierEl.setAttribute('opacity', hoveredOpacity);
+              if (!hoveredEl || outlierEl === hoveredEl) {
+                outlierEl.classList.remove('primaryDataMask');
               } else {
-                outlierEl.setAttribute('opacity', nonHoveredOpacity);
+                outlierEl.classList.add('primaryDataMask');
               }
             });
           });

@@ -316,7 +316,7 @@
         // init svg group
         this._svgGroup = this.svg.append('g');
         // group together box + whisker parts
-        const boxWhisker = this._svgGroup.append('g').attr('class', 'box');
+        const boxWhisker = this._svgGroup.append('g').attr('class', 'box hoverTransition');
 
         // draw all lines and rectangles
         // TODO: replace basic append methods with D3 way of doing it, such as for mean and outliers
@@ -353,7 +353,7 @@
           outlierBuilder.exit().remove();
           outlierBuilder.enter()
             .append('path')
-            .attr('class', 'outlier')
+            .attr('class', 'outlier hoverTransition')
             .on('mouseover', this._handleOutlierMouseover.bind(this))
             .on('mouseout', this._handleOutlierMouseout.bind(this))
             .on('click', this._handleOutlierClick.bind(this))

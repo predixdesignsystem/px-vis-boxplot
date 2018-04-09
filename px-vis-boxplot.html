@@ -6,8 +6,8 @@
 <link rel="import" href="../px-vis/px-vis-threshold.html">
 <link rel="import" href="../px-vis/px-vis-gridlines.html">
 <link rel="import" href="../px-tooltip/px-tooltip.html">
-<link rel="import" href="px-vis-box-whisker.html">
 
+<link rel="import" href="../px-vis/px-vis-box-whisker.html">
 <link rel="import" href="../px-vis/px-vis-behavior-colors.html">
 <link rel="import" href="../px-vis/px-vis-behavior-common.html">
 <link rel="import" href="../px-vis/px-vis-behavior-chart.html">
@@ -168,10 +168,10 @@ Custom property | Description
         edge-width="[[_edgeWidth]]"
         domain-changed="[[domainChanged]]"
         draw-debounce-time="[[boxWhiskerConfig.drawDebounceTime]]"
-        on-box-mouseover="_handleBoxMouseover"
-        on-box-mouseout="_handleBoxMouseout"
-        on-outlier-mouseover="_handleOutlierMouseover"
-        on-outlier-mouseout="_handleOutlierMouseout">
+        on-px-vis-box-mouseover="_handleBoxMouseover"
+        on-px-vis-box-mouseout="_handleBoxMouseout"
+        on-px-vis-outlier-mouseover="_handleOutlierMouseover"
+        on-px-vis-outlier-mouseout="_handleOutlierMouseout">
       </px-vis-box-whisker>
     </template>
     <!-- threshold lines -->
@@ -230,6 +230,78 @@ Custom property | Description
         PxVisBehaviorChart.thresholdConfig,
         PxVisBehaviorD3.canvasContext
       ],
+
+      /**
+    * Fired when mousing over the box of a box and whisker
+    * Details include: {
+    *      seriesKey: series key for this entity,
+    *      data: data for this entity,
+    *      position: X value,
+    *      svgEl: the svg element representing the entity
+    *    }
+    *
+    * @event px-vis-box-mouseover
+    */
+
+    /**
+    * Fired when mousing out the box of a box and whisker
+    * Details include: {
+    *      seriesKey: series key for this entity,
+    *      data: data for this entity,
+    *      position: X value,
+    *      svgEl: the svg element representing the entity
+    *    }
+    *
+    * @event px-vis-box-mouseout
+    */
+
+    /**
+    * Fired when clicking the box of a box and whisker
+    * Details include: {
+    *      seriesKey: series key for this entity,
+    *      data: data for this entity,
+    *      position: X value,
+    *      svgEl: the svg element representing the entity
+    *    }
+    *
+    * @event px-vis-box-click
+    */
+
+    /**
+    * Fired when mousing over an outlier point of a box and whisker
+    * Details include: {
+    *      seriesKey: series key for this entity,
+    *      data: data for this entity,
+    *      position: X value,
+    *      svgEl: the svg element representing the entity
+    *    }
+    *
+    * @event px-vis-outlier-mouseover
+    */
+
+    /**
+    * Fired when mousing out an outlier point of a box and whisker
+    * Details include: {
+    *      seriesKey: series key for this entity,
+    *      data: data for this entity,
+    *      position: X value,
+    *      svgEl: the svg element representing the entity
+    *    }
+    *
+    * @event px-vis-outlier-mouseout
+    */
+
+    /**
+    * Fired when clicking an outlier point of a box and whisker
+    * Details include: {
+    *      seriesKey: series key for this entity,
+    *      data: data for this entity,
+    *      position: X value,
+    *      svgEl: the svg element representing the entity
+    *    }
+    *
+    * @event px-vis-box-click
+    */
 
       properties: {
 

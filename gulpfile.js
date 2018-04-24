@@ -151,5 +151,5 @@ gulp.task('bump:major', function() {
 });
 
 gulp.task('default', function(callback) {
-  gulpSequence('clean', 'sass', 'lint', 'generate-api')(callback);
+  gulpSequence('clean', 'sass', 'generate-api')(callback);
 });

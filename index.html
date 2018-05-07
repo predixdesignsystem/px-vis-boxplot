@@ -1,3 +1,19 @@
+<!--
+Copyright (c) 2018, General Electric
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -48,75 +64,6 @@
       Load theme files, apply default theme.
     -->
     <link rel="import" href="../px-theme/px-theme-styles.html">
-    <style include="px-theme-styles" is="custom-style"></style>
-
-    <link rel="import" href="css/px-vis-boxplot-dark-theme-styles.html">
-    <link rel="import" href="css/px-vis-boxplot-light-theme-styles.html">
-
-    <custom-style id="px-vis-boxplot-theme-styles">
-      <style include="px-vis-boxplot-light-theme-styles" is="custom-style"></style>
-    </custom-style>
-
-    <custom-style id="px-dark-demo-theme-styles">
-      <!-- <style include="px-dark-demo-theme-styles" is="custom-style"></style> -->
-    </custom-style>
-
-    <!--
-      Load dark theme files for later use. Stamp dynamic theme switcher, which
-      listens for theme update messages from the parent page and applies them.
-    -->
-    <link rel="import" href="../px-dark-theme/px-dark-theme-styles.html">
-    <link rel="import" href="../px-dark-demo-theme/px-dark-demo-theme-styles.html">
-    <link rel="import" href="../px-demo/px-demo-theme-switcher.html"/>
-    <px-demo-theme-switcher-frame id="themeMessenger" origin="https://www.predix-ui.com"></px-demo-theme-switcher-frame>
-    <px-demo-theme-switcher id="themeSwitcher"></px-demo-theme-switcher>
-    <script>
-      (function() {
-        var messenger = document.getElementById('themeMessenger');
-        var switcher = document.getElementById('themeSwitcher');
-        messenger.addEventListener('is-dark-theme-changed', function(evt) {
-          switcher.isDarkTheme = evt.detail.value;
-        });
-      })();
-
-      // TODO: remove custom theme toggle when integrated into predix online demos
-      let dark = false;
-      let customStyle = document.getElementById('px-vis-boxplot-theme-styles');
-      let darkStyle = document.getElementById('px-dark-demo-theme-styles');
-      // add toggle button
-      const toggleThemeBtn = document.createElement('button');
-      toggleThemeBtn.innerHTML = 'Light Theme';
-      toggleThemeBtn.onclick = toggleTheme;
-      // TODO fix properly, now to allow IE11 to work
-      if (document.body.prepend) {
-        document.body.prepend(toggleThemeBtn);
-      }
-      // toggle theme func
-      function toggleTheme(e) {
-        if (e) {
-          e.target.innerHTML = dark ? 'Light Theme' : 'Dark Theme';
-        }
-        dark = !dark;
-        const newCustomStyle = document.createElement('custom-style');
-        newCustomStyle.innerHTML = `<style include="px-vis-boxplot-${dark ? 'dark' : 'light'}-theme-styles" is="custom-style"></style>`;
-        document.head.appendChild(newCustomStyle);
-        customStyle.remove();
-        customStyle = newCustomStyle;
-        // add dark predix demo theme
-        darkStyle.remove();
-        darkStyle = document.createElement('custom-style');
-        darkStyle.innerHTML = dark ? `<style include="px-dark-demo-theme-styles" is="custom-style"></style>` : null;
-        document.head.append(darkStyle);
-        // notify component of style changes
-        const demo = document.querySelector('px-vis-boxplot-demo');
-        if (demo && demo.shadowRoot) {
-          demo.shadowRoot.querySelector('px-vis-boxplot').updateStyles();
-        } else if (demo) {
-          Polymer.dom(demo.root).querySelector('px-vis-boxplot').updateStyles();
-        }
-      }
-
-    </script>
 
     <!--
       Asynchronously import the px-catalog element, which is the entrypoint
@@ -136,13 +83,14 @@
     <!--
       Basic page styles.
     -->
-    <style>
-      html,
-      body {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
+    <custom-style>
+      <style include="px-theme-styles" is="custom-style">
+        html, body {
+          margin: 0;
+          padding: 0;
+        }
+      </style>
+    </custom-style>
   </head>
 
   <body>
